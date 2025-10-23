@@ -6,7 +6,7 @@
       "description": "Gérer la date : zone, cron, format, début...",
       "timezone": {
         "name": "timezone",
-        "description": "Définir le fuseau horaire de la date"
+        "description": "Définir le fuseau horaire"
       },
       "format": "Définir le mode d'affichage de la date"
     },
@@ -20,10 +20,7 @@
     },
     "weather": {
       "name": "météo",
-      "description": "Définir les informations météorologiques (emplacement, cron)",
-      "location": {
-        "name": "location"
-      }
+      "description": "Définir les informations météorologiques (emplacement, cron)"
     },
     "currentValue": "Valeur actuelle : {{ex}}"
   },
@@ -43,7 +40,8 @@
     "start": {
       "date": "Date de début qui sera utilisée",
       "number": "Définir le numéro de départ"
-    }
+    },
+    "location": "Mettre la localization dont vous voulez la météo"
   },
   "weather": {
     "display": {
@@ -52,7 +50,10 @@
     },
     "set": {
       "success": "Les paramètres de météos ont bien été sauvegardée."
-    }
+    },
+    "location": "location",
+    "name": "météo",
+    "description": "Obtenir la météo pour une ville donnée / ville par défaut du modèle"
   },
   "date": {
     "display": {

@@ -6,7 +6,7 @@
       "description": "Manage date : timezone, cron, format, start...",
       "timezone": {
         "name": "timezone",
-        "description": "Set the date's timezone"
+        "description": "Set the timezone"
       },
       "format": "Set how the date should be displayed"
     },
@@ -20,10 +20,7 @@
     },
     "weather": {
       "name": "weather",
-      "description": "Set the weather information (location, cron)",
-      "location": {
-        "name": "location"
-      }
+      "description": "Set the weather information (location, cron)"
     },
     "currentValue": "Current value: {{ex}}"
   },
@@ -43,7 +40,8 @@
     "start": {
       "date": "First date that will be used",
       "number": "Set the start number"
-    }
+    },
+    "location": "Enter the location for which you want the weather."
   },
   "weather": {
     "display": {
@@ -52,7 +50,10 @@
     },
     "set": {
       "success": "The weather settings have been saved successfully."
-    }
+    },
+    "location": "location",
+    "name": "weather",
+    "description": "Get the weather for a given city / default template city"
   },
   "date": {
     "display": {

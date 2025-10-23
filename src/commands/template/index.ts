@@ -3,8 +3,8 @@ import type { EClient } from "../../client";
 import { t } from "../../localization";
 import { weather } from "./weather";
 import "../../discord_ext";
+import { count } from "./count";
 import { date } from "./date";
-import {count} from "./count";
 
 export const template = {
 	data: new Djs.SlashCommandBuilder()
@@ -88,8 +88,8 @@ export const template = {
 				.setDescriptions("template.weather.description")
 				.addStringOption((opt) =>
 					opt
-						.setNames("template.weather.location.name")
-						.setDescriptions("template.weather.description")
+						.setNames("weather.location")
+						.setDescriptions("description.location")
 						.setRequired(false)
 				)
 				.addStringOption((opt) =>
