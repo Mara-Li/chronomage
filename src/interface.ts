@@ -1,9 +1,23 @@
+import type { CronJob } from "cron";
 import type { Locale } from "discord.js";
 
 export interface Templates {
-	date: { format: string; cron: string; start: string; step: number; timezone: string, currentValue: string };
-	count: { start: number; step: number; decimal: number; cron: string, currentValue: number };
-	weather: { location: string; cron: string};
+	date: {
+		format: string;
+		cron: string;
+		start: string;
+		step: number;
+		timezone: string;
+		currentValue: string;
+	};
+	count: {
+		start: number;
+		step: number;
+		decimal: number;
+		cron: string;
+		currentValue: number;
+	};
+	weather: { location: string };
 }
 
 /**
@@ -40,3 +54,5 @@ export type EventGuildData = {
 	settings?: { zone?: string; bufferDays?: number; locale?: string; language?: Locale };
 	templates: Templates;
 };
+
+export const jobs = new Map<string, CronJob>();

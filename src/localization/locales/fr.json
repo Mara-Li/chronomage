@@ -8,7 +8,8 @@
         "name": "timezone",
         "description": "Définir le fuseau horaire"
       },
-      "format": "Définir le mode d'affichage de la date"
+      "format": "Définir le mode d'affichage de la date",
+      "step": "Durée à utiliser comme pas"
     },
     "count": {
       "name": "compte",

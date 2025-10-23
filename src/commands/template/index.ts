@@ -40,8 +40,8 @@ export const template = {
 				.addStringOption((opt) =>
 					opt.setNames("common.start").setDescriptions("description.start.date")
 				)
-				.addNumberOption((opt) =>
-					opt.setNames("common.step").setDescriptions("description.step")
+				.addStringOption((opt) =>
+					opt.setNames("common.step").setDescriptions("template.date.step")
 				)
 		)
 		/**
@@ -90,12 +90,6 @@ export const template = {
 					opt
 						.setNames("weather.location")
 						.setDescriptions("description.location")
-						.setRequired(false)
-				)
-				.addStringOption((opt) =>
-					opt
-						.setNames("common.cron")
-						.setDescriptions("description.cron")
 						.setRequired(false)
 				);
 		}),

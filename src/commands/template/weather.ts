@@ -9,29 +9,21 @@ function display(client: EClient, interaction: Djs.ChatInputCommandInteraction) 
 	const settings = client.settings.get(interaction.guild.id);
 	const ul = ln(settings?.settings?.language ?? interaction.locale);
 	const weather = settings?.templates?.weather;
-	console.log(weather);
 	const embed = new Djs.EmbedBuilder()
 		.setTitle(ul("weather.display.title"))
 		.setColor("Blue")
-		.addFields(
-			{
-				name: ul("weather.display.location"),
-				value: weather?.location ?? ul("common.not_set"),
-			},
-			{
-				name: ul("common.cron"),
-				value: `\`${weather?.cron ?? ul("common.not_set")}\``,
-			}
-		);
+		.addFields({
+			name: ul("weather.display.location"),
+			value: weather?.location ?? ul("common.not_set"),
+		});
 	return interaction.reply({ embeds: [embed] });
 }
 
 function set(client: EClient, interaction: Djs.ChatInputCommandInteraction) {
 	if (!interaction.guild) return;
 	const options = interaction.options as Djs.CommandInteractionOptionResolver;
-	const location = options.getString(t("template.weather.location.name"));
+	const location = options.getString(t("weather.location"));
 	const temp = defaultTemplate();
-	const cron = options.getString(t("common.cron"));
 	const settings = client.settings.get(interaction.guild.id);
 	if (!settings)
 		client.settings.set(interaction.guild.id, {
@@ -44,9 +36,7 @@ function set(client: EClient, interaction: Djs.ChatInputCommandInteraction) {
 
 	const weather = {
 		location: location ?? temp.weather.location,
-		cron: cron ?? temp.weather.cron,
 	};
-	if (!isValidCron(weather.cron)) return interaction.reply(ul("error.cron"));
 
 	client.settings.set(interaction.guild.id, weather, "templates.weather");
 	return interaction.reply(ul("common.success"));
@@ -56,8 +46,7 @@ export function weather(client: EClient, interaction: Djs.ChatInputCommandIntera
 	if (!interaction.guild) return;
 	const options = interaction.options;
 	const location = options.getString(t("template.weather.location.name"));
-	const cron = options.getString(t("common.cron"));
-	if (!location && !cron) {
+	if (!location) {
 		return display(client, interaction);
 	}
 	return set(client, interaction);

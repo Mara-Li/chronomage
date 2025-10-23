@@ -2,6 +2,8 @@ import { isValidCron } from "cron-validator";
 import * as Djs from "discord.js";
 import { DateTime } from "luxon";
 import type { EClient } from "../../client";
+import { setDate } from "../../cron/date";
+import { parseDurationLocalized } from "../../duration";
 import { ln, t } from "../../localization";
 import { defaultTemplate } from "../../utils";
 
@@ -61,15 +63,30 @@ function display(interaction: Djs.ChatInputCommandInteraction, client: EClient) 
 	});
 }
 
-function getOptions(interaction: Djs.ChatInputCommandInteraction, setDefault?: boolean) {
+function convertStep(step: string | null | number, locale: Djs.Locale) {
+	if (typeof step === "number") return step;
+	if (typeof step === "string") {
+		//try to convert to number
+		return parseDurationLocalized(step, locale);
+	}
+	return null;
+}
+
+function getOptions(
+	interaction: Djs.ChatInputCommandInteraction,
+	locale: Djs.Locale,
+	setDefault?: boolean
+) {
 	const defaultDate = setDefault ? defaultTemplate().date : null;
+
 	const options = interaction.options;
 	const format = options.getString(t("common.format")) || defaultDate?.format;
 	const timezone =
 		options.getString(t("template.date.timezone.name")) || defaultDate?.timezone;
 	const cron = options.getString(t("common.cron")) || defaultDate?.cron;
 	const start = options.getString(t("common.start")) || defaultDate?.start;
-	const step = options.getInteger(t("common.step")) || defaultDate?.step;
+	const step =
+		convertStep(options.getString(t("common.step")), locale) || defaultDate?.step;
 	return { format, timezone, cron, start, step };
 }
 
@@ -77,11 +94,14 @@ export function set(client: EClient, interaction: Djs.ChatInputCommandInteractio
 	if (!interaction.guild) return;
 	const temp = defaultTemplate();
 	const settings = client.settings.get(interaction.guild.id);
-	const { format, timezone, cron, start, step } = getOptions(interaction, true);
+	const locale =
+		settings?.settings?.language ?? interaction.locale ?? interaction.guildLocale;
+	const { format, timezone, cron, start, step } = getOptions(interaction, locale, true);
 	const ul = ln(settings?.settings?.language ?? interaction.locale);
-	if (cron && !isValidCron(cron)) {
-		return interaction.reply(ul("error.cron"));
-	}
+	if (cron && !isValidCron(cron)) return interaction.reply(ul("error.cron"));
+
+	//convert the duration to number
+
 	if (!settings)
 		client.settings.set(interaction.guild.id, {
 			templates: temp,
@@ -99,6 +119,7 @@ export function set(client: EClient, interaction: Djs.ChatInputCommandInteractio
 		step,
 	};
 	client.settings.set(interaction.guild.id, date, "templates.date");
+	setDate(interaction.guild, client);
 	return interaction.reply(
 		ul("date.set.success", {
 			ex: DateTime.now()
@@ -110,7 +131,10 @@ export function set(client: EClient, interaction: Djs.ChatInputCommandInteractio
 
 export function date(client: EClient, interaction: Djs.ChatInputCommandInteraction) {
 	if (!interaction.guild) return;
-	const { format, timezone, cron, start, step } = getOptions(interaction);
+	const settings = client.settings.get(interaction.guild.id);
+	const locale =
+		settings?.settings?.language ?? interaction.locale ?? interaction.guildLocale;
+	const { format, timezone, cron, start, step } = getOptions(interaction, locale);
 	if (!format && !timezone && !cron && !start && step == null) {
 		return display(interaction, client);
 	}

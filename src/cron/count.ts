@@ -1,0 +1,28 @@
+import { CronJob } from "cron";
+import type * as Djs from "discord.js";
+import type { EClient } from "../client";
+import { jobs } from "../interface";
+export function setCount(guild: Djs.Guild, client: EClient) {
+	const settings = client.settings.get(guild.id);
+	const counter = settings?.templates.count;
+	if (!counter) return;
+	const cron = counter.cron;
+	if (!cron) return;
+	const job = new CronJob(
+		cron,
+		() => {
+			const currentValue = +(counter.currentValue + counter.step).toFixed(
+				counter.decimal
+			);
+			client.settings.set(guild.id, currentValue, "templates.count.currentValue");
+			console.log(
+				`[Count Cron] Guild: ${guild.name} (${guild.id}) - New Value: ${currentValue}`
+			);
+		},
+		null,
+		true,
+		settings.settings?.zone
+	);
+	jobs.set(guild.id, job);
+	job.start();
+}

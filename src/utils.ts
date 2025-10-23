@@ -11,6 +11,6 @@ export function defaultTemplate(): Templates {
 			currentValue: new Date().toISOString(),
 		},
 		count: { start: 1, step: 1, decimal: 4, cron: "0 0 * * *", currentValue: 0 },
-		weather: { location: "London", cron: "0 6 * * *" },
+		weather: { location: "London" },
 	};
 }

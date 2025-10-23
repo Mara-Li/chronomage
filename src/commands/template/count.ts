@@ -1,6 +1,7 @@
 import { isValidCron } from "cron-validator";
 import * as Djs from "discord.js";
 import type { EClient } from "../../client";
+import { setCount } from "../../cron/count";
 import { ln, t } from "../../localization";
 import { defaultTemplate } from "../../utils";
 
@@ -96,6 +97,7 @@ function set(client: EClient, interaction: Djs.ChatInputCommandInteraction) {
 	template.count.decimal = decimal ?? template.count.decimal;
 
 	client.settings.set(interaction.guild.id, settings!);
+	setCount(interaction.guild, client);
 	return interaction.reply(ul("common.success"));
 }
 

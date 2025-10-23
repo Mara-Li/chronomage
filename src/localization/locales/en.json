@@ -8,7 +8,8 @@
         "name": "timezone",
         "description": "Set the timezone"
       },
-      "format": "Set how the date should be displayed"
+      "format": "Set how the date should be displayed",
+      "step": "Duration to add as set"
     },
     "count": {
       "name": "count",
