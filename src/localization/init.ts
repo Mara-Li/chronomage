@@ -1,5 +1,5 @@
 import i18next from "i18next";
-import { resources } from "./locales/types";
+import { resources } from "./types";
 
 i18next.init({
 	lng: "en",

@@ -1,12 +1,12 @@
-import { BaseInteraction, Client } from "discord.js";
+import type { BaseInteraction, Client } from "discord.js";
 
 import { commandsList } from "../commands";
 
 export default (client: Client): void => {
 	client.on("interactionCreate", async (interaction: BaseInteraction) => {
-		if (interaction.isCommand()) {
+		if (interaction.isChatInputCommand()) {
 			const command = commandsList.find(
-				(cmd) => cmd.data.name === interaction.commandName,
+				(cmd) => cmd.data.name === interaction.commandName
 			);
 			if (!command) return;
 			try {

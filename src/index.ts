@@ -12,15 +12,14 @@ dotenv.config({ path: ".env" });
 export const client = new Djs.Client({
 	intents: [
 		Djs.GatewayIntentBits.GuildMessages,
-		Djs.GatewayIntentBits.MessageContent,
+		//Djs.GatewayIntentBits.MessageContent,
 		Djs.GatewayIntentBits.Guilds,
-		Djs.GatewayIntentBits.GuildMembers,
+		//Djs.GatewayIntentBits.GuildMembers,
 	],
 	partials: [Djs.Partials.Channel, Djs.Partials.GuildMember, Djs.Partials.User],
 });
 
 export const VERSION = pkg.version ?? "0.0.0";
-export const CHANNEL_ID = process.env.CHANNEL_ID ?? "0";
 export const prod = process.env.NODE_ENV === "production";
 
 try {

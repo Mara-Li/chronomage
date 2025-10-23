@@ -1,6 +1,6 @@
 import * as Djs from "discord.js";
 import i18next from "i18next";
-import { resources } from "./locales/types";
+import { resources } from "./types";
 
 export const t = i18next.getFixedT("en");
 
