@@ -1,0 +1,98 @@
+import * as Djs from "discord.js";
+import { DateTime } from "luxon";
+import type { EClient } from "../../client";
+import {ln, t} from "../../localization";
+import { defaultTemplate } from "../../utils";
+
+function display(interaction: Djs.ChatInputCommandInteraction, client: EClient) {
+	if (!interaction.guild) return;
+	const settings = client.settings.get(interaction.guild!.id);
+	const temp = defaultTemplate();
+	const ul = ln(settings?.settings?.language ?? interaction.locale);
+	if (!settings) {
+		client.settings.set(interaction.guild.id, {
+			templates: temp,
+			events: {},
+			schedules: {},
+			settings: { language: interaction.locale },
+		});
+	}
+	const template = settings?.templates ?? temp;
+
+	const count = template.count;
+	const embed = new Djs.EmbedBuilder()
+		.setTitle(ul("count.display.title"))
+		.setColor("Blue")
+		.addFields(
+			{
+				name: ul("common.start").toTitle(),
+				value: `\`${count?.start ?? ul("common.not_set")}\``,
+			},
+			{
+				name: ul("common.step").toTitle(),
+				value: `\`${count?.step ?? ul("common.not_set")}\``,
+			},
+			{
+				name: ul("common.cron").toTitle(),
+				value: `\`${count?.cron ?? ul("common.not_set")}\``,
+			},
+			{
+				name: ul("template.decimal.name").toTitle(),
+				value: `\`${count?.decimal ?? ul("common.not_set")}\``,
+			},
+		);
+	
+	const currentValue = count?.currentValue ?? count?.start ?? 0;
+	const decimalPlaces = count?.decimal ?? 0;
+	const factor = Math.pow(10, decimalPlaces);
+	const formattedValue = (Math.round(currentValue * factor) / factor).toFixed(decimalPlaces);
+
+	return interaction.reply({
+		embeds: [embed],
+		content: ul("common.example", { ex: formattedValue }),
+	});
+}
+
+function getOptions(interaction: Djs.ChatInputCommandInteraction, setDefault?: boolean) {
+	const defaultTemplateData = setDefault ? defaultTemplate().count : null;
+	const start = interaction.options.getNumber(t("common.start")) ?? defaultTemplateData?.start;
+	const step = interaction.options.getNumber(t("common.step")) ?? defaultTemplateData?.step;
+	const cron = interaction.options.getString(t("common.cron")) ?? defaultTemplateData?.cron;
+	const decimal = interaction.options.getNumber(t("template.decimal.name")) ?? defaultTemplateData?.decimal;
+	return { start, step, cron, decimal };
+}
+
+function set(client: EClient, interaction: Djs.ChatInputCommandInteraction) {
+	if (!interaction.guild) return;
+	const settings = client.settings.get(interaction.guild!.id);
+	const temp = defaultTemplate();
+	const ul = ln(settings?.settings?.language ?? interaction.locale);
+	if (!settings) {
+		client.settings.set(interaction.guild.id, {
+			templates: temp,
+			events: {},
+			schedules: {},
+			settings: { language: interaction.locale },
+		});
+	}
+	const template = settings?.templates ?? temp;
+	
+	const { start, step, cron, decimal } = getOptions(interaction);
+	template.count.start = start ?? template.count.start;
+	template.count.step = step ?? template.count.step;
+	template.count.cron = cron ?? template.count.cron;
+	template.count.decimal = decimal ?? template.count.decimal;
+	
+	client.settings.set(interaction.guild.id, settings!);
+	return interaction.reply(ul("common.success"));
+}
+
+export function count(client: EClient, interaction: Djs.ChatInputCommandInteraction) {
+	if (!interaction.guild) return;
+	const { start, step, cron, decimal } = getOptions(interaction);
+	if (!cron && !start && !step && !decimal)
+		return display(interaction, client);
+	
+	return set(client, interaction);
+}
+

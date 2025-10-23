@@ -1,9 +1,9 @@
 import type { Locale } from "discord.js";
 
 export interface Templates {
-	date: { format: string; cron: string; start: string; step: number; timezone: string };
-	count: { start: number; step: number; decimal: number; cron: string };
-	weather: { location: string; cron: string };
+	date: { format: string; cron: string; start: string; step: number; timezone: string, currentValue: string };
+	count: { start: number; step: number; decimal: number; cron: string, currentValue: number };
+	weather: { location: string; cron: string};
 }
 
 /**

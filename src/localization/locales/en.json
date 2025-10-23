@@ -24,7 +24,8 @@
       "location": {
         "name": "location"
       }
-    }
+    },
+    "currentValue": "Current value: {{ex}}"
   },
   "common": {
     "format": "format",
@@ -32,7 +33,9 @@
     "start": "start",
     "step": "step",
     "not_set": "/",
-    "date": "date"
+    "date": "date",
+    "success": "The settings was successfully saved.",
+    "example": "__Example__: `{{ex}}`"
   },
   "description": {
     "cron": "Set the schedule (cron) for when the variable should be updated",

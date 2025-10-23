@@ -46,7 +46,7 @@ function set(client: EClient, interaction: Djs.ChatInputCommandInteraction) {
 		cron: cron ?? temp.weather.cron,
 	};
 	client.settings.set(interaction.guild.id, weather, "templates.weather");
-	return interaction.reply(ul("weather.set.success"));
+	return interaction.reply(ul("common.success"));
 }
 
 export function weather(client: EClient, interaction: Djs.ChatInputCommandInteraction) {

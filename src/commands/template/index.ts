@@ -4,6 +4,7 @@ import { t } from "../../localization";
 import { weather } from "./weather";
 import "../../discord_ext";
 import { date } from "./date";
+import {count} from "./count";
 
 export const template = {
 	data: new Djs.SlashCommandBuilder()
@@ -55,18 +56,21 @@ export const template = {
 						.setNames("common.start")
 						.setDescriptions("description.start.number")
 						.setRequired(false)
+						.setMinValue(0)
 				)
 				.addNumberOption((opt) =>
 					opt
 						.setNames("common.step")
 						.setDescriptions("description.step")
 						.setRequired(false)
+						.setMinValue(1)
 				)
 				.addNumberOption((opt) =>
 					opt
 						.setNames("template.decimal.name")
 						.setDescriptions("template.decimal.description")
 						.setRequired(false)
+						.setMinValue(0)
 				)
 				.addStringOption((opt) =>
 					opt
@@ -102,8 +106,10 @@ export const template = {
 				return weather(client, interaction);
 			case t("common.date"):
 				return date(client, interaction);
+			case t("template.count.name"):
+				return count(client, interaction);
 			default:
-				return interaction.reply(t("common.not_implemented"));
+				return;
 		}
 	},
 };

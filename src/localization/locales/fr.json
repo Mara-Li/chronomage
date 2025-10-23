@@ -24,7 +24,8 @@
       "location": {
         "name": "location"
       }
-    }
+    },
+    "currentValue": "Valeur actuelle : {{ex}}"
   },
   "common": {
     "format": "format",
@@ -32,7 +33,9 @@
     "start": "début",
     "step": "pas",
     "not_set": "/",
-    "date": "date"
+    "date": "date",
+    "success": "Les paramètres ont bien été sauvegardés.",
+    "example": "__Exemple__ : `{{ex}}`"
   },
   "description": {
     "cron": "Définissez le calendrier (cron) pour la mise à jour de la variable",
