@@ -8,6 +8,7 @@ import interaction from "./events/interaction";
 import join from "./events/join";
 import ready from "./events/ready";
 import "uniformize";
+import onQuit from "./events/onQuit";
 
 dotenv.config({ path: ".env" });
 
@@ -28,6 +29,7 @@ try {
 	ready(client);
 	interaction(client);
 	join(client);
+	onQuit(client);
 } catch (error) {
 	console.error(error);
 }
