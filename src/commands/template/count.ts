@@ -1,3 +1,4 @@
+import { isValidCron } from "cron-validator";
 import * as Djs from "discord.js";
 import type { EClient } from "../../client";
 import { ln, t } from "../../localization";
@@ -87,6 +88,11 @@ function set(client: EClient, interaction: Djs.ChatInputCommandInteraction) {
 	template.count.start = start ?? template.count.start;
 	template.count.step = step ?? template.count.step;
 	template.count.cron = cron ?? template.count.cron;
+
+	if (!isValidCron(template.count.cron)) {
+		return interaction.reply(ul("error.cron"));
+	}
+
 	template.count.decimal = decimal ?? template.count.decimal;
 
 	client.settings.set(interaction.guild.id, settings!);

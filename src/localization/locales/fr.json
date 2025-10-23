@@ -67,5 +67,8 @@
     "display": {
       "title": "Configuration - Compte"
     }
+  },
+  "error": {
+    "cron": "Le cron est invalide."
   }
 }

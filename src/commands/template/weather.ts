@@ -1,3 +1,4 @@
+import { isValidCron } from "cron-validator";
 import * as Djs from "discord.js";
 import type { EClient } from "../../client";
 import { ln, t } from "../../localization";
@@ -29,7 +30,7 @@ function set(client: EClient, interaction: Djs.ChatInputCommandInteraction) {
 	if (!interaction.guild) return;
 	const options = interaction.options as Djs.CommandInteractionOptionResolver;
 	const location = options.getString(t("template.weather.location.name"));
-	const temp = defaultTemplate()
+	const temp = defaultTemplate();
 	const cron = options.getString(t("common.cron"));
 	const settings = client.settings.get(interaction.guild.id);
 	if (!settings)
@@ -45,6 +46,8 @@ function set(client: EClient, interaction: Djs.ChatInputCommandInteraction) {
 		location: location ?? temp.weather.location,
 		cron: cron ?? temp.weather.cron,
 	};
+	if (!isValidCron(weather.cron)) return interaction.reply(ul("error.cron"));
+
 	client.settings.set(interaction.guild.id, weather, "templates.weather");
 	return interaction.reply(ul("common.success"));
 }

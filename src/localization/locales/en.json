@@ -67,5 +67,8 @@
     "display": {
       "title": "Configuration - Count"
     }
+  },
+  "error": {
+    "cron": "The cron is invalid."
   }
 }

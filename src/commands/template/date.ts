@@ -1,3 +1,4 @@
+import { isValidCron } from "cron-validator";
 import * as Djs from "discord.js";
 import { DateTime } from "luxon";
 import type { EClient } from "../../client";
@@ -75,9 +76,12 @@ function getOptions(interaction: Djs.ChatInputCommandInteraction, setDefault?: b
 export function set(client: EClient, interaction: Djs.ChatInputCommandInteraction) {
 	if (!interaction.guild) return;
 	const temp = defaultTemplate();
-	const { format, timezone, cron, start, step } = getOptions(interaction, true);
-
 	const settings = client.settings.get(interaction.guild.id);
+	const { format, timezone, cron, start, step } = getOptions(interaction, true);
+	const ul = ln(settings?.settings?.language ?? interaction.locale);
+	if (cron && !isValidCron(cron)) {
+		return interaction.reply(ul("error.cron"));
+	}
 	if (!settings)
 		client.settings.set(interaction.guild.id, {
 			templates: temp,
@@ -95,7 +99,6 @@ export function set(client: EClient, interaction: Djs.ChatInputCommandInteractio
 		step,
 	};
 	client.settings.set(interaction.guild.id, date, "templates.date");
-	const ul = ln(settings?.settings?.language ?? interaction.locale);
 	return interaction.reply(
 		ul("date.set.success", {
 			ex: DateTime.now()
