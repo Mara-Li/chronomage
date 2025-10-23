@@ -4,8 +4,8 @@ import { DateTime } from "luxon";
 import type { EClient } from "../../client";
 import { setDate } from "../../cron/date";
 import { parseDurationLocalized } from "../../duration";
-import { ln, t } from "../../localization";
-import { defaultTemplate } from "../../utils";
+import { t } from "../../localization";
+import { defaultTemplate, tFn } from "../../utils";
 
 function display(interaction: Djs.ChatInputCommandInteraction, client: EClient) {
 	if (!interaction.guild) return;
@@ -18,7 +18,11 @@ function display(interaction: Djs.ChatInputCommandInteraction, client: EClient) 
 			settings: { language: interaction.locale },
 		});
 	}
-	const ul = ln(settings?.settings?.language ?? interaction.locale);
+	const ul = tFn(
+		client.settings.get(interaction.guild.id)!,
+		interaction.guild,
+		interaction.locale
+	);
 	const date = settings?.templates.date;
 
 	const formatDateStart = (dateStr?: string, format = "f") => {
@@ -97,7 +101,11 @@ export function set(client: EClient, interaction: Djs.ChatInputCommandInteractio
 	const locale =
 		settings?.settings?.language ?? interaction.locale ?? interaction.guildLocale;
 	const { format, timezone, cron, start, step } = getOptions(interaction, locale, true);
-	const ul = ln(settings?.settings?.language ?? interaction.locale);
+	const ul = tFn(
+		client.settings.get(interaction.guild.id)!,
+		interaction.guild,
+		interaction.locale
+	);
 	if (cron && !isValidCron(cron)) return interaction.reply(ul("error.cron"));
 
 	//convert the duration to number

@@ -1,12 +1,16 @@
 import * as Djs from "discord.js";
 import type { EClient } from "../../client";
-import { ln, t } from "../../localization";
-import { defaultTemplate } from "../../utils";
+import { t } from "../../localization";
+import { defaultTemplate, tFn } from "../../utils";
 
 function display(client: EClient, interaction: Djs.ChatInputCommandInteraction) {
 	if (!interaction.guild) return;
 	const settings = client.settings.get(interaction.guild.id);
-	const ul = ln(settings?.settings?.language ?? interaction.locale);
+	const ul = tFn(
+		client.settings.get(interaction.guild.id)!,
+		interaction.guild,
+		interaction.locale
+	);
 	const weather = settings?.templates?.weather;
 	const embed = new Djs.EmbedBuilder()
 		.setTitle(ul("weather.display.title"))
@@ -31,7 +35,11 @@ function set(client: EClient, interaction: Djs.ChatInputCommandInteraction) {
 			schedules: {},
 			settings: { language: interaction.locale },
 		});
-	const ul = ln(settings?.settings?.language ?? interaction.locale);
+	const ul = tFn(
+		client.settings.get(interaction.guild.id)!,
+		interaction.guild,
+		interaction.locale
+	);
 
 	const weather = {
 		location: location ?? temp.weather.location,

@@ -2,6 +2,7 @@ import "../discord_ext";
 import * as Djs from "discord.js";
 import type { EClient } from "../client";
 import { ln, t } from "../localization";
+import { tFn } from "../utils";
 
 export const globalSettings = {
 	data: new Djs.SlashCommandBuilder()
@@ -43,10 +44,11 @@ export const globalSettings = {
 				true
 			);
 			client.settings.set(interaction.guild.id, timezone, "settings.zone");
-			const lang =
-				client.settings.get(interaction.guild.id)?.settings?.language ??
-				interaction.locale;
-			const ul = ln(lang);
+			const ul = tFn(
+				client.settings.get(interaction.guild.id)!,
+				interaction.guild,
+				interaction.locale
+			);
 			return interaction.reply(ul("globalSettings.timezone.set", { tz: timezone }));
 		}
 		if (subcommand === t("globalSettings.language.name")) {

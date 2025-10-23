@@ -2,14 +2,18 @@ import { isValidCron } from "cron-validator";
 import * as Djs from "discord.js";
 import type { EClient } from "../../client";
 import { setCount } from "../../cron/count";
-import { ln, t } from "../../localization";
-import { defaultTemplate } from "../../utils";
+import { t } from "../../localization";
+import { defaultTemplate, tFn } from "../../utils";
 
 function display(interaction: Djs.ChatInputCommandInteraction, client: EClient) {
 	if (!interaction.guild) return;
 	const settings = client.settings.get(interaction.guild!.id);
 	const temp = defaultTemplate();
-	const ul = ln(settings?.settings?.language ?? interaction.locale);
+	const ul = tFn(
+		client.settings.get(interaction.guild.id)!,
+		interaction.guild,
+		interaction.locale
+	);
 	if (!settings) {
 		client.settings.set(interaction.guild.id, {
 			templates: temp,
@@ -74,7 +78,11 @@ function set(client: EClient, interaction: Djs.ChatInputCommandInteraction) {
 	if (!interaction.guild) return;
 	const settings = client.settings.get(interaction.guild!.id);
 	const temp = defaultTemplate();
-	const ul = ln(settings?.settings?.language ?? interaction.locale);
+	const ul = tFn(
+		client.settings.get(interaction.guild.id)!,
+		interaction.guild,
+		interaction.locale
+	);
 	if (!settings) {
 		client.settings.set(interaction.guild.id, {
 			templates: temp,
