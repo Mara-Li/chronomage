@@ -1,5 +1,5 @@
 {
-	"name": "my-discord-bot",
+	"name": "narrakit",
 	"version": "1.0.0",
 	"description": "",
 	"main": "dist/index.js",
@@ -10,11 +10,11 @@
 	"scripts": {
 		"build": "tsc",
 		"prestart": "pnpm run build",
-		"start": "pm2 start dist/src/index.js --name my-bot --log-date-format=\"YYYY-MM-DD HH:mm Z\"",
-		"stop": "pm2 stop my-bot",
+		"start": "pm2 start dist/src/index.js --name narrakit --log-date-format=\"YYYY-MM-DD HH:mm Z\"",
+		"stop": "pm2 stop narrakit",
 		"prerestart": "pnpm run build",
-		"restart": "pm2 restart my-bot",
-		"delete": "pm2 delete my-bot",
+		"restart": "pm2 restart narrakit",
+		"delete": "pm2 delete narrakit",
 		"dev": "ts-node-dev --respawn -- src/index.ts",
 		"dev:prod": "cross-env ENV=production ts-node-dev --respawn -- src/index.ts"
 	},
