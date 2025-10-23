@@ -61,5 +61,10 @@
     "set": {
       "success": "The date was set successfully.\n__Example__: {{ex}}"
     }
+  },
+  "count": {
+    "display": {
+      "title": "Configuration - Count"
+    }
   }
 }

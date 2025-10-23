@@ -61,5 +61,10 @@
     "set": {
       "success": "La date a été correctement enregistrée.\n__Exemple__ : {{ex}}"
     }
+  },
+  "count": {
+    "display": {
+      "title": "Configuration - Compte"
+    }
   }
 }
