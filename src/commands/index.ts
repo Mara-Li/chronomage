@@ -1,3 +1,3 @@
-import { ping } from "./ping";
+import { template } from "./template";
 
-export const commandsList = [ping];
+export const commandsList = [template];

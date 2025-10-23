@@ -1,1 +1,54 @@
-{}
+{
+  "template": {
+    "name": "variables",
+    "description": "Manage variables template (date, number and weather)",
+    "date": {
+      "description": "Manage date : timezone, cron, format, start...",
+      "timezone": {
+        "name": "timezone",
+        "description": "Set the date's timezone"
+      },
+      "format": "Set how the date should be displayed"
+    },
+    "count": {
+      "name": "count",
+      "description": "Number to increment or decrement"
+    },
+    "decimal": {
+      "name": "decimal",
+      "description": "Number of digits after the decimal point"
+    },
+    "weather": {
+      "name": "weather",
+      "description": "Set the weather information (location, cron)",
+      "location": {
+        "name": "location"
+      }
+    }
+  },
+  "common": {
+    "format": "format",
+    "cron": "cron",
+    "start": "start",
+    "step": "step",
+    "not_set": "/",
+    "date": "date"
+  },
+  "description": {
+    "cron": "Set the schedule (cron) for when the variable should be updated",
+    "step": "How much to add to the variable",
+    "start": {
+      "date": "First date that will be used",
+      "number": "Set the start number"
+    }
+  },
+  "weather": {
+    "display": {
+      "title": "Configuration - Weather",
+      "location": "Location"
+    },
+    "set": {
+      "success": "The weather settings have been saved successfully."
+    }
+  }
+}

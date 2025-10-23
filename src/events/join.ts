@@ -1,13 +1,46 @@
-import type * as Djs from "discord.js";
+import { DateTime } from "luxon";
+import type { EClient } from "../client";
 import { commandsList } from "../commands";
+import type { Templates } from "../interface";
 
-export default (client: Djs.Client): void => {
+export default (client: EClient): void => {
 	client.on("guildCreate", async (guild) => {
 		try {
+			/*
 			for (const command of commandsList) {
 				await guild.commands.create(command.data);
 				console.log(`Command ${command.data.name} created in ${guild.name}`);
 			}
+			 */
+			//use promise.all to create all commands concurrently
+			const commandPromises = commandsList.map((command) =>
+				guild.commands.create(command.data)
+			);
+			await Promise.all(commandPromises);
+			console.log(
+				`All commands created in ${guild.name} (${commandsList.length} commands).`
+			);
+			//ensure default data is created for the guild
+			const defaultTemplate: Templates = {
+				date: {
+					format: "DD/MM/YYYY",
+					timezone: "UTC",
+					cron: "0 0 * * *",
+					start: new Date().toISOString(),
+					step: 1,
+				},
+				count: { start: 1, step: 1, decimal: 4, cron: "0 0 * * *" },
+				weather: { location: "London", cron: "0 6 * * *" },
+			};
+			client.settings.ensure(guild.id, {
+				templates: defaultTemplate,
+				events: {},
+				schedules: {},
+				settings: {
+					language: guild.preferredLocale,
+					locale: guild.preferredLocale,
+				},
+			});
 		} catch (error) {
 			console.error(error);
 		}

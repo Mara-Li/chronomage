@@ -1,22 +1,16 @@
 import * as Djs from "discord.js";
-import Enmap, { type EnmapOptions } from "enmap";
-import type { RecurringEvent, Templates } from "./interface";
+import Enmap from "enmap";
+import type { EventGuildData } from "./interface";
 export class EClient extends Djs.Client {
-	public variables: Enmap<string, Templates>;
-	public reccuringEvents: Enmap<string, RecurringEvent>;
+	public settings: Enmap<string, EventGuildData, unknown>;
 
 	constructor(options: Djs.ClientOptions) {
 		super(options);
-
-		const enmapSettings: EnmapOptions<string, Templates> = {
-			name: "variables",
-		};
-
-		this.variables = new Enmap({
-			name: "variables",
-		});
-		this.reccuringEvents = new Enmap({
-			name: "recurringEvents",
+		this.settings = new Enmap({
+			name: "settings",
+			fetchAll: false,
+			autoFetch: true,
+			cloneLevel: "deep",
 		});
 	}
 }

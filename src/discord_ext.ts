@@ -1,6 +1,7 @@
 import * as Djs from "discord.js";
 import { cmdLn, t } from "./localization";
 
+// Déclarations TypeScript
 declare module "discord.js" {
 	interface SlashCommandBuilder {
 		setNames(key: string): this;
@@ -102,6 +103,7 @@ Object.defineProperty(
 	}
 );
 
+// Extension des options avec accès sécurisé
 const optionTypes = [
 	{ name: "String", class: Djs.SlashCommandStringOption },
 	{ name: "Boolean", class: Djs.SlashCommandBooleanOption },
