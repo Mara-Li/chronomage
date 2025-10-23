@@ -3,13 +3,14 @@ import * as Djs from "discord.js";
 import dotenv from "dotenv";
 
 import * as pkg from "../package.json";
+import { EClient } from "./client";
 import interaction from "./events/interaction";
 import join from "./events/join";
 import ready from "./events/ready";
 
 dotenv.config({ path: ".env" });
 
-export const client = new Djs.Client({
+export const client = new EClient({
 	intents: [
 		Djs.GatewayIntentBits.GuildMessages,
 		//Djs.GatewayIntentBits.MessageContent,
