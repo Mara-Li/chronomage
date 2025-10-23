@@ -26,7 +26,7 @@ export interface Templates {
 type StartSpec = { hhmm: string; zone: string };
 
 export type Schedule = {
-	guildId: string;
+	scheduleId: string; //uuid or another unique id
 	labels: string[]; // ["A","B","C"]
 	blockMs: number; // parse-duration
 	start: StartSpec; // { hhmm:"21:00", zone:"Europe/Paris" }
@@ -39,7 +39,7 @@ export type Schedule = {
 };
 
 export type EventRow = {
-	scheduleId: string;
+	scheduleId: string; // link to Schedule
 	discordEventId?: string;
 	label: string;
 	start: { iso: string; zone: string };
