@@ -1,5 +1,4 @@
 import * as Djs from "discord.js";
-import { DateTime } from "luxon";
 import type { EClient } from "../../client";
 import { ln, t } from "../../localization";
 import { defaultTemplate } from "../../utils";

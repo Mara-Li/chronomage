@@ -1,8 +1,6 @@
-import { DateTime } from "luxon";
 import type { EClient } from "../client";
 import { commandsList } from "../commands";
-import type { Templates } from "../interface";
-import {defaultTemplate} from "../utils";
+import { defaultTemplate } from "../utils";
 
 export default (client: EClient): void => {
 	client.on("guildCreate", async (guild) => {
