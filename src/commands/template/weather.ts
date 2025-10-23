@@ -28,12 +28,13 @@ function display(client: EClient, interaction: Djs.ChatInputCommandInteraction) 
 function set(client: EClient, interaction: Djs.ChatInputCommandInteraction) {
 	if (!interaction.guild) return;
 	const options = interaction.options as Djs.CommandInteractionOptionResolver;
-	const location = options.getString(t("template.weather.location.name"), true);
-	const cron = options.getString(t("common.cron"), true);
+	const location = options.getString(t("template.weather.location.name"));
+	const temp = defaultTemplate()
+	const cron = options.getString(t("common.cron"));
 	const settings = client.settings.get(interaction.guild.id);
 	if (!settings)
 		client.settings.set(interaction.guild.id, {
-			templates: defaultTemplate(),
+			templates: temp,
 			events: {},
 			schedules: {},
 			settings: { language: interaction.locale },
@@ -41,8 +42,8 @@ function set(client: EClient, interaction: Djs.ChatInputCommandInteraction) {
 	const ul = ln(settings?.settings?.language ?? interaction.locale);
 
 	const weather = {
-		location,
-		cron,
+		location: location ?? temp.weather.location,
+		cron: cron ?? temp.weather.cron,
 	};
 	client.settings.set(interaction.guild.id, weather, "templates.weather");
 	return interaction.reply(ul("weather.set.success"));

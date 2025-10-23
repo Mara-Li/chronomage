@@ -1,0 +1,103 @@
+import * as Djs from "discord.js";
+import { DateTime } from "luxon";
+import type { EClient } from "../../client";
+import { ln } from "../../localization";
+import { defaultTemplate } from "../../utils";
+
+function display(interaction: Djs.ChatInputCommandInteraction, client: EClient) {
+	if (!interaction.guild) return;
+	const settings = client.settings.get(interaction.guild!.id);
+	if (!settings) {
+		client.settings.set(interaction.guild.id, {
+			templates: defaultTemplate(),
+			events: {},
+			schedules: {},
+			settings: { language: interaction.locale },
+		});
+	}
+	const ul = ln(settings?.settings?.language ?? interaction.locale);
+	const date = settings?.templates.date;
+
+	const formatDateStart = (dateStr?: string, format = "f") => {
+		if (!dateStr) return null;
+		return DateTime.fromISO(dateStr).toFormat(format);
+	};
+
+	const embed = new Djs.EmbedBuilder()
+		.setTitle(ul("date.display.title"))
+		.setColor("Blue")
+		.addFields(
+			{
+				name: ul("common.format").toTitle(),
+				value: `\`${date?.format ?? ul("common.not_set")}\``,
+			},
+			{
+				name: ul("common.cron"),
+				value: `\`${date?.cron ?? ul("common.not_set")}\``,
+			},
+			{
+				name: ul("common.start").toTitle(),
+				value: formatDateStart(date?.start, date?.format) ?? ul("common.not_set"),
+			},
+			{
+				name: ul("template.date.timezone.name").toTitle(),
+				value: date?.timezone ?? ul("common.not_set"),
+			},
+			{
+				name: ul("common.step").toTitle(),
+				value: date ? `\`${date.step}\`` : ul("common.not_set"),
+			}
+		);
+	const example = formatDateStart(DateTime.now().toISO(), date?.format);
+	return interaction.reply({
+		embeds: [embed],
+		content: example ?? DateTime.now().toFormat("f"),
+	});
+}
+
+export function set(client: EClient, interaction: Djs.ChatInputCommandInteraction) {
+	if (!interaction.guild) return;
+	const options = interaction.options;
+	const temp = defaultTemplate();
+	const defaultDate = temp.date;
+	const format = options.getString("format") ?? defaultDate.format ;
+	const timezone = options.getString("timezone") ?? defaultDate.timezone ;
+	const cron = options.getString("cron") ?? defaultDate.cron ;
+	const start = options.getString("start") ?? defaultDate.start ;
+	const step = options.getInteger("step") ?? defaultDate.step ;
+
+	const settings = client.settings.get(interaction.guild.id);
+	if (!settings)
+		client.settings.set(interaction.guild.id, {
+			templates: temp,
+			events: {},
+			schedules: {},
+			settings: { language: interaction.locale },
+		});
+	const date = {
+		format,
+		timezone,
+		cron,
+		start: DateTime.fromFormat(start, format, { zone: timezone }).toISO(),
+		step,
+	}
+	client.settings.set(interaction.guild.id, date, "templates.date");
+	const ul = ln(settings?.settings?.language ?? interaction.locale);
+	return interaction.reply(ul("date.set.success", {
+		ex: DateTime.now().setZone(timezone).toFormat(format)
+	}));
+}
+
+export function date(client: EClient, interaction: Djs.ChatInputCommandInteraction) {
+	if (!interaction.guild) return;
+	const options = interaction.options;
+	const format = options.getString("format");
+	const timezone = options.getString("timezone");
+	const cron = options.getString("cron");
+	const start = options.getString("start");
+	const step = options.getInteger("step");
+	if (!format && !timezone && !cron && !start && !step) {
+		return display(interaction, client);
+	}
+	return set(client, interaction);
+}

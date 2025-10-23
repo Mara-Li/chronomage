@@ -3,6 +3,7 @@ import type { EClient } from "../../client";
 import { t } from "../../localization";
 import { weather } from "./weather";
 import "../../discord_ext";
+import { date } from "./date";
 
 export const template = {
 	data: new Djs.SlashCommandBuilder()
@@ -99,6 +100,8 @@ export const template = {
 		switch (subcommand) {
 			case t("template.weather.name"):
 				return weather(client, interaction);
+			case t("common.date"):
+				return date(client, interaction);
 			default:
 				return interaction.reply(t("common.not_implemented"));
 		}

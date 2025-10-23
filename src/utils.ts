@@ -3,7 +3,7 @@ import type { Templates } from "./interface";
 export function defaultTemplate(): Templates {
 	return {
 		date: {
-			format: "DD/MM/YYYY",
+			format: "f",
 			timezone: "UTC",
 			cron: "0 0 * * *",
 			start: new Date().toISOString(),

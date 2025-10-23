@@ -7,6 +7,7 @@ import { EClient } from "./client";
 import interaction from "./events/interaction";
 import join from "./events/join";
 import ready from "./events/ready";
+import "uniformize";
 
 dotenv.config({ path: ".env" });
 

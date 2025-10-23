@@ -29,8 +29,8 @@
   "common": {
     "format": "format",
     "cron": "cron",
-    "start": "start",
-    "step": "step",
+    "start": "début",
+    "step": "pas",
     "not_set": "/",
     "date": "date"
   },
@@ -49,6 +49,14 @@
     },
     "set": {
       "success": "Les paramètres de météos ont bien été sauvegardée."
+    }
+  },
+  "date": {
+    "display": {
+      "title": "Configuration - Date"
+    },
+    "set": {
+      "success": "La date a été correctement enregistrée.\n__Exemple__ : {{ex}}"
     }
   }
 }

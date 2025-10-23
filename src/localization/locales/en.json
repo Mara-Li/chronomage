@@ -50,5 +50,13 @@
     "set": {
       "success": "The weather settings have been saved successfully."
     }
+  },
+  "date": {
+    "display": {
+      "title": "Configuration - Date"
+    },
+    "set": {
+      "success": "The date was set successfully.\n__Example__: {{ex}}"
+    }
   }
 }
