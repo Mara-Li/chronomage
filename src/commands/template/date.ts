@@ -99,7 +99,7 @@ export function set(client: EClient, interaction: Djs.ChatInputCommandInteractio
 export function date(client: EClient, interaction: Djs.ChatInputCommandInteraction) {
 	if (!interaction.guild) return;
 	const { format, timezone, cron, start, step } = getOptions(interaction);
-	if (!format && !timezone && !cron && !start && !step) {
+	if (!format && !timezone && !cron && !start && step == null) {
 		return display(interaction, client);
 	}
 	return set(client, interaction);

@@ -2,6 +2,7 @@ import { DateTime } from "luxon";
 import type { EClient } from "../client";
 import { commandsList } from "../commands";
 import type { Templates } from "../interface";
+import {defaultTemplate} from "../utils";
 
 export default (client: EClient): void => {
 	client.on("guildCreate", async (guild) => {
@@ -21,19 +22,8 @@ export default (client: EClient): void => {
 				`All commands created in ${guild.name} (${commandsList.length} commands).`
 			);
 			//ensure default data is created for the guild
-			const defaultTemplate: Templates = {
-				date: {
-					format: "DD/MM/YYYY",
-					timezone: "UTC",
-					cron: "0 0 * * *",
-					start: new Date().toISOString(),
-					step: 1,
-				},
-				count: { start: 1, step: 1, decimal: 4, cron: "0 0 * * *" },
-				weather: { location: "London", cron: "0 6 * * *" },
-			};
 			client.settings.ensure(guild.id, {
-				templates: defaultTemplate,
+				templates: defaultTemplate(),
 				events: {},
 				schedules: {},
 				settings: {

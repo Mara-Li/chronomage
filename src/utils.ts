@@ -8,8 +8,9 @@ export function defaultTemplate(): Templates {
 			cron: "0 0 * * *",
 			start: new Date().toISOString(),
 			step: 1,
+			currentValue: new Date().toISOString(),
 		},
-		count: { start: 1, step: 1, decimal: 4, cron: "0 0 * * *" },
+		count: { start: 1, step: 1, decimal: 4, cron: "0 0 * * *", currentValue: 0 },
 		weather: { location: "London", cron: "0 6 * * *" },
 	};
 }

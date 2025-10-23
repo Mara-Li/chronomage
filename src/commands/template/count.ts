@@ -1,7 +1,7 @@
 import * as Djs from "discord.js";
 import { DateTime } from "luxon";
 import type { EClient } from "../../client";
-import {ln, t} from "../../localization";
+import { ln, t } from "../../localization";
 import { defaultTemplate } from "../../utils";
 
 function display(interaction: Djs.ChatInputCommandInteraction, client: EClient) {
@@ -39,13 +39,15 @@ function display(interaction: Djs.ChatInputCommandInteraction, client: EClient) 
 			{
 				name: ul("template.decimal.name").toTitle(),
 				value: `\`${count?.decimal ?? ul("common.not_set")}\``,
-			},
+			}
 		);
-	
+
 	const currentValue = count?.currentValue ?? count?.start ?? 0;
 	const decimalPlaces = count?.decimal ?? 0;
-	const factor = Math.pow(10, decimalPlaces);
-	const formattedValue = (Math.round(currentValue * factor) / factor).toFixed(decimalPlaces);
+	const factor = 10 ** decimalPlaces;
+	const formattedValue = (Math.round(currentValue * factor) / factor).toFixed(
+		decimalPlaces
+	);
 
 	return interaction.reply({
 		embeds: [embed],
@@ -55,10 +57,15 @@ function display(interaction: Djs.ChatInputCommandInteraction, client: EClient) 
 
 function getOptions(interaction: Djs.ChatInputCommandInteraction, setDefault?: boolean) {
 	const defaultTemplateData = setDefault ? defaultTemplate().count : null;
-	const start = interaction.options.getNumber(t("common.start")) ?? defaultTemplateData?.start;
-	const step = interaction.options.getNumber(t("common.step")) ?? defaultTemplateData?.step;
-	const cron = interaction.options.getString(t("common.cron")) ?? defaultTemplateData?.cron;
-	const decimal = interaction.options.getNumber(t("template.decimal.name")) ?? defaultTemplateData?.decimal;
+	const start =
+		interaction.options.getNumber(t("common.start")) ?? defaultTemplateData?.start;
+	const step =
+		interaction.options.getNumber(t("common.step")) ?? defaultTemplateData?.step;
+	const cron =
+		interaction.options.getString(t("common.cron")) ?? defaultTemplateData?.cron;
+	const decimal =
+		interaction.options.getInteger(t("template.decimal.name")) ??
+		defaultTemplateData?.decimal;
 	return { start, step, cron, decimal };
 }
 
@@ -76,13 +83,13 @@ function set(client: EClient, interaction: Djs.ChatInputCommandInteraction) {
 		});
 	}
 	const template = settings?.templates ?? temp;
-	
+
 	const { start, step, cron, decimal } = getOptions(interaction);
 	template.count.start = start ?? template.count.start;
 	template.count.step = step ?? template.count.step;
 	template.count.cron = cron ?? template.count.cron;
 	template.count.decimal = decimal ?? template.count.decimal;
-	
+
 	client.settings.set(interaction.guild.id, settings!);
 	return interaction.reply(ul("common.success"));
 }
@@ -90,9 +97,8 @@ function set(client: EClient, interaction: Djs.ChatInputCommandInteraction) {
 export function count(client: EClient, interaction: Djs.ChatInputCommandInteraction) {
 	if (!interaction.guild) return;
 	const { start, step, cron, decimal } = getOptions(interaction);
-	if (!cron && !start && !step && !decimal)
+	if (!cron && start == null && step == null && decimal == null)
 		return display(interaction, client);
-	
+
 	return set(client, interaction);
 }
-

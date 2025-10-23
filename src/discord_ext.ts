@@ -62,6 +62,11 @@ declare module "discord.js" {
 		setNames(key: string): this;
 		setDescriptions(key: string): this;
 	}
+	
+	interface SlashCommandIntegerOption {
+		setNames(key: string): this;
+		setDescriptions(key: string): this;
+	}
 }
 
 // Implémentations avec typage explicite
@@ -113,6 +118,9 @@ const optionTypes = [
 	{ name: "Mentionable", class: Djs.SlashCommandMentionableOption },
 	{ name: "User", class: Djs.SlashCommandUserOption },
 	{ name: "Attachment", class: Djs.SlashCommandAttachmentOption },
+	{
+		name: "Integer", class: Djs.SlashCommandIntegerOption,
+	}
 ];
 
 optionTypes.forEach(({ class: optionClass }) => {

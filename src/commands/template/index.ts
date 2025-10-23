@@ -65,7 +65,7 @@ export const template = {
 						.setRequired(false)
 						.setMinValue(1)
 				)
-				.addNumberOption((opt) =>
+				.addIntegerOption((opt) =>
 					opt
 						.setNames("template.decimal.name")
 						.setDescriptions("template.decimal.description")
