@@ -21,7 +21,7 @@
     },
     "weather": {
       "name": "météo",
-      "description": "Définir les informations météorologiques (emplacement, cron)"
+      "description": "Définir la localisation de la météo"
     },
     "currentValue": "Valeur actuelle : {{ex}}"
   },

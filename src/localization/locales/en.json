@@ -21,7 +21,7 @@
     },
     "weather": {
       "name": "weather",
-      "description": "Set the weather information (location, cron)"
+      "description": "Set the weather location"
     },
     "currentValue": "Current value: {{ex}}"
   },

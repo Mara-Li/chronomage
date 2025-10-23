@@ -14,11 +14,11 @@
 		"resolveJsonModule": true,
 		"forceConsistentCasingInFileNames": true,
 		"removeComments": true,
-		"typeRoots": ["node_modules/@types", "parse-duration"],
+		"typeRoots": ["node_modules/@types", "src/@types"],
 		"sourceMap": false,
 		"baseUrl": "./"
 	},
-	"files": ["src/index.ts"],
-	"include": ["./**/*.ts"],
+	"files": ["src/index.ts", "src/@types/parse-duration.d.ts"],
+	"include": ["./**/*.ts", "./**/*.json", "./**/*.d.ts"],
 	"exclude": ["node_modules", "dist"]
 }

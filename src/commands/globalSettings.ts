@@ -21,7 +21,7 @@ export const globalSettings = {
 		)
 		.addSubcommand((sub) =>
 			sub
-				.setNames("globalSettings.language")
+				.setNames("globalSettings.language.name")
 				.setDescriptions("globalSettings.language.description")
 				.addStringOption((opt) =>
 					opt
