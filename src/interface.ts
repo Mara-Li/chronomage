@@ -51,7 +51,7 @@ export type EventRow = {
 export type EventGuildData = {
 	schedules: Record<string, Schedule>;
 	events: Record<string, EventRow>;
-	settings?: { zone?: string; bufferDays?: number; locale?: string; language?: Locale };
+	settings?: { zone?: string; bufferDays?: number; language?: Locale };
 	templates: Templates;
 };
 

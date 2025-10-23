@@ -26,7 +26,6 @@ export default (client: EClient): void => {
 				schedules: {},
 				settings: {
 					language: guild.preferredLocale,
-					locale: guild.preferredLocale,
 				},
 			});
 		} catch (error) {

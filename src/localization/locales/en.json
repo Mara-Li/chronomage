@@ -71,5 +71,23 @@
   },
   "error": {
     "cron": "The cron is invalid."
+  },
+  "globalsettings": {
+    "name": "settings",
+    "description": "Edit the global bot settings"
+  },
+  "globalSettings": {
+    "language": {
+      "name": "language",
+      "description": "Change the lang of the bot",
+      "set": "The bot language is now {{lang}}."
+    },
+    "locale": {
+      "description": "Set the default locale for date",
+      "name": "locale"
+    },
+    "timezone": {
+      "set": "The default time zone has been set to {{tz}}."
+    }
   }
 }

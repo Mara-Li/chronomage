@@ -1,5 +1,4 @@
 import process from "node:process";
-import type { Client } from "discord.js";
 import dotenv from "dotenv";
 import { VERSION } from "..";
 import type { EClient } from "../client";

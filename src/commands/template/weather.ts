@@ -1,4 +1,3 @@
-import { isValidCron } from "cron-validator";
 import * as Djs from "discord.js";
 import type { EClient } from "../../client";
 import { ln, t } from "../../localization";
