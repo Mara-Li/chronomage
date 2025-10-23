@@ -2,13 +2,13 @@ import { CronJob } from "cron";
 import type * as Djs from "discord.js";
 import { DateTime } from "luxon";
 import type { EClient } from "../client";
-import { jobs } from "../interface";
+import { DateJobs } from "../interface";
 export function setDate(guild: Djs.Guild, client: EClient) {
 	//stop any existing job
-	if (jobs.has(guild.id)) {
-		const existingJob = jobs.get(guild.id);
+	if (DateJobs.has(guild.id)) {
+		const existingJob = DateJobs.get(guild.id);
 		existingJob?.stop();
-		jobs.delete(guild.id);
+		DateJobs.delete(guild.id);
 	}
 	const settings = client.settings.get(guild.id);
 	const counter = settings?.templates.date;
@@ -31,6 +31,6 @@ export function setDate(guild: Djs.Guild, client: EClient) {
 		true,
 		settings.settings?.zone
 	);
-	jobs.set(guild.id, job);
+	DateJobs.set(guild.id, job);
 	job.start();
 }

@@ -2,11 +2,13 @@ import process from "node:process";
 import type { Client } from "discord.js";
 import dotenv from "dotenv";
 import { VERSION } from "..";
+import type { EClient } from "../client";
 import { commandsList } from "../commands";
+import { initAll } from "../cron";
 
 dotenv.config({ path: ".env" });
 
-export default (client: Client): void => {
+export default (client: EClient): void => {
 	client.on("clientReady", async () => {
 		if (!client.user || !client.application || !process.env.CLIENT_ID) return;
 
@@ -28,6 +30,7 @@ export default (client: Client): void => {
 				// L'appel REST écrase l'ensemble des commandes guild pour cette application.
 				await guild.commands.set(serializedCommands);
 				console.info(`[${guild.name}] OK (${serializedCommands.length} commandes).`);
+				initAll(guild, client);
 			} catch (error) {
 				console.error(
 					`[${guild.name}] Échec lors de l'enregistrement des commandes:`,

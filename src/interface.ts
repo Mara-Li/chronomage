@@ -55,4 +55,5 @@ export type EventGuildData = {
 	templates: Templates;
 };
 
-export const jobs = new Map<string, CronJob>();
+export const CountJobs = new Map<string, CronJob>();
+export const DateJobs = new Map<string, CronJob>();
