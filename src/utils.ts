@@ -1,12 +1,6 @@
 import type * as Djs from "discord.js";
 import type { EClient } from "./client";
-import {
-	DEFAULT_BUFFER_DAYS,
-	DEFAULT_ZONE,
-	type EventGuildData,
-	type Templates,
-} from "./interface";
-import { ln } from "./localization";
+import { DEFAULT_BUFFER_DAYS, DEFAULT_ZONE, type Templates } from "./interface";
 
 export function defaultTemplate(): Templates {
 	return {
@@ -21,14 +15,6 @@ export function defaultTemplate(): Templates {
 		count: { start: 1, step: 1, decimal: 4, cron: "0 0 * * *", currentValue: 0 },
 		weather: { location: "London" },
 	};
-}
-
-export function tFn(
-	settings: EventGuildData,
-	guild: Djs.Guild,
-	interactionLocale: Djs.Locale
-) {
-	return ln(settings?.settings?.language ?? guild.preferredLocale ?? interactionLocale);
 }
 
 export function getSettings(

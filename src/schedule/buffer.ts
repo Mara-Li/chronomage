@@ -1,7 +1,7 @@
-import { EClient } from "../client";
-import { DEFAULT_BUFFER_DAYS, eventKey } from "../interface";
 import { DateTime } from "luxon";
-import { blockStartAt, labelAt } from "./utils";
+import type { EClient } from "../client";
+import { DEFAULT_BUFFER_DAYS, eventKey } from "../interface";
+import { blockStartAt, labelAt, processTemplate } from "./utils";
 
 export async function ensureBufferForGuild(client: EClient, guildId: string) {
 	const g = client.settings.get(guildId);
@@ -22,7 +22,7 @@ export async function ensureBufferForGuild(client: EClient, guildId: string) {
 			if (start > horizon) break;
 
 			const startIso = start.toISO()!;
-			const key = eventKey(scheduleId, startIso) as keyof typeof g.events;
+			const key = eventKey(scheduleId, startIso);
 
 			if (!g.events[key]) {
 				const end = start.plus({ milliseconds: s.lenMs });
@@ -35,13 +35,15 @@ export async function ensureBufferForGuild(client: EClient, guildId: string) {
 				const description = s.description?.[label];
 
 				const ev = await guild.scheduledEvents.create({
-					name: label,
+					name: await processTemplate(label, client, guild),
 					scheduledStartTime: startIso,
 					scheduledEndTime: end.toISO()!,
 					privacyLevel: 2, // GUILD_ONLY
 					entityType: 3, // EXTERNAL (ajuste à VOICE/STAGE si besoin)
 					entityMetadata: { location: s.location ?? undefined },
-					description,
+					description: description
+						? await processTemplate(description, client, guild)
+						: undefined,
 				});
 
 				g.events[key] = {

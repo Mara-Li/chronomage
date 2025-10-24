@@ -1,10 +1,10 @@
+import type * as Djs from "discord.js";
 import { DateTime, Duration } from "luxon";
-import { Schedule, TEMPLATES } from "../interface";
-import { EClient } from "../client";
-import * as date from "../commands/template/date";
+import type { EClient } from "../client";
 import * as count from "../commands/template/count";
+import * as date from "../commands/template/date";
 import * as weather from "../commands/template/weather";
-import * as Djs from "discord.js";
+import { type Schedule, TEMPLATES } from "../interface";
 
 function computeInitialBlockIndex(anchorISO: string, blockMs: number, zone: string) {
 	const anchor = DateTime.fromISO(anchorISO, { zone }).startOf("day");
@@ -32,6 +32,7 @@ async function processTemplate(text: string, client: EClient, guild: Djs.Guild) 
 			typeof v === "object" && !(v instanceof RegExp) ? getAllValues(v) : [v]
 		);
 	}
+
 	const templates = getAllValues(TEMPLATES);
 	let result = text;
 	for (const tpl of templates) {

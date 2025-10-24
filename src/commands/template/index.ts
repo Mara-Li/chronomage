@@ -1,9 +1,9 @@
 import * as Djs from "discord.js";
 import type { EClient } from "../../client";
-import { t } from "../../localization";
+import { t, tFn } from "../../localization";
 import { weather } from "./weather";
 import "../../discord_ext";
-import { getSettings, tFn } from "../../utils";
+import { getSettings } from "../../utils";
 import { count } from "./count";
 import { date } from "./date";
 
@@ -98,7 +98,7 @@ export const template = {
 		const subcommand = interaction.options.getSubcommand();
 		if (!interaction.guild) return;
 		const settings = getSettings(client, interaction.guild, interaction.locale);
-		const ul = tFn(settings, interaction.guild, interaction.locale);
+		const { ul } = tFn(interaction.locale, interaction.guild, settings);
 
 		switch (subcommand) {
 			case t("template.weather.name"):

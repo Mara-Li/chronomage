@@ -1,11 +1,11 @@
+import * as Djs from "discord.js";
 import humanId from "human-id";
 import { DateTime } from "luxon";
 import type { EClient } from "../client";
 import { parseDurationLocalized } from "../duration";
 import { DEFAULT_ZONE, type EventGuildData, type Schedule } from "../interface";
-import { computeInitialBlockIndex } from "./utils";
 import { getSettings } from "../utils";
-import * as Djs from "discord.js";
+import { computeInitialBlockIndex } from "./utils";
 
 export function createSchedule(
 	g: EventGuildData,
@@ -65,4 +65,28 @@ export function listSchedules(guildId: string, client: EClient) {
 	const g = client.settings.get(guildId);
 	if (!g) return [];
 	return Object.entries(g.schedules).map(([id, s]) => ({ id, s }));
+}
+
+export function setScheduleActive(
+	guildId: string,
+	scheduleId: string,
+	active: boolean,
+	client: EClient
+) {
+	const g = client.settings.get(guildId);
+	if (!g) return false;
+	const s = g.schedules[scheduleId];
+	if (!s) return false;
+	s.active = active;
+	client.settings.set(guildId, g);
+	return true;
+}
+
+export function listUpcomingEventsForGuild(guildId: string, client: EClient, limit = 5) {
+	const g = client.settings.get(guildId);
+	if (!g) return [];
+	return Object.values(g.events)
+		.filter((e) => e.status === "created")
+		.sort((a, b) => a.start.iso.localeCompare(b.start.iso))
+		.slice(0, limit);
 }

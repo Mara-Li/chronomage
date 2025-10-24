@@ -1,5 +1,6 @@
 import * as Djs from "discord.js";
 import { default as i18next } from "i18next";
+import type { EventGuildData } from "../interface";
 import { resources } from "./init";
 
 export const t = i18next.getFixedT("en");
@@ -26,4 +27,21 @@ export function cmdLn(key: string) {
 		}
 	}
 	return localized;
+}
+
+export function tFn(
+	interactionLocale: Djs.Locale,
+	guild: Djs.Guild,
+	settings?: EventGuildData
+) {
+	const locale = getLocale(interactionLocale, guild, settings);
+	return { ul: ln(locale), locale };
+}
+
+function getLocale(
+	interactionLocale: Djs.Locale,
+	guild: Djs.Guild,
+	settings?: EventGuildData
+) {
+	return settings?.settings?.language ?? guild.preferredLocale ?? interactionLocale;
 }

@@ -66,7 +66,7 @@ export const DateJobs = new Map<string, CronJob>();
 
 export const DEFAULT_ZONE = "Europe/Paris";
 export const DEFAULT_BUFFER_DAYS = 14;
-export const eventKey = (scheduleId: string, startIso: string) =>
+export const eventKey = (scheduleId: string, startIso: string): EventKey =>
 	`${scheduleId}:${startIso}`;
 
 export const TEMPLATES = {
@@ -78,3 +78,31 @@ export const TEMPLATES = {
 		long: /\{{2}weather:(long)\}{2}/gi,
 	},
 };
+
+export type WizardState = {
+	guildId: string;
+	userId: string;
+	total: number;
+	current: number; // index en cours (1-based)
+	base: {
+		blocStr: string;
+		startHHMM: string;
+		lenStr: string;
+		anchorISO?: string;
+		zone?: string;
+	};
+	labels: string[];
+	descriptions: Record<string, string>;
+	createdBy: string;
+	startedAt: number;
+};
+
+/**
+ * key = `${guildId}:${userId}`
+ */
+export type WizardKey = `${string}:${string}`;
+
+export const wizardKey = (guildId: string, userId: string): WizardKey =>
+	`${guildId}:${userId}`;
+
+export const Wizard = new Map<WizardKey, WizardState>();
