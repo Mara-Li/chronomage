@@ -5,17 +5,10 @@ import { defaultTemplate } from "../utils";
 export default (client: EClient): void => {
 	client.on("guildCreate", async (guild) => {
 		try {
-			/*
-			for (const command of commandsList) {
-				await guild.commands.create(command.data);
-				console.log(`Command ${command.data.name} created in ${guild.name}`);
-			}
-			 */
-			//use promise.all to create all commands concurrently
 			const commandPromises = commandsList.map((command) =>
 				guild.commands.create(command.data)
 			);
-			const bufferPromises = await Promise.all(commandPromises);
+			await Promise.all(commandPromises);
 
 			console.log(
 				`All commands created in ${guild.name} (${commandsList.length} commands).`

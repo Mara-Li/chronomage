@@ -1,5 +1,4 @@
 import * as Djs from "discord.js";
-import type { TFunction } from "i18next";
 import type { EClient } from "../client";
 import { autoCompleteCommands, commandsList } from "../commands";
 import { buildScheduleModal, buttonFollow } from "../commands/schedule/modal";
