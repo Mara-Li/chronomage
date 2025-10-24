@@ -1,7 +1,7 @@
 import * as Djs from "discord.js";
 import type { TFunction } from "i18next";
 import type { EClient } from "../../client";
-import { Wizard, wizardKey } from "../../interface";
+import { Wizard, type WizardOptions, wizardKey } from "../../interface";
 
 import { tFn } from "../../localization";
 
@@ -32,10 +32,15 @@ export async function buildScheduleModal(
 				.setRequired(false)
 		);
 
+	const imageBuilder: Djs.LabelBuilder = new Djs.LabelBuilder()
+		.setLabel(ul("modals.scheduleEvent.image.label"))
+		.setDescription(ul("modals.scheduleEvent.image.description"))
+		.setFileUploadComponent((input) => input.setCustomId("image").setRequired(false));
+
 	return new Djs.ModalBuilder()
 		.setCustomId(`altwiz:${guild.id}:${userId}:${index}`)
 		.setTitle(ul("modals.scheduleEvent.title"))
-		.setLabelComponents(labelEventBuilder, descriptionEventBuilder);
+		.setLabelComponents(labelEventBuilder, descriptionEventBuilder, imageBuilder);
 }
 
 export function buttonFollow(guildId: string, userId: string) {
@@ -52,14 +57,7 @@ export function buttonFollow(guildId: string, userId: string) {
 export function startWizardFromSlash(
 	interaction: Djs.ChatInputCommandInteraction,
 	client: EClient,
-	opts: {
-		total: number;
-		blocMs: number;
-		startHHMM: string;
-		lenMs: number;
-		anchorISO?: string;
-		zone?: string;
-	}
+	opts: WizardOptions
 ) {
 	const guildId = interaction.guildId!;
 	const userId = interaction.user.id;
@@ -76,9 +74,9 @@ export function startWizardFromSlash(
 		total: opts.total,
 		current: 1,
 		base: {
-			blocStr: opts.blocMs.toString(),
+			blocMs: opts.blocMs,
 			startHHMM: opts.startHHMM,
-			lenStr: opts.lenMs.toString(),
+			lenMs: opts.lenMs,
 			anchorISO: opts.anchorISO,
 			zone: opts.zone,
 		},
@@ -86,6 +84,9 @@ export function startWizardFromSlash(
 		descriptions: {},
 		createdBy: userId,
 		startedAt: Date.now(),
+		location: opts.location,
+		locationType: opts.locationType,
+		banners: {},
 	});
 
 	return buildScheduleModal(interaction.guild!, userId, 1, ul);

@@ -1,5 +1,5 @@
 import type { CronJob } from "cron";
-import type { Locale } from "discord.js";
+import type * as Djs from "discord.js";
 
 export interface Templates {
 	date: {
@@ -25,6 +25,11 @@ export interface Templates {
  */
 type StartSpec = { hhmm: string; zone: string };
 
+export type BannerSpec = {
+	url: string;
+	contentType: string | null;
+};
+
 export type Schedule = {
 	scheduleId: string; //uuid or another unique id
 	labels: string[]; // ["A","B","C"]
@@ -36,8 +41,10 @@ export type Schedule = {
 	active: boolean;
 	createdBy: string;
 	createdAt: number;
-	location?: string;
+	location: string;
+	locationType: Djs.GuildScheduledEventEntityType;
 	description?: Record<string, string>; // label -> description
+	banners?: Record<string, BannerSpec>; //cover image hash
 };
 
 export type EventRow = {
@@ -48,6 +55,10 @@ export type EventRow = {
 	lenMs: number;
 	status: "created" | "done" | "canceled";
 	createdAt: number;
+	locationSnapshot?: string; // to keep track of location at creation time
+	descriptionSnapshot?: string; // to keep track of description at creation time
+	locationTypeSnapshot?: Djs.GuildScheduledEventEntityType;
+	bannerHash?: string;
 };
 /*
 key = `${scheduleId}:${start.iso}`
@@ -57,7 +68,7 @@ export type EventKey = `${string}:${string}`; // scheduleId:startISO
 export type EventGuildData = {
 	schedules: Record<string, Schedule>; // scheduleId -> Schedule records
 	events: Record<EventKey, EventRow>; // scheduleId -> EventRow records
-	settings?: { zone?: string; bufferDays?: number; language?: Locale };
+	settings?: { zone?: string; bufferDays?: number; language?: Djs.Locale };
 	templates: Templates;
 };
 
@@ -85,9 +96,9 @@ export type WizardState = {
 	total: number;
 	current: number; // index en cours (1-based)
 	base: {
-		blocStr: string;
+		blocMs: number;
 		startHHMM: string;
-		lenStr: string;
+		lenMs: number;
 		anchorISO?: string;
 		zone?: string;
 	};
@@ -95,6 +106,20 @@ export type WizardState = {
 	descriptions: Record<string, string>;
 	createdBy: string;
 	startedAt: number;
+	location: string;
+	locationType: Djs.GuildScheduledEventEntityType;
+	banners: Record<string, BannerSpec>;
+};
+
+export type WizardOptions = {
+	total: number;
+	blocMs: number;
+	startHHMM: string;
+	lenMs: number;
+	anchorISO?: string;
+	zone?: string;
+	location: string;
+	locationType: Djs.GuildScheduledEventEntityType;
 };
 
 /**

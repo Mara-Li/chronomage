@@ -2,30 +2,29 @@ import * as Djs from "discord.js";
 import humanId from "human-id";
 import { DateTime } from "luxon";
 import type { EClient } from "../client";
-import { parseDurationLocalized } from "../duration";
 import { DEFAULT_ZONE, type EventGuildData, type Schedule } from "../interface";
 import { getSettings } from "../utils";
 import { computeInitialBlockIndex } from "./utils";
 
 export function createSchedule(
 	g: EventGuildData,
-	client: EClient,
 	args: {
 		guildId: string;
 		labels: string[]; // ["A","B"] ou ["A","A","B","B"] etc.
-		blocStr: string; // "2j", "48h" (parse-duration)
+		blocMs: number; // ms
 		startHHMM: string; // "21:00"
-		lenStr: string; // "2h"
+		lenMs: number; // ms
 		anchorISO?: string; // "YYYY-MM-DD"
 		createdBy: string;
 		zone?: string;
+		location: string;
+		locationType: Djs.GuildScheduledEventEntityType;
 	}
 ) {
 	const zone = args.zone ?? g.settings?.zone ?? DEFAULT_ZONE;
 	const anchorISO = args.anchorISO ?? DateTime.now().setZone(zone).toISODate()!;
-	const locale = g.settings?.language;
-	const blockMs = parseDurationLocalized(args.blocStr, locale)!;
-	const lenMs = parseDurationLocalized(args.lenStr, locale)!;
+	const blockMs = args.blocMs;
+	const lenMs = args.lenMs;
 
 	const scheduleId = humanId({ separator: "-", capitalize: false });
 	const s: Schedule = {
@@ -39,10 +38,12 @@ export function createSchedule(
 		active: true,
 		createdBy: args.createdBy,
 		createdAt: Date.now(),
+		location: args.location,
+		locationType: args.locationType,
 	};
 
 	g.schedules[scheduleId] = s;
-	client.settings.set(args.guildId, g);
+
 	return { scheduleId, schedule: s };
 }
 

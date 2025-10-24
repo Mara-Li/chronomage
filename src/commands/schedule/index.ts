@@ -1,4 +1,4 @@
-import "../discord_ext";
+import "../../discord_ext";
 import dedent from "dedent";
 import * as Djs from "discord.js";
 import type { TFunction } from "i18next";
@@ -54,6 +54,18 @@ export const schedule = {
 						.setNames("schedule.len.name")
 						.setDescriptions("schedule.create.len.description")
 						.setRequired(true)
+				)
+				.addStringOption((o) =>
+					o
+						.setNames("schedule.location.string.name")
+						.setDescriptions("schedule.location.string.description")
+						.setMaxLength(100)
+				)
+				.addChannelOption((o) =>
+					o
+						.setNames("schedule.location.vocal.name")
+						.setDescriptions("schedule.location.vocal.description")
+						.addChannelTypes(Djs.ChannelType.GuildVoice, Djs.ChannelType.GuildStageVoice)
 				)
 				.addStringOption((o) =>
 					o
@@ -116,6 +128,7 @@ export const schedule = {
 		if (!interaction.guild) return; //tbh impossible bc of setContexts but ts ...
 		const guild = interaction.guild.id;
 		const subcommand = interaction.options.getSubcommand(true);
+		console.log(`Executing schedule subcommand: ${subcommand} in guild ${guild}`);
 		const ul = tFn(interaction.locale, interaction.guild, client.settings.get(guild)!).ul;
 		switch (subcommand) {
 			case t("schedule.create.name"): {
@@ -147,8 +160,11 @@ async function handleCreate(
 	const blocStr = interaction.options.getString(t("schedule.create.bloc.name"), true);
 	const startHHMM = interaction.options.getString(t("common.start"), true);
 	const lenStr = interaction.options.getString(t("schedule.len.name"), true);
+	const date = client.settings.get(interaction.guild!.id)?.templates.date;
+
 	const anchorISO =
-		interaction.options.getString(t("schedule.create.anchor.name")) ?? undefined;
+		interaction.options.getString(t("schedule.create.anchor.name")) ??
+		DateTime.now().plus({ hour: 1 }).toISO();
 	const zone =
 		interaction.options.getString(t("template.date.timezone.name")) ?? undefined;
 	const { ul, locale } = tFn(
@@ -181,7 +197,6 @@ async function handleCreate(
 		});
 	}
 
-	const date = client.settings.get(interaction.guild!.id)?.templates.date;
 	const globalSettings = client.settings.get(interaction.guild!.id)?.settings;
 	const zoneToUse = zone || globalSettings?.zone || date?.timezone;
 	const fromFormat =
@@ -192,7 +207,7 @@ async function handleCreate(
 	if (!fromIso?.isValid && !fromFormat?.isValid) {
 		return interaction.reply({
 			flags: Djs.MessageFlags.Ephemeral,
-			content: ul("error.invalidAnchorDate", { anchorISO, format: date }),
+			content: ul("error.invalidAnchorDate", { anchorISO, format: date?.format }),
 		});
 	}
 
@@ -203,6 +218,33 @@ async function handleCreate(
 		anchor = fromIso.toISODate()!;
 	}
 
+	const location = interaction.options.getString(t("schedule.location.string.name"));
+	const vocalChannel = interaction.options.getChannel(
+		t("schedule.location.vocal.name")
+	) as Djs.VoiceChannel | Djs.StageChannel | null;
+	let finalLocation = location;
+	let locationType: Djs.GuildScheduledEventEntityType | null = null; //
+	if (location && vocalChannel) {
+		return interaction.reply({
+			flags: Djs.MessageFlags.Ephemeral,
+			content: ul("error.locationConflict"),
+		});
+	}
+	if (vocalChannel?.isVoiceBased()) {
+		finalLocation = vocalChannel.id;
+		//get if the channel is a stage or voice
+		if (vocalChannel instanceof Djs.StageChannel) {
+			locationType = Djs.GuildScheduledEventEntityType.StageInstance;
+		} else locationType = Djs.GuildScheduledEventEntityType.Voice;
+	} else if (location) locationType = Djs.GuildScheduledEventEntityType.External;
+
+	if (!locationType) {
+		return interaction.reply({
+			flags: Djs.MessageFlags.Ephemeral,
+			content: ul("error.noLocation"),
+		});
+	}
+
 	const modal = await startWizardFromSlash(interaction, client, {
 		total,
 		blocMs,
@@ -210,6 +252,8 @@ async function handleCreate(
 		lenMs,
 		anchorISO: anchor,
 		zone,
+		location: finalLocation!,
+		locationType,
 	});
 	return await interaction.showModal(modal);
 }
@@ -233,20 +277,30 @@ async function handleList(
 			globalSettings?.format ?? "f"
 		);
 		const part: { label: string; lines: string[] } = { label: "", lines: [] };
-		part.label = `- **${id}** ${s.active ? "✅" : "❌"} - ${s.labels.join(", ")}`;
+		part.label = `- **${id}** ${s.active ? "✅" : "❌"}`;
 		part.lines.push(
-			`Label(s): ${s.labels.join(", ")}`,
+			`${ul("list.labels")} ${s.labels.join("\n   - ")}`,
 			`${ul("list.block")} ${(s.blockMs / 3600000).toFixed(1)}h`,
 			`${ul("list.len")} ${(s.lenMs / 60000).toFixed(0)}min`,
-			`${ul("list.start")}: ${s.start.hhmm} (${s.start.zone})`,
-			`${ul("list.anchor")}: ${formatDate}`
+			`${ul("list.start")} ${s.start.hhmm} (${s.start.zone})`,
+			`${ul("list.anchor")} ${formatDate}`,
+			`${ul("list.location")} ${s.locationType === Djs.GuildScheduledEventEntityType.External ? s.location : `<#${s.location}>`}`,
+			`${ul("list.createdBy")} <@${s.createdBy}>`
 		);
 		if (s.description) {
 			const descBits = Object.entries(s.description)
 				.map(([lbl, txt]) => `${lbl}: ${txt.slice(0, 60)}${txt.length > 60 ? "…" : ""}`)
 				.join(" | ");
 			if (descBits || descBits.length > 0) {
-				part.lines.push(`Description(s): ${descBits}`);
+				part.lines.push(`${ul("list.description")} ${descBits}`);
+			}
+		}
+		if (s.banners) {
+			const bannerBits = Object.entries(s.banners)
+				.map(([lbl, url]) => `${lbl}: ${url}`)
+				.join(" | ");
+			if (bannerBits || bannerBits.length > 0) {
+				part.lines.push(`${ul("list.banners")} ${bannerBits}`);
 			}
 		}
 		const upcoming = listUpcomingEventsForGuild(interaction.guildId!, client, 5).map(

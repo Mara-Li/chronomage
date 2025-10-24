@@ -15,7 +15,8 @@ export default (client: EClient): void => {
 			const commandPromises = commandsList.map((command) =>
 				guild.commands.create(command.data)
 			);
-			await Promise.all(commandPromises);
+			const bufferPromises = await Promise.all(commandPromises);
+
 			console.log(
 				`All commands created in ${guild.name} (${commandsList.length} commands).`
 			);

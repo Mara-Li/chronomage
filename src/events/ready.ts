@@ -4,6 +4,7 @@ import { VERSION } from "..";
 import type { EClient } from "../client";
 import { commandsList } from "../commands";
 import { initAll } from "../cron";
+import { ensureBufferForGuild } from "../schedule/buffer";
 
 dotenv.config({ path: ".env" });
 
@@ -26,7 +27,6 @@ export default (client: EClient): void => {
 		const guildPromises = guilds.map(async (guild) => {
 			try {
 				console.info(`[${guild.name}] Synchronisation des commandes...`);
-				// L'appel REST écrase l'ensemble des commandes guild pour cette application.
 				await guild.commands.set(serializedCommands);
 				console.info(`[${guild.name}] OK (${serializedCommands.length} commandes).`);
 				initAll(guild, client);
@@ -41,5 +41,21 @@ export default (client: EClient): void => {
 		// Exécuter toutes les promesses en parallèle
 		await Promise.all(guildPromises);
 		console.info("Toutes les guildes ont été traitées.");
+		let running = false;
+		setInterval(
+			async () => {
+				if (running) return;
+				running = true;
+				for (const guild of client.guilds.cache.values()) {
+					try {
+						await ensureBufferForGuild(client, guild.id);
+						console.log(`[${guild.name}] ensureBufferForGuild executed successfully.`);
+					} catch (err) {
+						console.error(`[${guild.name}] ensureBufferForGuild error:`, err);
+					}
+				}
+			},
+			15 * 60 * 1000
+		); // toutes les 15 minutes
 	});
 };
