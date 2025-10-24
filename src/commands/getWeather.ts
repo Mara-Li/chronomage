@@ -3,7 +3,6 @@ import * as Djs from "discord.js";
 import { WeatherDescribe } from "weather-describe";
 import type { EClient } from "../client";
 import { t } from "../localization";
-import { processTemplate } from "../schedule/utils";
 
 export const getWeather = {
 	data: new Djs.SlashCommandBuilder()
