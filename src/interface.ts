@@ -76,5 +76,5 @@ export const TEMPLATES = {
 		short: /\{{2}weather:(short)\}{2}/gi,
 		emoji: /\{{2}weather:(emoji)\}{2}/gi,
 		long: /\{{2}weather:(long)\}{2}/gi,
-	}
-}
+	},
+};

@@ -4,7 +4,7 @@ import type { EClient } from "../client";
 import { parseDurationLocalized } from "../duration";
 import { DEFAULT_ZONE, type EventGuildData, type Schedule } from "../interface";
 import { computeInitialBlockIndex } from "./utils";
-import {getSettings} from "../utils";
+import { getSettings } from "../utils";
 import * as Djs from "discord.js";
 
 export function createSchedule(
@@ -47,22 +47,22 @@ export function createSchedule(
 }
 
 export function deleteSchedule(guild: Djs.Guild, scheduleId: string, client: EClient) {
-  const g = getSettings(client, guild, Djs.Locale.EnglishUS);
-  if (!g?.schedules[scheduleId]) return false;
+	const g = getSettings(client, guild, Djs.Locale.EnglishUS);
+	if (!g?.schedules[scheduleId]) return false;
 
-  delete g.schedules[scheduleId];
+	delete g.schedules[scheduleId];
 
-  for (const k of Object.keys(g.events)) {
-    const key = k as keyof typeof g.events;
-    if (g.events[key].scheduleId === scheduleId) delete g.events[key];
-  }
+	for (const k of Object.keys(g.events)) {
+		const key = k as keyof typeof g.events;
+		if (g.events[key].scheduleId === scheduleId) delete g.events[key];
+	}
 
-  client.settings.set(guild.id, g);
-  return true;
+	client.settings.set(guild.id, g);
+	return true;
 }
 
 export function listSchedules(guildId: string, client: EClient) {
-  const g = client.settings.get(guildId);
-  if (!g) return [];
-  return Object.entries(g.schedules).map(([id, s]) => ({ id, s }));
+	const g = client.settings.get(guildId);
+	if (!g) return [];
+	return Object.entries(g.schedules).map(([id, s]) => ({ id, s }));
 }

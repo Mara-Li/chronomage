@@ -1,93 +1,93 @@
 {
-  "template": {
-    "name": "variables",
-    "description": "Gérer les modèles de variables (date, nombre et méteo)",
-    "date": {
-      "description": "Gérer la date : zone, cron, format, début...",
-      "timezone": {
-        "name": "timezone",
-        "description": "Définir le fuseau horaire"
-      },
-      "format": "Définir le mode d'affichage de la date",
-      "step": "Durée à utiliser comme pas"
-    },
-    "count": {
-      "name": "compte",
-      "description": "Number to increase or decrease"
-    },
-    "decimal": {
-      "name": "decimal",
-      "description": "Nombre de chiffres après la virgule"
-    },
-    "weather": {
-      "name": "météo",
-      "description": "Définir la localisation de la météo"
-    },
-    "currentValue": "Valeur actuelle : {{ex}}"
-  },
-  "common": {
-    "format": "format",
-    "cron": "cron",
-    "start": "début",
-    "step": "pas",
-    "not_set": "/",
-    "date": "date",
-    "success": "Les paramètres ont bien été sauvegardés.",
-    "example": "__Exemple__ : `{{ex}}`"
-  },
-  "description": {
-    "cron": "Définissez le calendrier (cron) pour la mise à jour de la variable",
-    "step": "How much to add to the variable",
-    "start": {
-      "date": "Date de début qui sera utilisée",
-      "number": "Définir le numéro de départ"
-    },
-    "location": "Mettre la localization dont vous voulez la météo"
-  },
-  "weather": {
-    "display": {
-      "title": "Configuration - Météo",
-      "location": "Lieu"
-    },
-    "set": {
-      "success": "Les paramètres de météos ont bien été sauvegardée."
-    },
-    "location": "location",
-    "name": "météo",
-    "description": "Obtenir la météo pour une ville donnée / ville par défaut du modèle"
-  },
-  "date": {
-    "display": {
-      "title": "Configuration - Date"
-    },
-    "set": {
-      "success": "La date a été correctement enregistrée.\n__Exemple__ : {{ex}}"
-    }
-  },
-  "count": {
-    "display": {
-      "title": "Configuration - Compte"
-    }
-  },
-  "error": {
-    "cron": "Le cron est invalide."
-  },
-  "globalsettings": {
-    "name": "paramètres",
-    "description": "Changer les paramètres généraux du bot."
-  },
-  "globalSettings": {
-    "language": {
-      "name": "langue",
-      "description": "Changer la langue du bot",
-      "set": "Le bot est maintenance configuré en {{lang}}."
-    },
-    "locale": {
-      "description": "Définir les paramètres régionaux par défaut pour la date",
-      "name": "locale"
-    },
-    "timezone": {
-      "set": "Le fuseau horaire par défaut a été défini sur {{tz}}."
-    }
-  }
+	"template": {
+		"name": "variables",
+		"description": "Gérer les modèles de variables (date, nombre et méteo)",
+		"date": {
+			"description": "Gérer la date : zone, cron, format, début...",
+			"timezone": {
+				"name": "timezone",
+				"description": "Définir le fuseau horaire"
+			},
+			"format": "Définir le mode d'affichage de la date",
+			"step": "Durée à utiliser comme pas"
+		},
+		"count": {
+			"name": "compte",
+			"description": "Number to increase or decrease"
+		},
+		"decimal": {
+			"name": "decimal",
+			"description": "Nombre de chiffres après la virgule"
+		},
+		"weather": {
+			"name": "météo",
+			"description": "Définir la localisation de la météo"
+		},
+		"currentValue": "Valeur actuelle : {{ex}}"
+	},
+	"common": {
+		"format": "format",
+		"cron": "cron",
+		"start": "début",
+		"step": "pas",
+		"not_set": "/",
+		"date": "date",
+		"success": "Les paramètres ont bien été sauvegardés.",
+		"example": "__Exemple__ : `{{ex}}`"
+	},
+	"description": {
+		"cron": "Définissez le calendrier (cron) pour la mise à jour de la variable",
+		"step": "How much to add to the variable",
+		"start": {
+			"date": "Date de début qui sera utilisée",
+			"number": "Définir le numéro de départ"
+		},
+		"location": "Mettre la localization dont vous voulez la météo"
+	},
+	"weather": {
+		"display": {
+			"title": "Configuration - Météo",
+			"location": "Lieu"
+		},
+		"set": {
+			"success": "Les paramètres de météos ont bien été sauvegardée."
+		},
+		"location": "location",
+		"name": "météo",
+		"description": "Obtenir la météo pour une ville donnée / ville par défaut du modèle"
+	},
+	"date": {
+		"display": {
+			"title": "Configuration - Date"
+		},
+		"set": {
+			"success": "La date a été correctement enregistrée.\n__Exemple__ : {{ex}}"
+		}
+	},
+	"count": {
+		"display": {
+			"title": "Configuration - Compte"
+		}
+	},
+	"error": {
+		"cron": "Le cron est invalide."
+	},
+	"globalsettings": {
+		"name": "paramètres",
+		"description": "Changer les paramètres généraux du bot."
+	},
+	"globalSettings": {
+		"language": {
+			"name": "langue",
+			"description": "Changer la langue du bot",
+			"set": "Le bot est maintenance configuré en {{lang}}."
+		},
+		"locale": {
+			"description": "Définir les paramètres régionaux par défaut pour la date",
+			"name": "locale"
+		},
+		"timezone": {
+			"set": "Le fuseau horaire par défaut a été défini sur {{tz}}."
+		}
+	}
 }

@@ -62,7 +62,7 @@ declare module "discord.js" {
 		setNames(key: string): this;
 		setDescriptions(key: string): this;
 	}
-	
+
 	interface SlashCommandIntegerOption {
 		setNames(key: string): this;
 		setDescriptions(key: string): this;
@@ -119,8 +119,9 @@ const optionTypes = [
 	{ name: "User", class: Djs.SlashCommandUserOption },
 	{ name: "Attachment", class: Djs.SlashCommandAttachmentOption },
 	{
-		name: "Integer", class: Djs.SlashCommandIntegerOption,
-	}
+		name: "Integer",
+		class: Djs.SlashCommandIntegerOption,
+	},
 ];
 
 optionTypes.forEach(({ class: optionClass }) => {
