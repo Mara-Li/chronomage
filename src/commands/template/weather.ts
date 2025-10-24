@@ -76,5 +76,18 @@ export async function processTemplate(client: EClient, guild: Djs.Guild, text: s
 			weatherInfo ? weatherInfo.emoji : ""
 		);
 	}
+	if (text.match(weatherTemplate.short)) {
+		const weatherInfo = await wyd.byCity(weather.location, {short: true});
+		text = text.replace(
+			weatherTemplate.short,
+			weatherInfo ? weatherInfo.text : ""
+		);
+	}
+	if (text.match(weatherTemplate.long)) {
+		text = text.replace(
+			weatherTemplate.long,
+			weatherInfo ? weatherInfo.text : ""
+		);
+	}
 	return text;
 }
