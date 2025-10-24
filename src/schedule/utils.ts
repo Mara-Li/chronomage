@@ -6,11 +6,24 @@ import * as date from "../commands/template/date";
 import * as weather from "../commands/template/weather";
 import { type Schedule, TEMPLATES } from "../interface";
 
-function computeInitialBlockIndex(anchorISO: string, blockMs: number, zone: string) {
-	const anchor = DateTime.fromISO(anchorISO, { zone }).startOf("day");
+function computeInitialBlockIndex(
+	anchorISO: string,
+	blockMs: number,
+	zone: string,
+	startHHMM: string
+) {
+	const [hh, mm] = startHHMM.split(":").map(Number);
+	const firstStart = DateTime.fromISO(anchorISO, { zone }).set({
+		hour: hh ?? 0,
+		minute: mm ?? 0,
+		second: 0,
+		millisecond: 0,
+	});
+
 	const now = DateTime.now().setZone(zone);
-	const diff = Math.max(0, now.toMillis() - anchor.toMillis());
-	return Math.floor(diff / blockMs);
+
+	const diffMs = Math.max(0, now.toMillis() - firstStart.toMillis());
+	return Math.floor(diffMs / blockMs);
 }
 
 function blockStartAt(s: Schedule, blockIndex: number): DateTime {
@@ -18,7 +31,7 @@ function blockStartAt(s: Schedule, blockIndex: number): DateTime {
 	const block = Duration.fromMillis(s.blockMs);
 	const base = anchor.plus(block.mapUnits((v) => v * blockIndex));
 	const [hh, mm] = s.start.hhmm.split(":").map(Number);
-	return base.set({ hour: hh ?? 21, minute: mm ?? 0, second: 0, millisecond: 0 });
+	return base.set({ hour: hh ?? 0, minute: mm ?? 0, second: 0, millisecond: 0 });
 }
 
 function labelAt(s: Schedule, blockIndex: number) {

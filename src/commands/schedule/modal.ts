@@ -51,6 +51,12 @@ export function buttonFollow(guildId: string, userId: string) {
 				.setLabel("Suivant")
 				.setStyle(Djs.ButtonStyle.Primary)
 		),
+		new Djs.ActionRowBuilder<Djs.ButtonBuilder>().addComponents(
+			new Djs.ButtonBuilder()
+				.setCustomId(`altwiz-cancel:${guildId}:${userId}`)
+				.setLabel("Annuler")
+				.setStyle(Djs.ButtonStyle.Danger)
+		),
 	];
 }
 

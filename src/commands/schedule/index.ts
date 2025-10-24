@@ -122,8 +122,8 @@ export const schedule = {
 		if (!guildData) return;
 		const choices: { name: string; value: string }[] = [];
 		if (focused.name === t("common.id")) {
-			for (const [id, s] of Object.entries(guildData.schedules)) {
-				choices.push({ name: s.labels.join(", "), value: id });
+			for (const [id] of Object.entries(guildData.schedules)) {
+				choices.push({ name: id, value: id });
 			}
 		}
 		choices.push({

@@ -26,6 +26,7 @@ export default (client: EClient): void => {
 		} else if (interaction.isButton()) {
 			const [prefix] = interaction.customId.split(":");
 			if (prefix === "altwiz-next") return altWizardNext(interaction, client);
+			if (prefix === "altwiz-cancel") return await altWizardCancel(interaction, client);
 		} else if (interaction.isAutocomplete()) {
 			const autocompleteInteraction = interaction as Djs.AutocompleteInteraction;
 			const command = autoCompleteCommands.find(
@@ -37,11 +38,35 @@ export default (client: EClient): void => {
 	});
 };
 
+async function altWizardCancel(interaction: Djs.ButtonInteraction, client: EClient) {
+	const [, guildId, userId] = interaction.customId.split(":");
+
+	const { ul } = tFn(
+		interaction.locale,
+		interaction.guild!,
+		getSettings(client, interaction.guild!, interaction.locale)
+	);
+	const state = Wizard.get(wizardKey(guildId, userId));
+	if (!state || interaction.user.id !== userId || interaction.guildId !== guildId) {
+		await interaction.reply({
+			content: ul("errors.wizardNotFound"),
+			flags: Djs.MessageFlags.Ephemeral,
+		});
+		return;
+	}
+
+	Wizard.delete(wizardKey(guildId, userId));
+	await interaction.reply({
+		content: ul("modals.scheduleEvent.canceled"),
+		flags: Djs.MessageFlags.Ephemeral,
+	});
+}
+
 async function altScheduleWizard(
 	interaction: Djs.ModalSubmitInteraction,
 	client: EClient
 ) {
-	await interaction.deferReply({ flags: Djs.MessageFlags.Ephemeral });
+	await interaction.deferReply();
 	try {
 		const ul = tFn(
 			interaction.locale,
@@ -164,6 +189,8 @@ async function altScheduleWizard(
 async function altWizardNext(interaction: Djs.ButtonInteraction, client: EClient) {
 	const [, guildId, userId] = interaction.customId.split(":");
 	const guild = interaction.guild;
+	//delete interaction.message;
+	await interaction.message.delete();
 
 	const { ul } = tFn(
 		interaction.locale,

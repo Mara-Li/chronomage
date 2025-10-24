@@ -34,7 +34,7 @@ export function createSchedule(
 		start: { hhmm: args.startHHMM, zone },
 		lenMs,
 		anchorISO,
-		nextBlockIndex: computeInitialBlockIndex(anchorISO, blockMs, zone),
+		nextBlockIndex: computeInitialBlockIndex(anchorISO, blockMs, zone, args.startHHMM),
 		active: true,
 		createdBy: args.createdBy,
 		createdAt: Date.now(),
@@ -61,7 +61,16 @@ export async function deleteSchedule(
 		const key = k as keyof typeof g.events;
 		const event = g.events[key];
 		if (event.scheduleId === scheduleId) delete g.events[key];
-		if (event.discordEventId) await guild.scheduledEvents.delete(event.discordEventId);
+		if (event.discordEventId) {
+			try {
+				await guild.scheduledEvents.delete(event.discordEventId);
+			} catch (err) {
+				console.error(
+					`[${guild.id}] Failed to delete Discord event ${event.discordEventId} for schedule ${scheduleId}:`,
+					err
+				);
+			}
+		}
 	}
 
 	client.settings.set(guild.id, g);

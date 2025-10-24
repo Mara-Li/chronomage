@@ -161,6 +161,8 @@ export function anchorIsoDate(
 		interaction.options.getString(t("schedule.create.anchor.name")) ??
 		DateTime.now().setZone(zone).plus({ minutes: 30 }).toISO();
 
+	console.log("Raw anchor date input:", rawAnchor, "zone:", zone, "locale:", locale);
+
 	// 2. on essaie deux parse possibles : format custom et ISO
 	const parsedFromFormat =
 		date && rawAnchor
