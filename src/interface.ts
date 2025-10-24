@@ -36,6 +36,7 @@ export type Schedule = {
 	active: boolean;
 	createdBy: string;
 	createdAt: number;
+	description?: Record<string, string>; // label -> description
 };
 
 export type EventRow = {
