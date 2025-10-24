@@ -33,24 +33,25 @@ async function processTemplate(text: string, client: EClient, guild: Djs.Guild) 
 		);
 	}
 
-	const templates = getAllValues(TEMPLATES);
+	const templates: RegExp[] = getAllValues(TEMPLATES);
 	let result = text;
 	for (const tpl of templates) {
 		switch (tpl) {
 			case TEMPLATES.date:
 				result = date.processTemplate(client, guild, result);
-				break;
+				continue;
 
 			case TEMPLATES.count:
 				result = count.processTemplate(client, guild, result);
-				break;
+				continue;
 
-			case TEMPLATES.weather:
+			case TEMPLATES.weather.emoji:
+			case TEMPLATES.weather.short:
+			case TEMPLATES.weather.long:
 				result = await weather.processTemplate(client, guild, result);
-				break;
 		}
 	}
-	console.log("Processed template:", { original: text, result });
+
 	return result;
 }
 

@@ -105,6 +105,11 @@
     },
     "timezone": {
       "set": "The default time zone has been set to {{tz}}."
+    },
+    "minFuturBlock": {
+      "name": "future_min_blocks",
+      "description": "Adjust the number of event that will be created at each cycle.",
+      "set": "Each cycle will create {{futurMinBlock}} events."
     }
   },
   "schedule": {
@@ -172,7 +177,8 @@
         "label": "Banner",
         "description": "Optionnal image banner for the event"
       },
-      "completedQuick": "The event `{{scheduleId}}` has been planned correctly! Please wait a few minutes before viewing."
+      "completedQuick": "The event `{{scheduleId}}` has been planned correctly! Please wait a few minutes before viewing.",
+      "completedError": "Error: {{e}}"
     }
   },
   "list": {

@@ -136,6 +136,13 @@ async function altScheduleWizard(
 				await ensureBufferForGuild(client, guildId);
 			} catch (err) {
 				console.error(`[${guildId}] ensureBufferForGuild post-wizard failed:`, err);
+				client.settings.delete(guildId, `schedules.${scheduleId}`);
+				await interaction.followUp({
+					content: ul("modals.scheduleEvent.completedError", {
+						err: err instanceof Error ? err.message : String(err),
+					}),
+					flags: Djs.MessageFlags.Ephemeral,
+				});
 			}
 		}, 2000);
 	} catch (err) {

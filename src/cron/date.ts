@@ -20,7 +20,7 @@ export function setDate(guild: Djs.Guild, client: EClient) {
 		() => {
 			//calculate the new date value with Luxon
 			const date = DateTime.fromISO(counter.currentValue, {
-				zone: settings?.settings?.zone || "utc",
+				zone: counter.timezone || settings?.settings?.zone || "utc",
 			});
 			//the step is already in ms
 			const currentValue = date.plus(counter.step).toISO();

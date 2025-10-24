@@ -260,8 +260,7 @@ async function handleList(
 	const schedules = listSchedules(interaction.guild!.id, client);
 	const globalSettings = client.settings.get(interaction.guild!.id)?.templates.date;
 	if (!schedules.length) {
-		return interaction.reply({
-			flags: Djs.MessageFlags.Ephemeral,
+		return interaction.editReply({
 			content: ul("error.noSchedules"),
 		});
 	}

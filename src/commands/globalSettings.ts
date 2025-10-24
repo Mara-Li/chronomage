@@ -33,6 +33,18 @@ export const globalSettings = {
 							{ name: "Français", value: Djs.Locale.French }
 						)
 				)
+		)
+		.addSubcommand((sub) =>
+			sub
+				.setNames("globalSettings.minFuturBlock.name")
+				.setDescriptions("globalSettings.minFuturBlock.description")
+				.addIntegerOption((opt) =>
+					opt
+						.setNames("globalSettings.minFuturBlock.name")
+						.setDescriptions("globalSettings.minFuturBlock.description")
+						.setRequired(true)
+						.setMinValue(1)
+				)
 		),
 	async execute(interaction: Djs.ChatInputCommandInteraction, client: EClient) {
 		const subcommand = interaction.options.getSubcommand();
@@ -58,6 +70,21 @@ export const globalSettings = {
 			client.settings.set(interaction.guild.id, { language }, "settings");
 			const ul = ln(language);
 			return interaction.reply(ul("globalSettings.language.set", { lang: language }));
+		}
+		if (subcommand === t("globalSettings.minFuturBlock.name")) {
+			const minFuturBlock = interaction.options.getInteger(
+				t("globalSettings.minFuturBlock.name"),
+				true
+			);
+			client.settings.set(interaction.guild.id, minFuturBlock, "settings.futurMinBlock");
+			const { ul } = tFn(
+				interaction.locale,
+				interaction.guild,
+				client.settings.get(interaction.guild.id)!
+			);
+			return interaction.reply(
+				ul("globalSettings.minFuturBlock.set", { futurMinBlock: minFuturBlock })
+			);
 		}
 	},
 };

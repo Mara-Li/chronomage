@@ -20,6 +20,7 @@ export default (client: EClient): void => {
 				schedules: {},
 				settings: {
 					language: guild.preferredLocale,
+					futurMinBlock: 2,
 				},
 			});
 		} catch (error) {

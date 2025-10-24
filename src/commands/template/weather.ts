@@ -58,7 +58,6 @@ export function weather(
 export async function processTemplate(client: EClient, guild: Djs.Guild, text: string) {
 	const weatherTemplate = TEMPLATES.weather;
 	const weather = client.settings.get(guild.id)?.templates?.weather;
-	console.log(weather);
 	if (!weather) return text;
 	const settings = getSettings(client, guild, Djs.Locale.EnglishUS);
 	const lang = settings.settings?.language ?? Djs.Locale.EnglishUS;

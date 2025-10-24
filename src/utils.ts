@@ -1,6 +1,6 @@
 import type * as Djs from "discord.js";
 import type { EClient } from "./client";
-import { DEFAULT_BUFFER_DAYS, DEFAULT_ZONE, type Templates } from "./interface";
+import { DEFAULT_ZONE, type Templates } from "./interface";
 
 export function defaultTemplate(): Templates {
 	return {
@@ -28,7 +28,7 @@ export function getSettings(
 		schedules: {},
 		settings: {
 			language: guild.preferredLocale ?? interactionLocale,
-			bufferDays: DEFAULT_BUFFER_DAYS,
+			futurMinBlock: 2,
 			zone: DEFAULT_ZONE,
 		},
 	});

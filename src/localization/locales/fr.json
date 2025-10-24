@@ -105,6 +105,11 @@
     },
     "timezone": {
       "set": "Le fuseau horaire par défaut a été défini sur {{tz}}."
+    },
+    "minFuturBlock": {
+      "name": "future_min_blocks",
+      "description": "Ajustez le nombre d'événements qui seront créés à chaque cycle.",
+      "set": "Chaque cycle créera {{futurMinBlock}} évènements."
     }
   },
   "schedule": {
@@ -172,7 +177,8 @@
         "label": "Bannière",
         "description": "Bannière optionnel pour l'évènement"
       },
-      "completedQuick": "L'évènement `{{scheduleId}}` a correctement été planifié ! Veuillez attendre quelque minutes avant l'affichage."
+      "completedQuick": "L'évènement `{{scheduleId}}` a correctement été planifié ! Veuillez attendre quelque minutes avant l'affichage.",
+      "completedError": "Erreur : {{e}}"
     }
   },
   "list": {

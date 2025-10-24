@@ -68,7 +68,7 @@ export type EventKey = `${string}:${string}`; // scheduleId:startISO
 export type EventGuildData = {
 	schedules: Record<string, Schedule>; // scheduleId -> Schedule records
 	events: Record<EventKey, EventRow>; // scheduleId -> EventRow records
-	settings?: { zone?: string; bufferDays?: number; language?: Djs.Locale };
+	settings?: { zone?: string; futurMinBlock: number; language?: Djs.Locale };
 	templates: Templates;
 };
 
@@ -76,7 +76,6 @@ export const CountJobs = new Map<string, CronJob>();
 export const DateJobs = new Map<string, CronJob>();
 
 export const DEFAULT_ZONE = "Europe/Paris";
-export const DEFAULT_BUFFER_DAYS = 14;
 export const eventKey = (scheduleId: string, startIso: string): EventKey =>
 	`${scheduleId}:${startIso}`;
 

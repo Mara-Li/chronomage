@@ -1,84 +1,123 @@
 import * as Djs from "discord.js";
 import { DateTime } from "luxon";
 import type { EClient } from "../client";
-import { type BannerSpec, DEFAULT_BUFFER_DAYS, eventKey } from "../interface";
+import { type BannerSpec, eventKey } from "../interface";
 import { blockStartAt, labelAt, processTemplate } from "./utils";
+
+const FUTURE_MIN_BLOCKS = 2; // nombre d'événements futurs qu'on veut toujours visibles
 
 export async function ensureBufferForGuild(client: EClient, guildId: string) {
 	const g = client.settings.get(guildId);
 	if (!g || !g.schedules) return;
+
 	console.log(`[${guildId}] Ensuring event buffer...`);
-	const bufferDays = g.settings?.bufferDays ?? DEFAULT_BUFFER_DAYS;
+	const FutureMinBlocks = g.settings?.futurMinBlock ?? FUTURE_MIN_BLOCKS;
+
 	for (const [scheduleId, s] of Object.entries(g.schedules)) {
 		if (!s.active) continue;
 
-		const now = DateTime.now().setZone(s.start.zone);
-		const horizon = now.plus({ days: bufferDays });
+		const zone = s.start.zone;
+		const now = DateTime.now().setZone(zone);
+
+		// 1️⃣ calcule une seule fois combien d'events futurs existent déjà
+		let futureCount = Object.values(g.events ?? {}).filter((ev) => {
+			if (ev.scheduleId !== scheduleId) return false;
+			if (ev.status !== "created") return false;
+			const evStart = DateTime.fromISO(ev.start.iso, { zone: ev.start.zone });
+			return evStart > now;
+		}).length;
 
 		let k = s.nextBlockIndex;
 		let changed = false;
 
-		while (true) {
-			const start = blockStartAt(s, k);
-			if (start > horizon) break;
+		// 2️⃣ tant qu'on n'a pas atteint le quota, on essaie d'ajouter des blocs
+		while (futureCount < FutureMinBlocks) {
+			const start = blockStartAt(s, k); // début théorique du bloc k
+
+			// si ce bloc est déjà passé ou en cours → on le compte comme "consommé"
+			if (start <= now) {
+				k++;
+				continue;
+			}
 
 			const startIso = start.toISO()!;
 			const key = eventKey(scheduleId, startIso);
 
-			if (!g.events[key]) {
-				const end = start.plus({ milliseconds: s.lenMs });
-				const label = labelAt(s, k);
-				const guild = client.guilds.cache.get(guildId);
-				if (!guild) break;
-
-				const description = s.description?.[label];
-
-				const entityMetadata =
-					s.locationType === Djs.GuildScheduledEventEntityType.External
-						? { location: s.location }
-						: undefined;
-				const channel =
-					s.locationType !== Djs.GuildScheduledEventEntityType.External
-						? s.location
-						: undefined;
-
-				console.log(
-					`[${guildId}] Creating event for schedule ${scheduleId} at ${startIso} (label: ${label})`
-				);
-				const ev = await guild.scheduledEvents.create({
-					name: await processTemplate(label, client, guild),
-					scheduledStartTime: startIso,
-					scheduledEndTime: end.toISO()!,
-					privacyLevel: 2,
-					entityType: s.locationType,
-					entityMetadata,
-					channel,
-					image: await bufferBanner(s.banners?.[label]),
-					description: description
-						? await processTemplate(description, client, guild)
-						: undefined,
-				});
-
-				g.events[key] = {
-					scheduleId,
-					discordEventId: ev.id,
-					label,
-					start: { iso: startIso, zone: s.start.zone },
-					lenMs: s.lenMs,
-					status: "created",
-					createdAt: Date.now(),
-					locationSnapshot: ev.entityMetadata?.location ?? s.location,
-					descriptionSnapshot: ev.description ?? description,
-					locationTypeSnapshot: ev.entityType,
-				};
-				changed = true;
+			// si on l'a déjà dans g.events (même s'il vient d'une exécution précédente), on ne le recrée pas
+			if (g.events[key]) {
+				// il existe déjà => donc c'est un bloc futur valide => on considère qu'il fait partie du futur visible
+				futureCount++;
+				k++;
+				continue;
 			}
 
-			k += 1;
+			// sinon, faut le créer maintenant
+			const guild = client.guilds.cache.get(guildId);
+			if (!guild) break; // plus de guilde dispo → on arrête ici proprement
+
+			const end = start.plus({ milliseconds: s.lenMs });
+			const label = labelAt(s, k);
+
+			const rawDescription = s.description?.[label];
+
+			// prépare les champs liés au type d'event discord
+			const entityType = Number(s.locationType) as Djs.GuildScheduledEventEntityType;
+			const needsChannel =
+				entityType === Djs.GuildScheduledEventEntityType.Voice ||
+				entityType === Djs.GuildScheduledEventEntityType.StageInstance;
+
+			const entityMetadata =
+				entityType === Djs.GuildScheduledEventEntityType.External
+					? { location: s.location }
+					: undefined;
+
+			const channel = needsChannel ? s.location : undefined;
+
+			console.log(
+				`[${guildId}] Creating event for schedule ${scheduleId} at ${startIso} (label: ${label})`
+			);
+
+			const ev = await guild.scheduledEvents.create({
+				name: await processTemplate(label, client, guild),
+				scheduledStartTime: startIso,
+				scheduledEndTime: end.toISO()!,
+				privacyLevel: 2,
+				entityType,
+				entityMetadata,
+				channel,
+				image: await bufferBanner(s.banners?.[label]),
+				description: rawDescription
+					? await processTemplate(rawDescription, client, guild)
+					: undefined,
+			});
+
+			// Sauvegarde dans la DB interne
+			g.events[key] = {
+				scheduleId,
+				discordEventId: ev.id,
+				label,
+				start: { iso: startIso, zone },
+				lenMs: s.lenMs,
+				status: "created",
+				createdAt: Date.now(),
+				locationSnapshot: ev.entityMetadata?.location ?? s.location ?? undefined,
+				descriptionSnapshot: ev.description ?? rawDescription ?? undefined,
+				locationTypeSnapshot: ev.entityType,
+			};
+
+			changed = true;
+			futureCount++; // on vient d'ajouter un futur event
+			k++; // on avance sur le bloc suivant
 		}
 
+		// 3️⃣ Mettre à jour le pointeur du schedule si besoin
+		if (k !== s.nextBlockIndex) {
+			s.nextBlockIndex = k;
+			changed = true;
+		}
+
+		// 4️⃣ Persister dans les settings seulement si y'a eu un changement
 		if (changed) {
-			s.nextBlockIndex = k; // avance le pointeur
 			g.schedules[scheduleId] = s;
 			client.settings.set(guildId, g);
 		}
