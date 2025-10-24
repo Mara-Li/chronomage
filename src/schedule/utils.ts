@@ -1,5 +1,10 @@
 import { DateTime, Duration } from "luxon";
-import type { Schedule } from "../interface";
+import { Schedule, TEMPLATES } from "../interface";
+import { EClient } from "../client";
+import * as date from "../commands/template/date";
+import * as count from "../commands/template/count";
+import * as weather from "../commands/template/weather";
+import * as Djs from "discord.js";
 
 function computeInitialBlockIndex(anchorISO: string, blockMs: number, zone: string) {
 	const anchor = DateTime.fromISO(anchorISO, { zone }).startOf("day");
@@ -21,4 +26,30 @@ function labelAt(s: Schedule, blockIndex: number) {
 	return s.labels[i];
 }
 
-export { computeInitialBlockIndex, blockStartAt, labelAt };
+async function processTemplate(text: string, client: EClient, guild: Djs.Guild) {
+	function getAllValues(obj: Record<string, any>): any[] {
+		return Object.values(obj).flatMap((v) =>
+			typeof v === "object" && !(v instanceof RegExp) ? getAllValues(v) : [v]
+		);
+	}
+	const templates = getAllValues(TEMPLATES);
+	let result = text;
+	for (const tpl of templates) {
+		switch (tpl) {
+			case TEMPLATES.date:
+				result = date.processTemplate(client, guild, result);
+				break;
+
+			case TEMPLATES.count:
+				result = count.processTemplate(client, guild, result);
+				break;
+
+			case TEMPLATES.weather:
+				result = await weather.processTemplate(client, guild, result);
+				break;
+		}
+	}
+	return result;
+}
+
+export { computeInitialBlockIndex, blockStartAt, labelAt, processTemplate };
