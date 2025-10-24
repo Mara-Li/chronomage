@@ -1,16 +1,16 @@
 import * as Djs from "discord.js";
+import type { TFunction } from "i18next";
 import type { EClient } from "../../client";
+import type { EventGuildData } from "../../interface";
 import { t } from "../../localization";
-import { defaultTemplate, tFn } from "../../utils";
+import { defaultTemplate } from "../../utils";
 
-function display(client: EClient, interaction: Djs.ChatInputCommandInteraction) {
+function display(
+	interaction: Djs.ChatInputCommandInteraction,
+	settings: EventGuildData,
+	ul: TFunction
+) {
 	if (!interaction.guild) return;
-	const settings = client.settings.get(interaction.guild.id);
-	const ul = tFn(
-		client.settings.get(interaction.guild.id)!,
-		interaction.guild,
-		interaction.locale
-	);
 	const weather = settings?.templates?.weather;
 	const embed = new Djs.EmbedBuilder()
 		.setTitle(ul("weather.display.title"))
@@ -22,24 +22,15 @@ function display(client: EClient, interaction: Djs.ChatInputCommandInteraction) 
 	return interaction.reply({ embeds: [embed] });
 }
 
-function set(client: EClient, interaction: Djs.ChatInputCommandInteraction) {
+function set(
+	client: EClient,
+	interaction: Djs.ChatInputCommandInteraction,
+	ul: TFunction
+) {
 	if (!interaction.guild) return;
 	const options = interaction.options as Djs.CommandInteractionOptionResolver;
 	const location = options.getString(t("weather.location"));
 	const temp = defaultTemplate();
-	const settings = client.settings.get(interaction.guild.id);
-	if (!settings)
-		client.settings.set(interaction.guild.id, {
-			templates: temp,
-			events: {},
-			schedules: {},
-			settings: { language: interaction.locale },
-		});
-	const ul = tFn(
-		client.settings.get(interaction.guild.id)!,
-		interaction.guild,
-		interaction.locale
-	);
 
 	const weather = {
 		location: location ?? temp.weather.location,
@@ -49,12 +40,16 @@ function set(client: EClient, interaction: Djs.ChatInputCommandInteraction) {
 	return interaction.reply(ul("common.success"));
 }
 
-export function weather(client: EClient, interaction: Djs.ChatInputCommandInteraction) {
+export function weather(
+	client: EClient,
+	interaction: Djs.ChatInputCommandInteraction,
+	ul: TFunction,
+	settings: EventGuildData
+) {
 	if (!interaction.guild) return;
 	const options = interaction.options;
-	const location = options.getString(t("template.weather.location.name"));
-	if (!location) {
-		return display(client, interaction);
-	}
-	return set(client, interaction);
+	const location = options.getString(t("weather.location"));
+	if (!location) return display(interaction, settings, ul);
+
+	return set(client, interaction, ul);
 }

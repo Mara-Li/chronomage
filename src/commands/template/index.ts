@@ -3,6 +3,7 @@ import type { EClient } from "../../client";
 import { t } from "../../localization";
 import { weather } from "./weather";
 import "../../discord_ext";
+import { getSettings, tFn } from "../../utils";
 import { count } from "./count";
 import { date } from "./date";
 
@@ -95,13 +96,17 @@ export const template = {
 		}),
 	async execute(interaction: Djs.ChatInputCommandInteraction, client: EClient) {
 		const subcommand = interaction.options.getSubcommand();
+		if (!interaction.guild) return;
+		const settings = getSettings(client, interaction.guild, interaction.locale);
+		const ul = tFn(settings, interaction.guild, interaction.locale);
+
 		switch (subcommand) {
 			case t("template.weather.name"):
-				return weather(client, interaction);
+				return weather(client, interaction, ul, settings);
 			case t("common.date"):
-				return date(client, interaction);
+				return date(client, interaction, ul, settings);
 			case t("template.count.name"):
-				return count(client, interaction);
+				return count(client, interaction, ul, settings);
 			default:
 				return;
 		}

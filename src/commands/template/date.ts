@@ -1,28 +1,21 @@
 import { isValidCron } from "cron-validator";
 import * as Djs from "discord.js";
+import type { TFunction } from "i18next";
 import { DateTime } from "luxon";
 import type { EClient } from "../../client";
 import { setDate } from "../../cron/date";
 import { parseDurationLocalized } from "../../duration";
+import type { EventGuildData } from "../../interface";
 import { t } from "../../localization";
-import { defaultTemplate, tFn } from "../../utils";
+import { defaultTemplate } from "../../utils";
 
-function display(interaction: Djs.ChatInputCommandInteraction, client: EClient) {
+function display(
+	interaction: Djs.ChatInputCommandInteraction,
+	settings: EventGuildData,
+	ul: TFunction
+) {
 	if (!interaction.guild) return;
-	const settings = client.settings.get(interaction.guild!.id);
-	if (!settings) {
-		client.settings.set(interaction.guild.id, {
-			templates: defaultTemplate(),
-			events: {},
-			schedules: {},
-			settings: { language: interaction.locale },
-		});
-	}
-	const ul = tFn(
-		client.settings.get(interaction.guild.id)!,
-		interaction.guild,
-		interaction.locale
-	);
+
 	const date = settings?.templates.date;
 
 	const formatDateStart = (dateStr?: string, format = "f") => {
@@ -94,29 +87,19 @@ function getOptions(
 	return { format, timezone, cron, start, step };
 }
 
-export function set(client: EClient, interaction: Djs.ChatInputCommandInteraction) {
+export function set(
+	client: EClient,
+	interaction: Djs.ChatInputCommandInteraction,
+	settings: EventGuildData,
+	ul: TFunction
+) {
 	if (!interaction.guild) return;
-	const temp = defaultTemplate();
-	const settings = client.settings.get(interaction.guild.id);
 	const locale =
 		settings?.settings?.language ?? interaction.locale ?? interaction.guildLocale;
 	const { format, timezone, cron, start, step } = getOptions(interaction, locale, true);
-	const ul = tFn(
-		client.settings.get(interaction.guild.id)!,
-		interaction.guild,
-		interaction.locale
-	);
 	if (cron && !isValidCron(cron)) return interaction.reply(ul("error.cron"));
 
 	//convert the duration to number
-
-	if (!settings)
-		client.settings.set(interaction.guild.id, {
-			templates: temp,
-			events: {},
-			schedules: {},
-			settings: { language: interaction.locale },
-		});
 	const date = {
 		format,
 		timezone,
@@ -137,14 +120,18 @@ export function set(client: EClient, interaction: Djs.ChatInputCommandInteractio
 	);
 }
 
-export function date(client: EClient, interaction: Djs.ChatInputCommandInteraction) {
+export function date(
+	client: EClient,
+	interaction: Djs.ChatInputCommandInteraction,
+	ul: TFunction,
+	settings: EventGuildData
+) {
 	if (!interaction.guild) return;
-	const settings = client.settings.get(interaction.guild.id);
 	const locale =
 		settings?.settings?.language ?? interaction.locale ?? interaction.guildLocale;
 	const { format, timezone, cron, start, step } = getOptions(interaction, locale);
-	if (!format && !timezone && !cron && !start && step == null) {
-		return display(interaction, client);
-	}
-	return set(client, interaction);
+	if (!format && !timezone && !cron && !start && step == null)
+		return display(interaction, settings, ul);
+
+	return set(client, interaction, settings, ul);
 }

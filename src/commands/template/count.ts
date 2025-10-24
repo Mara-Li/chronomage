@@ -1,27 +1,20 @@
 import { isValidCron } from "cron-validator";
 import * as Djs from "discord.js";
+import type { TFunction } from "i18next";
 import type { EClient } from "../../client";
 import { setCount } from "../../cron/count";
+import type { EventGuildData } from "../../interface";
 import { t } from "../../localization";
-import { defaultTemplate, tFn } from "../../utils";
+import { defaultTemplate } from "../../utils";
 
-function display(interaction: Djs.ChatInputCommandInteraction, client: EClient) {
+function display(
+	interaction: Djs.ChatInputCommandInteraction,
+	settings: EventGuildData,
+	ul: TFunction
+) {
 	if (!interaction.guild) return;
-	const settings = client.settings.get(interaction.guild!.id);
 	const temp = defaultTemplate();
-	const ul = tFn(
-		client.settings.get(interaction.guild.id)!,
-		interaction.guild,
-		interaction.locale
-	);
-	if (!settings) {
-		client.settings.set(interaction.guild.id, {
-			templates: temp,
-			events: {},
-			schedules: {},
-			settings: { language: interaction.locale },
-		});
-	}
+
 	const template = settings?.templates ?? temp;
 
 	const count = template.count;
@@ -74,23 +67,15 @@ function getOptions(interaction: Djs.ChatInputCommandInteraction, setDefault?: b
 	return { start, step, cron, decimal };
 }
 
-function set(client: EClient, interaction: Djs.ChatInputCommandInteraction) {
+function set(
+	client: EClient,
+	interaction: Djs.ChatInputCommandInteraction,
+	settings: EventGuildData,
+	ul: TFunction
+) {
 	if (!interaction.guild) return;
-	const settings = client.settings.get(interaction.guild!.id);
 	const temp = defaultTemplate();
-	const ul = tFn(
-		client.settings.get(interaction.guild.id)!,
-		interaction.guild,
-		interaction.locale
-	);
-	if (!settings) {
-		client.settings.set(interaction.guild.id, {
-			templates: temp,
-			events: {},
-			schedules: {},
-			settings: { language: interaction.locale },
-		});
-	}
+
 	const template = settings?.templates ?? temp;
 
 	const { start, step, cron, decimal } = getOptions(interaction);
@@ -109,11 +94,16 @@ function set(client: EClient, interaction: Djs.ChatInputCommandInteraction) {
 	return interaction.reply(ul("common.success"));
 }
 
-export function count(client: EClient, interaction: Djs.ChatInputCommandInteraction) {
+export function count(
+	client: EClient,
+	interaction: Djs.ChatInputCommandInteraction,
+	ul: TFunction,
+	settings: EventGuildData
+) {
 	if (!interaction.guild) return;
 	const { start, step, cron, decimal } = getOptions(interaction);
 	if (!cron && start == null && step == null && decimal == null)
-		return display(interaction, client);
+		return display(interaction, settings, ul);
 
-	return set(client, interaction);
+	return set(client, interaction, settings, ul);
 }

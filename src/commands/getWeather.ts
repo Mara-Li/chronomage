@@ -35,7 +35,7 @@ export const getWeather = {
 		}
 		const wyd = new WeatherDescribe({
 			lang: locale as "fr" | "en",
-			timezone: settings?.settings?.zone,
+			timezone,
 		});
 		const weatherInfo = await wyd.byCity(location);
 		if (!weatherInfo) {
