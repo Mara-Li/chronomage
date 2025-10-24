@@ -5,7 +5,7 @@ import { DateTime } from "luxon";
 import type { EClient } from "../../client";
 import { setDate } from "../../cron/date";
 import { parseDurationLocalized } from "../../duration";
-import type { EventGuildData } from "../../interface";
+import {EventGuildData, TEMPLATES} from "../../interface";
 import { t } from "../../localization";
 import { defaultTemplate } from "../../utils";
 
@@ -134,4 +134,20 @@ export function date(
 		return display(interaction, settings, ul);
 
 	return set(client, interaction, settings, ul);
+}
+
+export function processTemplate(
+	client: EClient,
+	guild: Djs.Guild,
+	text: string
+) {
+	const settings = client.settings.get(guild.id);
+	const dateTemplate = settings?.templates.date;
+	if (!dateTemplate) return text;
+	const template = TEMPLATES.date;
+	if (text.match(template)) {
+		const dt = DateTime.fromISO(dateTemplate.currentValue, { zone: dateTemplate.timezone }).toFormat(dateTemplate.format);
+		return text.replace(template, dt);
+	}
+	return text;
 }

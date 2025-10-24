@@ -1,11 +1,11 @@
-import { isValidCron } from "cron-validator";
+import {isValidCron} from "cron-validator";
 import * as Djs from "discord.js";
-import type { TFunction } from "i18next";
-import type { EClient } from "../../client";
-import { setCount } from "../../cron/count";
-import type { EventGuildData } from "../../interface";
-import { t } from "../../localization";
-import { defaultTemplate } from "../../utils";
+import type {TFunction} from "i18next";
+import type {EClient} from "../../client";
+import {setCount} from "../../cron/count";
+import {EventGuildData, TEMPLATES} from "../../interface";
+import {t} from "../../localization";
+import {defaultTemplate, getSettings} from "../../utils";
 
 function display(
 	interaction: Djs.ChatInputCommandInteraction,
@@ -106,4 +106,20 @@ export function count(
 		return display(interaction, settings, ul);
 
 	return set(client, interaction, settings, ul);
+}
+
+export function processTemplate(client: EClient, guild: Djs.Guild, text: string) {
+	const settings = getSettings(client, guild, Djs.Locale.EnglishUS);
+	const template = TEMPLATES.date;
+	const count = settings.templates.count;
+	if (text.match(template)) {
+		const currentValue = count?.currentValue ?? count?.start ?? 0;
+		const decimalPlaces = count?.decimal ?? 0;
+		const factor = 10 ** decimalPlaces;
+		const formattedValue = (Math.round(currentValue * factor) / factor).toFixed(
+			decimalPlaces
+		);
+		return text.replaceAll(template, formattedValue);
+	}
+	return text;
 }

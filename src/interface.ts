@@ -36,6 +36,7 @@ export type Schedule = {
 	active: boolean;
 	createdBy: string;
 	createdAt: number;
+	location?: string;
 	description?: Record<string, string>; // label -> description
 };
 
@@ -62,3 +63,18 @@ export type EventGuildData = {
 
 export const CountJobs = new Map<string, CronJob>();
 export const DateJobs = new Map<string, CronJob>();
+
+export const DEFAULT_ZONE = "Europe/Paris";
+export const DEFAULT_BUFFER_DAYS = 14;
+export const eventKey = (scheduleId: string, startIso: string) =>
+	`${scheduleId}:${startIso}`;
+
+export const TEMPLATES = {
+	date: /\{{2}date\}{2}/gi,
+	count: /\{{2}count\}{2}/gi,
+	weather: {
+		short: /\{{2}weather:(short)\}{2}/gi,
+		emoji: /\{{2}weather:(emoji)\}{2}/gi,
+		long: /\{{2}weather:(long)\}{2}/gi,
+	}
+}

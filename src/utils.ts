@@ -1,6 +1,11 @@
 import type * as Djs from "discord.js";
 import type { EClient } from "./client";
-import type { EventGuildData, Templates } from "./interface";
+import {
+	DEFAULT_BUFFER_DAYS,
+	DEFAULT_ZONE,
+	type EventGuildData,
+	type Templates,
+} from "./interface";
 import { ln } from "./localization";
 
 export function defaultTemplate(): Templates {
@@ -35,6 +40,10 @@ export function getSettings(
 		templates: defaultTemplate(),
 		events: {},
 		schedules: {},
-		settings: { language: guild.preferredLocale ?? interactionLocale },
+		settings: {
+			language: guild.preferredLocale ?? interactionLocale,
+			bufferDays: DEFAULT_BUFFER_DAYS,
+			zone: DEFAULT_ZONE,
+		},
 	});
 }
