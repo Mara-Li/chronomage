@@ -1,10 +1,10 @@
 import * as Djs from "discord.js";
 import type { TFunction } from "i18next";
+import { WeatherDescribe } from "weather-describe";
 import type { EClient } from "../../client";
-import { TEMPLATES, type EventGuildData } from "../../interface";
+import { type EventGuildData, TEMPLATES } from "../../interface";
 import { t } from "../../localization";
 import { defaultTemplate, getSettings } from "../../utils";
-import { WeatherDescribe } from "weather-describe";
 
 function display(
 	interaction: Djs.ChatInputCommandInteraction,
@@ -58,6 +58,7 @@ export function weather(
 export async function processTemplate(client: EClient, guild: Djs.Guild, text: string) {
 	const weatherTemplate = TEMPLATES.weather;
 	const weather = client.settings.get(guild.id)?.templates?.weather;
+	console.log(weather);
 	if (!weather) return text;
 	const settings = getSettings(client, guild, Djs.Locale.EnglishUS);
 	const lang = settings.settings?.language ?? Djs.Locale.EnglishUS;

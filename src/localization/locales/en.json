@@ -39,7 +39,8 @@
     "example": "__Example__: `{{ex}}`",
     "label": "Label",
     "description": "Description",
-    "id": "id"
+    "id": "id",
+    "all": "All"
   },
   "description": {
     "cron": "Set the schedule (cron) for when the variable should be updated",
@@ -85,7 +86,8 @@
     "invalidScheduleId": "No cycle with id `{{scheduleId}}` found.",
     "unknownSubcommand": "Unknow subcommand",
     "locationConflict": "Only one location can be used at the same time.",
-    "noLocation": "A location is mandatory for event."
+    "noLocation": "A location is mandatory for event.",
+    "pastAnchorDate": "The start_date `{{anchor}}` is in the past."
   },
   "globalsettings": {
     "name": "settings",
@@ -169,7 +171,8 @@
       "image": {
         "label": "Banner",
         "description": "Optionnal image banner for the event"
-      }
+      },
+      "completedQuick": "The event `{{scheduleId}}` has been planned correctly! Please wait a few minutes before viewing."
     }
   },
   "list": {
@@ -188,7 +191,8 @@
     "success": "⏸️ Cycle **{{scheduleId}}** paused.\nIt will no longer generate new events, but events that have already been created will remain."
   },
   "cancel": {
-    "success": "🧹 Cycle **{{scheduleId}}** deleted.\nRelated future events are purged from local storage."
+    "success": "🧹 Cycle **{{scheduleId}}** deleted.\nRelated future events are purged from local storage.",
+    "allSuccess": "All events was deleted."
   },
   "errors": {
     "unauthorized": "This modal is not for you.",

@@ -47,7 +47,11 @@ export function createSchedule(
 	return { scheduleId, schedule: s };
 }
 
-export function deleteSchedule(guild: Djs.Guild, scheduleId: string, client: EClient) {
+export async function deleteSchedule(
+	guild: Djs.Guild,
+	scheduleId: string,
+	client: EClient
+) {
 	const g = getSettings(client, guild, Djs.Locale.EnglishUS);
 	if (!g?.schedules[scheduleId]) return false;
 
@@ -55,11 +59,24 @@ export function deleteSchedule(guild: Djs.Guild, scheduleId: string, client: ECl
 
 	for (const k of Object.keys(g.events)) {
 		const key = k as keyof typeof g.events;
-		if (g.events[key].scheduleId === scheduleId) delete g.events[key];
+		const event = g.events[key];
+		if (event.scheduleId === scheduleId) delete g.events[key];
+		if (event.discordEventId) await guild.scheduledEvents.delete(event.discordEventId);
 	}
 
 	client.settings.set(guild.id, g);
 	return true;
+}
+
+export async function cancelAll(guild: Djs.Guild, client: EClient) {
+	const allEventsInDiscord = await guild.scheduledEvents.fetch();
+	const promises = allEventsInDiscord.map((ev) => ev.delete());
+	await Promise.all(promises);
+	const g = getSettings(client, guild, Djs.Locale.EnglishUS);
+	if (!g) return;
+	g.schedules = {};
+	g.events = {};
+	client.settings.set(guild.id, g);
 }
 
 export function listSchedules(guildId: string, client: EClient) {

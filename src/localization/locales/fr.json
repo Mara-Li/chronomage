@@ -39,7 +39,8 @@
     "example": "__Exemple__ : `{{ex}}`",
     "label": "Nom",
     "description": "Description",
-    "id": "id"
+    "id": "id",
+    "all": "Tout"
   },
   "description": {
     "cron": "Définissez le calendrier (cron) pour la mise à jour de la variable",
@@ -85,7 +86,8 @@
     "invalidScheduleId": "Aucun cyle avec l'id `{{scheduleId}}` trouvé.",
     "unknownSubcommand": "Sous commande inconnue",
     "locationConflict": "Un seul emplacement peut être utilisé à la fois.",
-    "noLocation": "Un lieu est obligatoire pour l'événement."
+    "noLocation": "Un lieu est obligatoire pour l'événement.",
+    "pastAnchorDate": "La date de début `{{anchor}}` est dans le passé."
   },
   "globalsettings": {
     "name": "paramètres",
@@ -169,7 +171,8 @@
       "image": {
         "label": "Bannière",
         "description": "Bannière optionnel pour l'évènement"
-      }
+      },
+      "completedQuick": "L'évènement `{{scheduleId}}` a correctement été planifié ! Veuillez attendre quelque minutes avant l'affichage."
     }
   },
   "list": {
@@ -188,7 +191,8 @@
     "success": "⏸️ Cycle **{{scheduleId}}** mise en pause.\nElle ne générera plus de nouveaux events, mais les events déjà créés restent."
   },
   "cancel": {
-    "success": "🧹 Cycle **{{scheduleId}}** supprimée.\nLes events futurs liés sont purgés côté stockage local."
+    "success": "🧹 Cycle **{{scheduleId}}** supprimée.\nLes events futurs liés sont purgés côté stockage local.",
+    "allSuccess": "Tous les évènements ont été supprimés."
   },
   "errors": {
     "unauthorized": "Ce modal n'est pas pour vous !",

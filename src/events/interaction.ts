@@ -41,88 +41,116 @@ async function altScheduleWizard(
 	interaction: Djs.ModalSubmitInteraction,
 	client: EClient
 ) {
-	const ul = tFn(
-		interaction.locale,
-		interaction.guild!,
-		getSettings(client, interaction.guild!, interaction.locale)
-	).ul;
-	const [, guildId, userId, _index] = interaction.customId.split(":");
-	if (interaction.guildId !== guildId || interaction.user.id !== userId) {
-		await interaction.reply({
-			content: ul("errors.unauthorized"),
-			flags: Djs.MessageFlags.Ephemeral,
-		});
-		return;
-	}
-	const state = Wizard.get(wizardKey(guildId, userId));
-	if (!state) {
-		await interaction.reply({
-			content: ul("errors.wizardNotFound"),
-			flags: Djs.MessageFlags.Ephemeral,
-		});
-		return;
-	}
-	const label = interaction.fields.getTextInputValue("label").trim();
-	const description = interaction.fields.getTextInputValue("description").trim();
-	const att = getBannerHash(interaction);
-
-	state.labels.push(label);
-	if (description.length) state.descriptions[label] = description;
-	if (att) state.banners[label] = att;
-	state.current += 1;
-	Wizard.set(wizardKey(guildId, userId), state);
-
-	//continue to the next modal
-	if (state.current <= state.total) {
-		return await interaction.reply({
-			content: ul("modals.scheduleEvent.nextPrompt", {
-				current: state.current - 1,
-				total: state.total,
-				label,
-			}),
-			flags: Djs.MessageFlags.Ephemeral,
-			components: buttonFollow(guildId, userId),
-		});
-	}
-	const { blocMs, startHHMM, lenMs, anchorISO, zone } = state.base;
-	const labels = state.labels;
-	const g = client.settings.get(guildId)!;
-
-	const { scheduleId } = createSchedule(g, {
-		guildId,
-		labels,
-		blocMs,
-		startHHMM,
-		lenMs,
-		anchorISO,
-		createdBy: state.userId,
-		zone,
-		location: state.location,
-		locationType: state.locationType,
-	});
-
-	g.schedules[scheduleId] = {
-		...g.schedules[scheduleId],
-		description: state.descriptions,
-		banners: state.banners,
-	};
-	client.settings.set(guildId, g);
+	await interaction.deferReply({ flags: Djs.MessageFlags.Ephemeral });
 	try {
-		await ensureBufferForGuild(client, guildId);
-		await interaction.reply({
-			content: ul("modals.scheduleEvent.completed"),
-			flags: Djs.MessageFlags.Ephemeral,
+		const ul = tFn(
+			interaction.locale,
+			interaction.guild!,
+			getSettings(client, interaction.guild!, interaction.locale)
+		).ul;
+
+		const [, guildId, userId, _index] = interaction.customId.split(":");
+
+		if (interaction.guildId !== guildId || interaction.user.id !== userId) {
+			await interaction.editReply({
+				content: ul("errors.unauthorized"),
+			});
+			return;
+		}
+
+		const state = Wizard.get(wizardKey(guildId, userId));
+		if (!state) {
+			await interaction.editReply({
+				content: ul("errors.wizardNotFound"),
+			});
+			return;
+		}
+
+		// 1. récupérer ce que l'utilisateur vient d'envoyer dans ce modal
+		const label = interaction.fields.getTextInputValue("label").trim();
+		const description = interaction.fields.fields.get("description")
+			? interaction.fields.getTextInputValue("description").trim()
+			: "";
+		const att = getBannerHash(interaction); // si t'as une bannière
+
+		// 2. maj du wizard state
+		state.labels.push(label);
+		if (description.length) state.descriptions[label] = description;
+		if (att) state.banners[label] = att;
+		state.current += 1;
+		Wizard.set(wizardKey(guildId, userId), state);
+
+		// 3. S'il reste des étapes => on s'arrête là, on renvoie le bouton "Suivant"
+		if (state.current <= state.total) {
+			return await interaction.editReply({
+				content: ul("modals.scheduleEvent.nextPrompt", {
+					current: state.current - 1,
+					total: state.total,
+					label,
+				}),
+				components: buttonFollow(guildId, userId),
+			});
+		}
+
+		// 4. Sinon on est à la dernière étape : on enregistre le schedule en base
+		const { blocMs, startHHMM, lenMs, anchorISO, zone } = state.base;
+		const labels = state.labels;
+
+		const g = client.settings.get(guildId)!;
+		const { scheduleId } = createSchedule(g, {
+			guildId,
+			labels,
+			blocMs,
+			startHHMM,
+			lenMs,
+			anchorISO,
+			createdBy: state.userId,
+			zone,
+			location: state.location,
+			locationType: state.locationType,
 		});
+
+		// on ajoute descriptions et bannières par label
+		g.schedules[scheduleId] = {
+			...g.schedules[scheduleId],
+			description: state.descriptions,
+			banners: state.banners,
+			// active reste true
+		};
+		client.settings.set(guildId, g);
+
+		// 5. on clôture le wizard ici
 		Wizard.delete(wizardKey(guildId, userId));
-	} catch (error) {
-		await interaction.reply({
-			content: ul("errors.unknown", { error: String(error) }),
-			flags: Djs.MessageFlags.Ephemeral,
+
+		// 6. on répond direct à l'utilisateur, sans lancer ensureBufferForGuild maintenant
+		await interaction.editReply({
+			content: ul("modals.scheduleEvent.completedQuick", {
+				scheduleId,
+			}),
 		});
-		//delete the schedule on error
-		client.settings.delete(guildId, `schedules.${scheduleId}`);
-		Wizard.delete(wizardKey(guildId, userId));
-		console.error(error);
+
+		// fin. pas d'appel lourd ici.
+		setTimeout(async () => {
+			try {
+				console.info(`[${guildId}] Boot buffer (post-wizard)...`);
+				await ensureBufferForGuild(client, guildId);
+			} catch (err) {
+				console.error(`[${guildId}] ensureBufferForGuild post-wizard failed:`, err);
+			}
+		}, 2000);
+	} catch (err) {
+		console.error("[altScheduleWizard] error at final step:", err);
+
+		if (!interaction.replied && !interaction.deferred) {
+			try {
+				await interaction.reply({
+					content: "Une erreur est survenue, l'événement n'a pas été planifié.",
+					flags: Djs.MessageFlags.Ephemeral,
+				});
+			} catch {
+				// ignore
+			}
+		}
 	}
 }
 

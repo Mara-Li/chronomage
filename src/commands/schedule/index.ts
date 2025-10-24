@@ -7,11 +7,13 @@ import type { EClient } from "../../client";
 import { parseDurationLocalized } from "../../duration";
 import { t, tFn } from "../../localization";
 import {
+	cancelAll,
 	deleteSchedule,
 	listSchedules,
 	listUpcomingEventsForGuild,
 	setScheduleActive,
 } from "../../schedule/crud";
+import { anchorIsoDate } from "../template/date";
 import { startWizardFromSlash } from "./modal";
 
 /**
@@ -92,6 +94,7 @@ export const schedule = {
 						.setNames("common.id")
 						.setDescriptions("schedule.pause.id")
 						.setAutocomplete(true)
+						.setRequired(true)
 				)
 		)
 		//CANCEL SUBCOMMAND
@@ -104,10 +107,16 @@ export const schedule = {
 						.setNames("common.id")
 						.setDescriptions("schedule.cancel.id")
 						.setAutocomplete(true)
+						.setRequired(true)
 				)
 		),
 	async autocomplete(interaction: Djs.AutocompleteInteraction, client: EClient) {
 		const options = interaction.options as Djs.CommandInteractionOptionResolver;
+		const { ul } = tFn(
+			interaction.locale,
+			interaction.guild!,
+			client.settings.get(interaction.guild!.id)!
+		);
 		const focused = options.getFocused(true);
 		const guildData = client.settings.get(interaction.guild!.id);
 		if (!guildData) return;
@@ -117,6 +126,10 @@ export const schedule = {
 				choices.push({ name: s.labels.join(", "), value: id });
 			}
 		}
+		choices.push({
+			name: ul("common.all"),
+			value: "all",
+		});
 		const filtered = choices.filter(
 			(choice) =>
 				choice.name.subText(focused.value) ||
@@ -161,12 +174,11 @@ async function handleCreate(
 	const startHHMM = interaction.options.getString(t("common.start"), true);
 	const lenStr = interaction.options.getString(t("schedule.len.name"), true);
 	const date = client.settings.get(interaction.guild!.id)?.templates.date;
-
-	const anchorISO =
-		interaction.options.getString(t("schedule.create.anchor.name")) ??
-		DateTime.now().plus({ hour: 1 }).toISO();
 	const zone =
-		interaction.options.getString(t("template.date.timezone.name")) ?? undefined;
+		interaction.options.getString(t("template.date.timezone.name")) ||
+		date?.timezone ||
+		"UTC";
+
 	const { ul, locale } = tFn(
 		interaction.locale,
 		interaction.guild!,
@@ -196,27 +208,8 @@ async function handleCreate(
 			content: ul("error.invalidStartTime", { startHHMM }),
 		});
 	}
-
-	const globalSettings = client.settings.get(interaction.guild!.id)?.settings;
-	const zoneToUse = zone || globalSettings?.zone || date?.timezone;
-	const fromFormat =
-		date && anchorISO
-			? DateTime.fromFormat(date.format, anchorISO, { zone: zoneToUse, locale })
-			: null;
-	const fromIso = anchorISO ? DateTime.fromISO(anchorISO, { zone: zoneToUse }) : null;
-	if (!fromIso?.isValid && !fromFormat?.isValid) {
-		return interaction.reply({
-			flags: Djs.MessageFlags.Ephemeral,
-			content: ul("error.invalidAnchorDate", { anchorISO, format: date?.format }),
-		});
-	}
-
-	let anchor = anchorISO;
-	if (fromFormat?.isValid) {
-		anchor = fromFormat.toISODate()!;
-	} else if (fromIso?.isValid) {
-		anchor = fromIso.toISODate()!;
-	}
+	const anchor = anchorIsoDate(interaction, ul, zone, locale, date);
+	if (!anchor) return; //anchorIsoDate already replied with error
 
 	const location = interaction.options.getString(t("schedule.location.string.name"));
 	const vocalChannel = interaction.options.getChannel(
@@ -263,6 +256,7 @@ async function handleList(
 	client: EClient,
 	ul: TFunction
 ) {
+	await interaction.deferReply();
 	const schedules = listSchedules(interaction.guild!.id, client);
 	const globalSettings = client.settings.get(interaction.guild!.id)?.templates.date;
 	if (!schedules.length) {
@@ -277,19 +271,22 @@ async function handleList(
 			globalSettings?.format ?? "f"
 		);
 		const part: { label: string; lines: string[] } = { label: "", lines: [] };
-		part.label = `- **${id}** ${s.active ? "✅" : "❌"}`;
+		part.label = `**${id}** ${s.active ? "✅" : "❌"}`;
 		part.lines.push(
-			`${ul("list.labels")} ${s.labels.join("\n   - ")}`,
-			`${ul("list.block")} ${(s.blockMs / 3600000).toFixed(1)}h`,
-			`${ul("list.len")} ${(s.lenMs / 60000).toFixed(0)}min`,
-			`${ul("list.start")} ${s.start.hhmm} (${s.start.zone})`,
-			`${ul("list.anchor")} ${formatDate}`,
-			`${ul("list.location")} ${s.locationType === Djs.GuildScheduledEventEntityType.External ? s.location : `<#${s.location}>`}`,
-			`${ul("list.createdBy")} <@${s.createdBy}>`
+			`__${ul("list.labels")}__\n     - ${s.labels.map((l) => `\`${l}\``).join("\n     - ")}`,
+			`__${ul("list.block")}__ \`${(s.blockMs / 3600000).toFixed(1)}h\``,
+			`__${ul("list.len")}__ \`${(s.lenMs / 60000).toFixed(0)}min\``,
+			`__${ul("list.start")}__ \`${s.start.hhmm} (${s.start.zone})\``,
+			`__${ul("list.anchor")}__ ${formatDate}`,
+			`__${ul("list.location")}__ ${s.locationType === Djs.GuildScheduledEventEntityType.External ? s.location : `<#${s.location}>`}`,
+			`__${ul("list.createdBy")}__ <@${s.createdBy}>`
 		);
 		if (s.description) {
 			const descBits = Object.entries(s.description)
-				.map(([lbl, txt]) => `${lbl}: ${txt.slice(0, 60)}${txt.length > 60 ? "…" : ""}`)
+				.map(
+					([lbl, txt]) =>
+						`\`${lbl}\`: \`${txt.slice(0, 60)}${txt.length > 60 ? "…" : ""}\``
+				)
 				.join(" | ");
 			if (descBits || descBits.length > 0) {
 				part.lines.push(`${ul("list.description")} ${descBits}`);
@@ -297,7 +294,7 @@ async function handleList(
 		}
 		if (s.banners) {
 			const bannerBits = Object.entries(s.banners)
-				.map(([lbl, url]) => `${lbl}: ${url}`)
+				.map(([lbl, url]) => `[${lbl}](<${url.url}>)`)
 				.join(" | ");
 			if (bannerBits || bannerBits.length > 0) {
 				part.lines.push(`${ul("list.banners")} ${bannerBits}`);
@@ -317,7 +314,7 @@ async function handleList(
 		}
 		parts.push(part);
 	}
-	const allLines = parts.map((p) => p.lines.join("\n  - "));
+	const allLines = parts.map((p) => p.lines.join("\n"));
 	if (allLines.length >= 2000) {
 		//send in a message each part
 		for (const p of parts) {
@@ -326,9 +323,9 @@ async function handleList(
 		}
 	} else {
 		const message = dedent`${parts
-			.map((p) => `- ${p.label}\n  - ${p.lines.join("\n  - ")}`)
+			.map((p) => ` - ${p.label}\n   - ${p.lines.join("\n   - ")}`)
 			.join("\n\n")}`;
-		return interaction.reply({ content: message });
+		return interaction.editReply({ content: message });
 	}
 }
 
@@ -354,7 +351,12 @@ async function handleCancel(
 	ul: TFunction
 ) {
 	const scheduleId = interaction.options.getString(t("common.id"), true);
-	const ok = deleteSchedule(interaction.guild!, scheduleId, client);
+	if (scheduleId === "all") {
+		await interaction.deferReply();
+		await cancelAll(interaction.guild!, client);
+		return interaction.editReply(ul("cancel.allSuccess"));
+	}
+	const ok = await deleteSchedule(interaction.guild!, scheduleId, client);
 	if (!ok) {
 		return interaction.reply({
 			flags: Djs.MessageFlags.Ephemeral,

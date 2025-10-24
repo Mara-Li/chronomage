@@ -50,6 +50,7 @@ async function processTemplate(text: string, client: EClient, guild: Djs.Guild) 
 				break;
 		}
 	}
+	console.log("Processed template:", { original: text, result });
 	return result;
 }
 

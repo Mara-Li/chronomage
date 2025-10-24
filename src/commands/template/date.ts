@@ -5,7 +5,7 @@ import { DateTime } from "luxon";
 import type { EClient } from "../../client";
 import { setDate } from "../../cron/date";
 import { parseDurationLocalized } from "../../duration";
-import { EventGuildData, TEMPLATES } from "../../interface";
+import { type EventGuildData, TEMPLATES } from "../../interface";
 import { t } from "../../localization";
 import { defaultTemplate } from "../../utils";
 
@@ -148,4 +148,58 @@ export function processTemplate(client: EClient, guild: Djs.Guild, text: string)
 		return text.replace(template, dt);
 	}
 	return text;
+}
+
+export function anchorIsoDate(
+	interaction: Djs.ChatInputCommandInteraction,
+	ul: TFunction,
+	zone: string,
+	locale: string,
+	date?: EventGuildData["templates"]["date"]
+) {
+	const rawAnchor =
+		interaction.options.getString(t("schedule.create.anchor.name")) ??
+		DateTime.now().setZone(zone).plus({ minutes: 30 }).toISO();
+
+	// 2. on essaie deux parse possibles : format custom et ISO
+	const parsedFromFormat =
+		date && rawAnchor
+			? DateTime.fromFormat(rawAnchor, date.format, { zone, locale })
+			: null;
+
+	const parsedFromISO = rawAnchor ? DateTime.fromISO(rawAnchor, { zone }) : null;
+
+	// 3. choisir la première date valide
+	const parsed = parsedFromFormat?.isValid
+		? parsedFromFormat
+		: parsedFromISO?.isValid
+			? parsedFromISO
+			: null;
+
+	if (!parsed) {
+		interaction.reply({
+			flags: Djs.MessageFlags.Ephemeral,
+			content: ul("error.invalidAnchorDate", {
+				anchorISO: rawAnchor,
+				format: date?.format,
+			}),
+		});
+		return;
+	}
+
+	// 4. normaliser en YYYY-MM-DD (=> ton "anchor" final)
+	const anchor = parsed.toISODate()!;
+
+	// 5. vérifier que c'est pas dans le passé dans ce fuseau
+	const nowInZone = DateTime.now().setZone(zone);
+	if (parsed < nowInZone) {
+		interaction.reply({
+			flags: Djs.MessageFlags.Ephemeral,
+			content: ul("error.pastAnchorDate", {
+				anchor: parsed.toLocaleString(DateTime.DATETIME_FULL),
+			}),
+		});
+		return;
+	}
+	return anchor;
 }
