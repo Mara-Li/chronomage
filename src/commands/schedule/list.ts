@@ -4,12 +4,25 @@ import { DateTime } from "luxon";
 import type { EClient } from "@/client";
 import { tFn } from "@/localization";
 import humanizeDuration from "humanize-duration";
+import type { EventGuildData, Schedule } from "@/interface";
+import type { TFunction } from "i18next";
 
-function listUpcomingEventsForSchedule(guildId: string, scheduleId: string, client: EClient, limit = 5) {
+function listUpcomingEventsForSchedule(
+	guildId: string,
+	scheduleId: string,
+	client: EClient,
+	limit = 5
+) {
 	return listAllUpcomingForSchedule(guildId, scheduleId, client).slice(0, limit);
 }
 
-export function listAllUpcomingForSchedule(guildId: string, scheduleId: string, client: EClient) {
+type Part = { label: string; lines: string[]; upcoming: string[] };
+
+export function listAllUpcomingForSchedule(
+	guildId: string,
+	scheduleId: string,
+	client: EClient
+) {
 	const g = client.settings.get(guildId);
 	if (!g) return [];
 	const now = DateTime.now();
@@ -28,7 +41,6 @@ function listSchedules(guildId: string, client: EClient) {
 	return Object.entries(g.schedules).map(([id, s]) => ({ id, s }));
 }
 
-
 export async function handleList(
 	interaction: Djs.ChatInputCommandInteraction,
 	client: EClient
@@ -46,66 +58,112 @@ export async function handleList(
 			content: ul("error.noSchedules"),
 		});
 	}
-	const parts: { label: string; lines: string[], upcoming: string[] }[] = [];
-	for (const { id, s } of schedules) {
-		const formatDate = DateTime.fromISO(s.anchorISO, { zone: s.start.zone }).toFormat(
-			globalSettings?.format ?? "f"
-		);
-		const part: { label: string; lines: string[], upcoming: string[] } = { label: "", lines: [], upcoming: [] };
-		part.label = `**${id}** ${s.active ? "✅" : "❌"}`;
-		part.lines.push(
-			`__${ul("list.labels")}__\n     - ${s.labels.map((l) => `\`${l}\``).join("\n     - ")}`,
-			`__${ul("list.block")}__ \`${humanizeDuration(s.blockMs, { language: locale })}\``,
-			`__${ul("list.len")}__ \`${humanizeDuration(s.lenMs, { language: locale })}\``,
-			`__${ul("list.start")}__ \`${s.start.hhmm} (${s.start.zone})\``,
-			`__${ul("list.anchor")}__ ${formatDate}`,
-			`__${ul("list.location")}__ ${s.locationType === Djs.GuildScheduledEventEntityType.External ? s.location : `<#${s.location}>`}`,
-			`__${ul("list.createdBy")}__ <@${s.createdBy}>`
-		);
-		if (s.description) {
-			const descBits = Object.entries(s.description)
-				.map(
-					([lbl, txt]) =>
-						`\`${lbl}\`: \`${txt.slice(0, 60)}${txt.length > 60 ? "…" : ""}\``
-				)
-				.join(" | ");
-			if (descBits || descBits.length > 0) {
-				part.lines.push(`__${ul("list.description")}__ ${descBits}`);
-			}
+	const id = interaction.options.getString(ul("common.id"));
+	const parts: Part[] = [];
+
+	if (id) {
+		const schedule = schedules.find((s) => s.id === id);
+		if (!schedule) {
+			return interaction.editReply({
+				content: ul("error.invalidScheduleId", { scheduleId: id }),
+			});
 		}
-		if (s.banners) {
-			const bannerBits = Object.entries(s.banners)
-				.map(([lbl, url]) => `[${lbl}](<${url.url}>)`)
-				.join(" | ");
-			if (bannerBits || bannerBits.length > 0) {
-				part.lines.push(`__${ul("list.banners")}__ ${bannerBits}`);
-			}
-		}
-		const upcoming = listUpcomingEventsForSchedule(interaction.guildId!, id, client, 5).map(
-			(ev) => {
-				const ts = Math.floor(
-					DateTime.fromISO(ev.start.iso, { zone: ev.start.zone }).toSeconds()
-				);
-				return `\`${ev.label}\` - <t:${ts}:f>`;
-			}
+		const part = formatMessage(
+			schedule.s,
+			id,
+			ul,
+			locale,
+			interaction,
+			client,
+			globalSettings,
+			true
 		);
-		if (upcoming.length) {
-			part.lines.push(`__${ul("list.upcomingEvents")}__`);
-			for (const u of upcoming) part.upcoming.push(`  ${u}`);
-		}
 		parts.push(part);
+	} else {
+		for (const { id, s } of schedules) {
+			const part = formatMessage(s, id, ul, locale, interaction, client, globalSettings);
+			parts.push(part);
+		}
 	}
 	const allLines = parts.map((p) => p.lines.join("\n")).join("\n");
 	if (allLines.length >= 1090) {
 		//send in a message each part
 		for (const p of parts) {
-			const finalMesssages = `- ${p.label}\n  - ${p.lines.join("\n  - ")}\n     - ${p.upcoming.join("\n     - ")}`;
-			await interaction.followUp({ content: finalMesssages });
+			let finalMessages = p.label ? `- ${p.label}\n  - ` : "  - ";
+			finalMessages += p.lines.join("\n  - ");
+			if (p.upcoming.length > 0) {
+				finalMessages += `\n     - ${p.upcoming.join("\n     - ")}`;
+			}
+			await interaction.followUp({ content: finalMessages });
 		}
 	} else {
-		const message = dedent`${parts
-			.map((p) => ` - ${p.label}\n   - ${p.lines.join("\n   - ")}\n     - ${p.upcoming.join("\n     - ")}`)
-			.join("\n\n")}`;
+		const message = parts
+			.map((p) => {
+				let msg = p.label ? ` - ${p.label}\n   - ` : "   - ";
+				msg += p.lines.join("\n   - ");
+				if (p.upcoming.length > 0) {
+					msg += `\n     - ${p.upcoming.join("\n     - ")}`;
+				}
+				return msg;
+			})
+			.join("\n\n");
 		return interaction.editReply({ content: message });
 	}
+}
+
+function formatMessage(
+	s: Schedule,
+	id: string,
+	ul: TFunction,
+	locale: string,
+	interaction: Djs.ChatInputCommandInteraction,
+	client: EClient,
+	globalSettings?: EventGuildData["templates"]["date"],
+	unique?: boolean
+) {
+	const formatDate = DateTime.fromISO(s.anchorISO, { zone: s.start.zone }).toFormat(
+		globalSettings?.format ?? "f"
+	);
+	const part: Part = { label: "", lines: [], upcoming: [] };
+	part.label = unique ? "" : `**${id}** ${s.active ? "✅" : "❌"}`;
+	part.lines.push(
+		`__${ul("list.labels")}__\n     - ${s.labels.map((l) => `\`${l}\``).join("\n     - ")}`,
+		`__${ul("list.block")}__ \`${humanizeDuration(s.blockMs, { language: locale })}\``,
+		`__${ul("list.len")}__ \`${humanizeDuration(s.lenMs, { language: locale })}\``,
+		`__${ul("list.start")}__ \`${s.start.hhmm} (${s.start.zone})\``,
+		`__${ul("list.anchor")}__ ${formatDate}`,
+		`__${ul("list.location")}__ ${s.locationType === Djs.GuildScheduledEventEntityType.External ? s.location : `<#${s.location}>`}`,
+		`__${ul("list.createdBy")}__ <@${s.createdBy}>`
+	);
+	if (s.description) {
+		const descBits = Object.entries(s.description)
+			.map(
+				([lbl, txt]) => `\`${lbl}\`: \`${txt.slice(0, 60)}${txt.length > 60 ? "…" : ""}\``
+			)
+			.join(" | ");
+		if (descBits || descBits.length > 0) {
+			part.lines.push(`__${ul("list.description")}__ ${descBits}`);
+		}
+	}
+	if (s.banners) {
+		const bannerBits = Object.entries(s.banners)
+			.map(([lbl, url]) => `[${lbl}](<${url.url}>)`)
+			.join(" | ");
+		if (bannerBits || bannerBits.length > 0) {
+			part.lines.push(`__${ul("list.banners")}__ ${bannerBits}`);
+		}
+	}
+	const upcoming = listUpcomingEventsForSchedule(interaction.guildId!, id, client, 5).map(
+		(ev) => {
+			const ts = Math.floor(
+				DateTime.fromISO(ev.start.iso, { zone: ev.start.zone }).toSeconds()
+			);
+			return `\`${ev.label}\` - <t:${ts}:f>`;
+		}
+	);
+	if (upcoming.length) {
+		part.lines.push(`__${ul("list.upcomingEvents")}__`);
+		for (const u of upcoming) part.upcoming.push(`  ${u}`);
+	}
+	return part;
 }
