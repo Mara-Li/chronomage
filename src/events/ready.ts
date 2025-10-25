@@ -1,4 +1,5 @@
 import process from "node:process";
+import { CronJob } from "cron";
 import dotenv from "dotenv";
 import { VERSION } from "..";
 import type { EClient } from "../client";
@@ -41,12 +42,12 @@ export default (client: EClient): void => {
 		// Exécuter toutes les promesses en parallèle
 		await Promise.all(guildPromises);
 		console.info("Toutes les guildes ont été traitées.");
-		let running = false;
-		setInterval(
+		//create a cron job that runs every minute to check all guilds
+		new CronJob(
+			"*/1 * * * *",
 			async () => {
-				if (running) return;
-				running = true;
 				for (const guild of client.guilds.cache.values()) {
+					console.log(`[${guild.name}] Running ensureBufferForGuild...`);
 					try {
 						await ensureBufferForGuild(client, guild.id);
 						console.log(`[${guild.name}] ensureBufferForGuild executed successfully.`);
@@ -55,7 +56,8 @@ export default (client: EClient): void => {
 					}
 				}
 			},
-			15 * 60 * 1000
-		); // toutes les 15 minutes
+			null,
+			true
+		).start();
 	});
 };

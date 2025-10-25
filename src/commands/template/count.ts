@@ -122,11 +122,7 @@ export function count(
 	settings: EventGuildData
 ) {
 	if (!interaction.guild) return;
-	const { start, step, cron, decimal, compute } = getOptions(
-		interaction,
-		false,
-		settings.templates.count
-	);
+	const { start, step, cron, decimal, compute } = getOptions(interaction);
 	if (!cron && start == null && step == null && decimal == null && compute == null)
 		return display(interaction, settings, ul);
 

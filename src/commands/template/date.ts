@@ -80,25 +80,18 @@ function getOptions(
 	oldData?: EventGuildData["templates"]["date"]
 ) {
 	const defaultDate = setDefault ? defaultTemplate().date : null;
+	const fallBack = oldData || defaultDate;
 
 	const options = interaction.options;
-	const format =
-		options.getString(t("common.format")) || oldData?.format || defaultDate?.format;
+	const format = options.getString(t("common.format")) || fallBack?.format;
 	const timezone =
-		options.getString(t("template.date.timezone.name")) ||
-		oldData?.timezone ||
-		defaultDate?.timezone;
-	const cron = options.getString(t("common.cron")) || oldData?.cron || defaultDate?.cron;
-	const start =
-		options.getString(t("common.start")) || oldData?.start || defaultDate?.start;
-	const step =
-		convertStep(options.getString(t("common.step")), locale) ||
-		oldData?.step ||
-		defaultDate?.step;
+		options.getString(t("template.date.timezone.name")) || fallBack?.timezone;
+	const cron = options.getString(t("common.cron")) || fallBack?.cron;
+	const start = options.getString(t("common.start")) || fallBack?.start;
+	const step = convertStep(options.getString(t("common.step")), locale) || fallBack?.step;
 	const compute =
 		interaction.options.getBoolean(t("template.compute.name")) ||
-		oldData?.computeAtStart ||
-		defaultDate?.computeAtStart;
+		fallBack?.computeAtStart;
 	return { format, timezone, cron, start, step, compute };
 }
 
@@ -153,8 +146,7 @@ export function date(
 	const { format, timezone, cron, start, step, compute } = getOptions(
 		interaction,
 		locale,
-		false,
-		settings.templates.date
+		false
 	);
 	if (!format && !timezone && !cron && !start && step == null && compute == null)
 		return display(interaction, settings, ul);

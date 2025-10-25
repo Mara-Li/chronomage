@@ -26,6 +26,9 @@ export function setDate(guild: Djs.Guild, client: EClient) {
 			const currentValue = date.plus(counter.step).toISO();
 			//update the database
 			client.settings.set(guild.id, currentValue, "templates.date.currentValue");
+			console.log(
+				`[Date Template] Updated date for guild ${guild.id} to ${currentValue}`
+			);
 		},
 		null,
 		true,

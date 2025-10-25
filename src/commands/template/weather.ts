@@ -92,8 +92,8 @@ export async function processTemplate(
 		const weatherInfo = await wyd.byCity(weather.location, { short: true });
 		text = text.replace(weatherTemplate.short, weatherInfo ? weatherInfo.text : "");
 	}
-	if (text.match(weatherTemplate.long)) {
+	if (text.match(weatherTemplate.long))
 		text = text.replace(weatherTemplate.long, weatherInfo ? weatherInfo.text : "");
-	}
+
 	return text;
 }
