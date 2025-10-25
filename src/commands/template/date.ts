@@ -76,20 +76,28 @@ function convertStep(step: string | null | number, locale: Djs.Locale) {
 function getOptions(
 	interaction: Djs.ChatInputCommandInteraction,
 	locale: Djs.Locale,
-	setDefault?: boolean
+	setDefault?: boolean,
+	oldData?: EventGuildData["templates"]["date"]
 ) {
 	const defaultDate = setDefault ? defaultTemplate().date : null;
 
 	const options = interaction.options;
-	const format = options.getString(t("common.format")) || defaultDate?.format;
+	const format =
+		options.getString(t("common.format")) || oldData?.format || defaultDate?.format;
 	const timezone =
-		options.getString(t("template.date.timezone.name")) || defaultDate?.timezone;
-	const cron = options.getString(t("common.cron")) || defaultDate?.cron;
-	const start = options.getString(t("common.start")) || defaultDate?.start;
+		options.getString(t("template.date.timezone.name")) ||
+		oldData?.timezone ||
+		defaultDate?.timezone;
+	const cron = options.getString(t("common.cron")) || oldData?.cron || defaultDate?.cron;
+	const start =
+		options.getString(t("common.start")) || oldData?.start || defaultDate?.start;
 	const step =
-		convertStep(options.getString(t("common.step")), locale) || defaultDate?.step;
+		convertStep(options.getString(t("common.step")), locale) ||
+		oldData?.step ||
+		defaultDate?.step;
 	const compute =
-		interaction.options.getBoolean(t("template.compute.name")) ??
+		interaction.options.getBoolean(t("template.compute.name")) ||
+		oldData?.computeAtStart ||
 		defaultDate?.computeAtStart;
 	return { format, timezone, cron, start, step, compute };
 }
@@ -106,7 +114,8 @@ export function set(
 	const { format, timezone, cron, start, step, compute } = getOptions(
 		interaction,
 		locale,
-		true
+		true,
+		settings.templates.date
 	);
 	if (cron && !isValidCron(cron)) return interaction.reply(ul("error.cron"));
 
@@ -143,7 +152,9 @@ export function date(
 		settings?.settings?.language ?? interaction.locale ?? interaction.guildLocale;
 	const { format, timezone, cron, start, step, compute } = getOptions(
 		interaction,
-		locale
+		locale,
+		false,
+		settings.templates.date
 	);
 	if (!format && !timezone && !cron && !start && step == null && compute == null)
 		return display(interaction, settings, ul);

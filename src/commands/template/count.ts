@@ -57,19 +57,31 @@ function display(
 	});
 }
 
-function getOptions(interaction: Djs.ChatInputCommandInteraction, setDefault?: boolean) {
+function getOptions(
+	interaction: Djs.ChatInputCommandInteraction,
+	setDefault?: boolean,
+	oldData?: EventGuildData["templates"]["count"]
+) {
 	const defaultTemplateData = setDefault ? defaultTemplate().count : null;
 	const start =
-		interaction.options.getNumber(t("common.start")) ?? defaultTemplateData?.start;
+		interaction.options.getNumber(t("common.start")) ||
+		oldData?.start ||
+		defaultTemplateData?.start;
 	const step =
-		interaction.options.getNumber(t("common.step")) ?? defaultTemplateData?.step;
+		interaction.options.getNumber(t("common.step")) ||
+		oldData?.step ||
+		defaultTemplateData?.step;
 	const cron =
-		interaction.options.getString(t("common.cron")) ?? defaultTemplateData?.cron;
+		interaction.options.getString(t("common.cron")) ||
+		oldData?.cron ||
+		defaultTemplateData?.cron;
 	const decimal =
-		interaction.options.getInteger(t("template.decimal.name")) ??
+		interaction.options.getInteger(t("template.decimal.name")) ||
+		oldData?.decimal ||
 		defaultTemplateData?.decimal;
 	const compute =
-		interaction.options.getBoolean(t("template.compute.name")) ??
+		interaction.options.getBoolean(t("template.compute.name")) ||
+		oldData?.computeAtStart ||
 		defaultTemplateData?.computeAtStart;
 	return { start, step, cron, decimal, compute };
 }
@@ -85,7 +97,11 @@ function set(
 
 	const template = settings?.templates ?? temp;
 
-	const { start, step, cron, decimal, compute } = getOptions(interaction);
+	const { start, step, cron, decimal, compute } = getOptions(
+		interaction,
+		true,
+		template.count
+	);
 	template.count.start = start ?? template.count.start;
 	template.count.step = step ?? template.count.step;
 	template.count.cron = cron ?? template.count.cron;
@@ -106,7 +122,11 @@ export function count(
 	settings: EventGuildData
 ) {
 	if (!interaction.guild) return;
-	const { start, step, cron, decimal, compute } = getOptions(interaction);
+	const { start, step, cron, decimal, compute } = getOptions(
+		interaction,
+		false,
+		settings.templates.count
+	);
 	if (!cron && start == null && step == null && decimal == null && compute == null)
 		return display(interaction, settings, ul);
 

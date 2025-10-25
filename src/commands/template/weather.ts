@@ -38,11 +38,13 @@ function set(
 	const options = interaction.options as Djs.CommandInteractionOptionResolver;
 	const location = options.getString(t("weather.location"));
 	const computeAtStart = options.getBoolean(t("template.compute.name"));
+	const oldSettings = client.settings.get(interaction.guild.id)?.templates?.weather;
 	const temp = defaultTemplate();
 
 	const weather = {
-		location: location ?? temp.weather.location,
-		computeAtStart: computeAtStart ?? temp.weather.computeAtStart,
+		location: location || oldSettings?.location || temp.weather.location,
+		computeAtStart:
+			computeAtStart || oldSettings?.computeAtStart || temp.weather.computeAtStart,
 	};
 
 	client.settings.set(interaction.guild.id, weather, "templates.weather");
