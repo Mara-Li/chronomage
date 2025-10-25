@@ -42,9 +42,9 @@ export default (client: EClient): void => {
 		// Exécuter toutes les promesses en parallèle
 		await Promise.all(guildPromises);
 		console.info("Toutes les guildes ont été traitées.");
-		//create a cron job that runs every minute to check all guilds
+		//create a cron job that runs every 5 minute to check all guilds
 		new CronJob(
-			"*/1 * * * *",
+			"*/5 * * * *",
 			async () => {
 				for (const guild of client.guilds.cache.values()) {
 					try {

@@ -1,4 +1,5 @@
 import * as Djs from "discord.js";
+import type { TFunction } from "i18next";
 import { DateTime } from "luxon";
 import type { EClient } from "@/client";
 import { type BannerSpec, eventKey } from "@/interface";
@@ -127,4 +128,28 @@ async function bufferBanner(banner?: BannerSpec) {
 		return Buffer.from(arr);
 	}
 	return undefined;
+}
+
+export async function createEvent(
+	guildId: string,
+	scheduleId: string,
+	client: EClient,
+	interaction: Djs.ChatInputCommandInteraction | Djs.ModalSubmitInteraction,
+	ul: TFunction
+) {
+	setTimeout(async () => {
+		try {
+			console.info(`[${guildId}] Boot buffer (post-wizard)...`);
+			await ensureBufferForGuild(client, guildId);
+		} catch (err) {
+			console.error(`[${guildId}] ensureBufferForGuild post-wizard failed:`, err);
+			client.settings.delete(guildId, `schedules.${scheduleId}`);
+			await interaction.followUp({
+				content: ul("modals.scheduleEvent.completedError", {
+					err: err instanceof Error ? err.message : String(err),
+				}),
+				flags: Djs.MessageFlags.Ephemeral,
+			});
+		}
+	}, 2000);
 }

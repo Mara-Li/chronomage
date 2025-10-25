@@ -1,7 +1,7 @@
 import "@/discord_ext";
 import * as Djs from "discord.js";
 import { DateTime } from "luxon";
-import { ensureBufferForGuild } from "@/buffer";
+import { createEvent, ensureBufferForGuild } from "@/buffer";
 import type { EClient } from "@/client";
 import { handleCancel } from "@/commands/schedule/cancel";
 import { handleCreate } from "@/commands/schedule/create";
@@ -240,21 +240,7 @@ async function handleEdit(interaction: Djs.ChatInputCommandInteraction, client: 
 
 		g.schedules[id] = s;
 		client.settings.set(guildId, g);
-		setTimeout(async () => {
-			try {
-				console.info(`[${guildId}] Boot buffer (post-wizard)...`);
-				await ensureBufferForGuild(client, guildId);
-			} catch (err) {
-				console.error(`[${guildId}] ensureBufferForGuild post-wizard failed:`, err);
-				client.settings.delete(guildId, `schedules.${id}`);
-				await interaction.followUp({
-					content: ul("modals.scheduleEvent.completedError", {
-						err: err instanceof Error ? err.message : String(err),
-					}),
-					flags: Djs.MessageFlags.Ephemeral,
-				});
-			}
-		}, 2000);
+		await createEvent(guildId, id, client, interaction, ul);
 		const unchanged = ul("common.noChange");
 		return interaction.reply(
 			ul("edit.success", {

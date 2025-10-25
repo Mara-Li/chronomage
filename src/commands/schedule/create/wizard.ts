@@ -1,5 +1,5 @@
 import * as Djs from "discord.js";
-import { ensureBufferForGuild } from "@/buffer";
+import { createEvent, ensureBufferForGuild } from "@/buffer";
 import type { EClient } from "@/client";
 import { createSchedule } from "@/commands/schedule/create";
 import { buildScheduleModal, buttonFollow } from "@/commands/schedule/create/modal";
@@ -165,21 +165,7 @@ export async function altScheduleWizard(
 		});
 
 		// fin. pas d'appel lourd ici.
-		setTimeout(async () => {
-			try {
-				console.info(`[${guildId}] Boot buffer (post-wizard)...`);
-				await ensureBufferForGuild(client, guildId);
-			} catch (err) {
-				console.error(`[${guildId}] ensureBufferForGuild post-wizard failed:`, err);
-				client.settings.delete(guildId, `schedules.${scheduleId}`);
-				await interaction.followUp({
-					content: ul("modals.scheduleEvent.completedError", {
-						err: err instanceof Error ? err.message : String(err),
-					}),
-					flags: Djs.MessageFlags.Ephemeral,
-				});
-			}
-		}, 2000);
+		await createEvent(guildId, scheduleId, client, interaction, ul);
 	} catch (err) {
 		console.error("[altScheduleWizard] error at final step:", err);
 
