@@ -91,7 +91,10 @@ export async function handleCreate(
 	return await interaction.showModal(modal);
 }
 
-export async function getLocation(interaction: Djs.ChatInputCommandInteraction, ul: TFunction) {
+export async function getLocation(
+	interaction: Djs.ChatInputCommandInteraction,
+	ul: TFunction
+) {
 	const location = interaction.options.getString(t("location.string.name"));
 	const vocalChannel = interaction.options.getChannel(t("location.vocal.name")) as
 		| Djs.VoiceChannel
@@ -124,7 +127,11 @@ export async function getLocation(interaction: Djs.ChatInputCommandInteraction, 
 	return { finalLocation: finalLocation!, locationType };
 }
 
-export async function getTimes(interaction: Djs.ChatInputCommandInteraction, ul: TFunction, locale: string) {
+export async function getTimes(
+	interaction: Djs.ChatInputCommandInteraction,
+	ul: TFunction,
+	locale: string
+) {
 	const blocStr = interaction.options.getString(t("bloc.name"), true);
 	const startHHMM = interaction.options.getString(t("common.start"), true);
 	const lenStr = interaction.options.getString(t("common.len"), true);

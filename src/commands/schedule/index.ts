@@ -67,7 +67,15 @@ export const schedule = {
 		)
 		//LIST SUBCOMMAND
 		.addSubcommand((sub) =>
-			sub.setNames("schedule.list.name").setDescriptions("schedule.list.description")
+			sub
+				.setNames("schedule.list.name")
+				.setDescriptions("schedule.list.description")
+				.addStringOption((o) =>
+					o
+						.setNames("common.id")
+						.setDescriptions("schedule.list.id")
+						.setAutocomplete(true)
+				)
 		)
 		//PAUSE SUBCOMMAND
 		.addSubcommand((sub) =>
@@ -136,9 +144,11 @@ export const schedule = {
 							o
 								.setNames("location.vocal.name")
 								.setDescriptions("location.vocal.description")
-								.addChannelTypes(Djs.ChannelType.GuildVoice, Djs.ChannelType.GuildStageVoice)
+								.addChannelTypes(
+									Djs.ChannelType.GuildVoice,
+									Djs.ChannelType.GuildStageVoice
+								)
 						)
-
 				)
 				//EDIT fields (desc, labels, banners)
 				.addSubcommand((sub) =>
@@ -153,7 +163,11 @@ export const schedule = {
 								.setRequired(true)
 						)
 						.addIntegerOption((o) =>
-							o.setNames("count.name").setDescriptions("count.description").setMinValue(1).setMaxValue(20)
+							o
+								.setNames("count.name")
+								.setDescriptions("count.description")
+								.setMinValue(1)
+								.setMaxValue(20)
 						)
 				)
 		),

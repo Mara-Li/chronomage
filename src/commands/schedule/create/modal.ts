@@ -8,7 +8,6 @@ export async function buildScheduleModal(
 	index: number,
 	ul: TFunction,
 	old?: Schedule
-
 ) {
 	const oldLabel = old?.labels?.[index - 1] ?? "";
 	const oldDescription = old?.description?.[old?.labels?.[index - 1] ?? ""] ?? "";
@@ -40,7 +39,9 @@ export async function buildScheduleModal(
 	const imageBuilder: Djs.LabelBuilder = new Djs.LabelBuilder()
 		.setLabel(ul("modals.scheduleEvent.image.label"))
 		.setDescription(ul("modals.scheduleEvent.image.description"))
-		.setFileUploadComponent((input) => input.setCustomId("image").setRequired(false).setMaxValues(1))
+		.setFileUploadComponent((input) =>
+			input.setCustomId("image").setRequired(false).setMaxValues(1)
+		);
 
 	return new Djs.ModalBuilder()
 		.setCustomId(`altwiz:${guild.id}:${userId}:${index}`)

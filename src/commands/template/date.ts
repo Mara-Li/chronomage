@@ -61,8 +61,8 @@ function display(
 	const example = formatDateStart(date?.start ?? DateTime.now().toISO(), date?.format);
 	const currentValue = date?.currentValue
 		? DateTime.fromISO(date?.currentValue, { zone: date?.timezone }).toFormat(
-			date?.format ?? "f"
-		)
+				date?.format ?? "f"
+			)
 		: (example ?? ul("common.not_set"));
 	return interaction.reply({
 		embeds: [embed],
@@ -90,8 +90,7 @@ function getOptions(
 
 	const options = interaction.options;
 	const format = options.getString(t("common.format")) || fallBack?.format;
-	const timezone =
-		options.getString(t("timezone.name")) || fallBack?.timezone;
+	const timezone = options.getString(t("timezone.name")) || fallBack?.timezone;
 	const cron = options.getString(t("common.cron")) || fallBack?.cron;
 	const start = options.getString(t("common.start")) || fallBack?.start;
 	const step = convertStep(options.getString(t("common.step")), locale) || fallBack?.step;

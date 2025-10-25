@@ -4,7 +4,14 @@ import { createEvent } from "@/buffer";
 import type { EClient } from "@/client";
 import { createSchedule } from "@/commands/schedule/create";
 import { buildScheduleModal, buttonFollow } from "@/commands/schedule/create/modal";
-import { type Schedule, Wizard, type WizardOptions, type WizardState, wizardKey, type EventKey } from "@/interface";
+import {
+	type Schedule,
+	Wizard,
+	type WizardOptions,
+	type WizardState,
+	wizardKey,
+	type EventKey,
+} from "@/interface";
 import { tFn } from "@/localization";
 import { getBannerHash, getSettings } from "@/utils";
 
@@ -178,18 +185,25 @@ export async function altScheduleWizard(
 				if (eventRow.scheduleId !== scheduleId) continue;
 				if (eventRow.status !== "created") continue;
 
-				const eventStart = DateTime.fromISO(eventRow.start.iso, { zone: eventRow.start.zone });
+				const eventStart = DateTime.fromISO(eventRow.start.iso, {
+					zone: eventRow.start.zone,
+				});
 				if (eventStart <= now) continue;
 
 				// Delete the Discord event
 				if (eventRow.discordEventId) {
 					try {
-						const discordEvent = await guild.scheduledEvents.fetch(eventRow.discordEventId);
+						const discordEvent = await guild.scheduledEvents.fetch(
+							eventRow.discordEventId
+						);
 						if (discordEvent) {
 							await discordEvent.delete();
 						}
 					} catch (err) {
-						console.error(`Failed to delete Discord event ${eventRow.discordEventId}:`, err);
+						console.error(
+							`Failed to delete Discord event ${eventRow.discordEventId}:`,
+							err
+						);
 					}
 				}
 

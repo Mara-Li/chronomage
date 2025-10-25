@@ -93,18 +93,25 @@ export async function handleEdit(
 				if (eventRow.scheduleId !== id) continue;
 				if (eventRow.status !== "created") continue;
 
-				const eventStart = DateTime.fromISO(eventRow.start.iso, { zone: eventRow.start.zone });
+				const eventStart = DateTime.fromISO(eventRow.start.iso, {
+					zone: eventRow.start.zone,
+				});
 				if (eventStart <= now) continue; // Skip past events
 
 				// Delete the Discord event
 				if (eventRow.discordEventId) {
 					try {
-						const discordEvent = await guild.scheduledEvents.fetch(eventRow.discordEventId);
+						const discordEvent = await guild.scheduledEvents.fetch(
+							eventRow.discordEventId
+						);
 						if (discordEvent) {
 							await discordEvent.delete();
 						}
 					} catch (err) {
-						console.error(`Failed to delete Discord event ${eventRow.discordEventId}:`, err);
+						console.error(
+							`Failed to delete Discord event ${eventRow.discordEventId}:`,
+							err
+						);
 					}
 				}
 
@@ -120,7 +127,9 @@ export async function handleEdit(
 				if (eventRow.scheduleId !== id) continue;
 				if (eventRow.status !== "created") continue;
 
-				const eventStart = DateTime.fromISO(eventRow.start.iso, { zone: eventRow.start.zone });
+				const eventStart = DateTime.fromISO(eventRow.start.iso, {
+					zone: eventRow.start.zone,
+				});
 				if (eventStart <= now) continue; // Skip past events
 
 				// Update the snapshot values with new schedule settings
@@ -136,19 +145,24 @@ export async function handleEdit(
 				// Update the Discord event itself if it exists
 				if (eventRow.discordEventId) {
 					try {
-						const discordEvent = await guild.scheduledEvents.fetch(eventRow.discordEventId);
+						const discordEvent = await guild.scheduledEvents.fetch(
+							eventRow.discordEventId
+						);
 						if (discordEvent) {
 							const updateData: Record<string, any> = {};
 
 							if (lenStr) {
 								// Update end time based on new length
-								const newEnd = DateTime.fromISO(eventRow.start.iso, { zone: eventRow.start.zone })
-									.plus({ milliseconds: s.lenMs });
+								const newEnd = DateTime.fromISO(eventRow.start.iso, {
+									zone: eventRow.start.zone,
+								}).plus({ milliseconds: s.lenMs });
 								updateData.scheduledEndTime = newEnd.toJSDate();
 							}
 
 							if (location || vocalChannel) {
-								const entityType = Number(s.locationType) as Djs.GuildScheduledEventEntityType;
+								const entityType = Number(
+									s.locationType
+								) as Djs.GuildScheduledEventEntityType;
 								const needsChannel =
 									entityType === Djs.GuildScheduledEventEntityType.Voice ||
 									entityType === Djs.GuildScheduledEventEntityType.StageInstance;
@@ -165,7 +179,10 @@ export async function handleEdit(
 							}
 						}
 					} catch (err) {
-						console.error(`Failed to update Discord event ${eventRow.discordEventId}:`, err);
+						console.error(
+							`Failed to update Discord event ${eventRow.discordEventId}:`,
+							err
+						);
 						// Continue with other events even if one fails
 					}
 				}
@@ -177,7 +194,10 @@ export async function handleEdit(
 
 		// Recreate events if needed, or just ensure buffer
 		await createEvent(guildId, id, client, interaction, ul);
-		const locationTypeStr = s.locationType === Djs.GuildScheduledEventEntityType.External ? s.location : `<#${s.location}>`;
+		const locationTypeStr =
+			s.locationType === Djs.GuildScheduledEventEntityType.External
+				? s.location
+				: `<#${s.location}>`;
 		const bloc = humanizeDuration(s.blockMs, { language: locale });
 		await interaction.reply(
 			ul("edit.success", {
@@ -215,16 +235,20 @@ export async function handleEditBlocks(
 			content: t("error.invalidScheduleId", { scheduleId }),
 		});
 	}
-	const modal = await startWizardFromSlash(interaction, client, {
-		total: nbToCreate ?? s.labels.length ?? 1,
-		blocMs: s.blockMs,
-		startHHMM: s.start.hhmm,
-		lenMs: s.lenMs,
-		anchorISO: s.anchorISO,
-		zone: s.start.zone,
-		location: s.location,
-		locationType: s.locationType,
-	}, s);
+	const modal = await startWizardFromSlash(
+		interaction,
+		client,
+		{
+			total: nbToCreate ?? s.labels.length ?? 1,
+			blocMs: s.blockMs,
+			startHHMM: s.start.hhmm,
+			lenMs: s.lenMs,
+			anchorISO: s.anchorISO,
+			zone: s.start.zone,
+			location: s.location,
+			locationType: s.locationType,
+		},
+		s
+	);
 	return await interaction.showModal(modal);
-
 }
