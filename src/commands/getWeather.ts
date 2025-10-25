@@ -2,7 +2,8 @@ import "@/discord_ext";
 import * as Djs from "discord.js";
 import { WeatherDescribe } from "weather-describe";
 import type { EClient } from "@/client";
-import { t } from "@/localization";
+import { t, tFn } from "@/localization";
+import { getSettings } from "@/utils";
 
 export const getWeather = {
 	data: new Djs.SlashCommandBuilder()
@@ -22,14 +23,11 @@ export const getWeather = {
 			settings?.templates?.weather.location;
 		const timezone =
 			interaction.options.getString(t("timezone.name")) ?? settings?.settings?.zone;
-		const lang =
-			settings?.settings?.language ??
-			interaction.locale ??
-			interaction.guild!.preferredLocale;
-		let locale: string = lang as string;
-		if (lang === Djs.Locale.EnglishUS || lang === Djs.Locale.EnglishGB) {
-			locale = "en";
-		}
+		const { ul, locale } = tFn(
+			interaction.locale,
+			interaction.guild!,
+			getSettings(client, interaction.guild!, interaction.locale)
+		);
 		const wyd = new WeatherDescribe({
 			lang: locale as "fr" | "en",
 			timezone,
@@ -38,8 +36,8 @@ export const getWeather = {
 			const weatherInfo = await wyd.byCity(location);
 			if (!weatherInfo) {
 				return interaction.reply({
-					content: t("weather.locationNotFound", {
-						location,
+					content: ul("weather.locationNotFound", {
+						location: location?.toTitle(),
 					}),
 					flags: Djs.MessageFlags.Ephemeral,
 				});
@@ -50,8 +48,8 @@ export const getWeather = {
 			});
 		} catch (e) {
 			return interaction.reply({
-				content: t("weather.locationNotFound", {
-					location,
+				content: ul("weather.locationNotFound", {
+					location: location?.toTitle(),
 				}),
 				flags: Djs.MessageFlags.Ephemeral,
 			});
