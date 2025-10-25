@@ -107,7 +107,7 @@ export async function handleList(
 				return msg;
 			})
 			.join("\n\n");
-		return interaction.editReply({ content: message });
+		return interaction.editReply({ content: id ? dedent(message) : message });
 	}
 }
 

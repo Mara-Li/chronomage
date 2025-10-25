@@ -34,18 +34,27 @@ export const getWeather = {
 			lang: locale as "fr" | "en",
 			timezone,
 		});
-		const weatherInfo = await wyd.byCity(location);
-		if (!weatherInfo) {
+		try {
+			const weatherInfo = await wyd.byCity(location);
+			if (!weatherInfo) {
+				return interaction.reply({
+					content: t("weather.locationNotFound", {
+						location,
+					}),
+					flags: Djs.MessageFlags.Ephemeral,
+				});
+			}
+
 			return interaction.reply({
-				content: t(lang, "weather.locationNotFound", {
+				content: weatherInfo.text,
+			});
+		} catch (e) {
+			return interaction.reply({
+				content: t("weather.locationNotFound", {
 					location,
 				}),
 				flags: Djs.MessageFlags.Ephemeral,
 			});
 		}
-
-		return interaction.reply({
-			content: weatherInfo.text,
-		});
 	},
 };
