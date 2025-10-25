@@ -5,7 +5,7 @@ import {
 	altScheduleWizard,
 	altWizardCancel,
 	altWizardNext,
-} from "@/commands/schedule/wizard";
+} from "@/commands/schedule/create/wizard";
 
 export default (client: EClient): void => {
 	client.on("interactionCreate", async (interaction: Djs.BaseInteraction) => {

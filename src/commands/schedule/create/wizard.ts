@@ -1,10 +1,10 @@
 import * as Djs from "discord.js";
+import { ensureBufferForGuild } from "@/buffer";
 import type { EClient } from "@/client";
-import { buildScheduleModal, buttonFollow } from "@/commands/schedule/modal";
+import { createSchedule } from "@/commands/schedule/create";
+import { buildScheduleModal, buttonFollow } from "@/commands/schedule/create/modal";
 import { Wizard, type WizardOptions, wizardKey } from "@/interface";
 import { tFn } from "@/localization";
-import { ensureBufferForGuild } from "@/schedule/buffer";
-import { createSchedule } from "@/schedule/crud";
 import { getBannerHash, getSettings } from "@/utils";
 
 export function startWizardFromSlash(

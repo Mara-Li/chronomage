@@ -35,7 +35,8 @@
 			"@/utils": ["src/utils"],
 			"@/cron/*": ["src/cron/*"],
 			"@/duration": ["src/duration"],
-			"@/schedule/*": ["src/schedule/*"],
+			"@/buffer/*": ["src/buffer/*"],
+			"@/buffer": ["src/buffer/index"],
 			"@/commands/*": ["src/commands/*"],
 			"@/commands": ["src/commands/index"],
 			"@/cron": ["src/cron/index"]
