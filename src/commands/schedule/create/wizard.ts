@@ -283,8 +283,7 @@ export async function altScheduleWizard(
 export async function altWizardNext(interaction: Djs.ButtonInteraction, client: EClient) {
 	const [, guildId, userId] = interaction.customId.split(":");
 	const guild = interaction.guild;
-	//delete interaction.message;
-	await interaction.message.delete();
+	await interaction.message.edit({ components: [] }); // remove buttons
 
 	const { ul } = tFn(
 		interaction.locale,
