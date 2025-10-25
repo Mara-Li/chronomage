@@ -58,6 +58,7 @@
   },
   "error": {
     "cron": "Le cron est invalide.",
+    "duplicateLabel": "Le label `{{label}}` est déjà utilisé pour le bloc {{index}}. Chaque label doit être unique.",
     "invalidAnchorDate": "Date d'ancrage \"{{anchorISO}}\" invalide. Format attendu `{{format}}.`",
     "invalidBlock": "Bloc \"{{blocStr}}\" invalide",
     "invalidLength": "Durée \"{{lenStr}}\" invalide",
@@ -81,8 +82,7 @@
       "name": "langue",
       "set": "Le bot est maintenance configuré en {{lang}}."
     },
-    "locale": {
-    },
+    "locale": {},
     "minFuturBlock": {
       "description": "Ajustez le nombre d'événements qui seront créés à chaque cycle.",
       "name": "future_min_blocks",
@@ -93,8 +93,7 @@
       "set": "Le fuseau horaire par défaut a été défini sur {{tz}}."
     }
   },
-  "globalsettingsSettings": {
-  },
+  "globalsettingsSettings": {},
   "list": {
     "anchor": "Date de début :",
     "banners": "Image(s) :",
@@ -138,8 +137,7 @@
     "success": "⏸️ Cycle **{{scheduleId}}** mise en pause.\nElle ne générera plus de nouveaux events, mais les events déjà créés restent."
   },
   "schedule": {
-    "active": {
-    },
+    "active": {},
     "cancel": {
       "description": "Supprimer un cycle et ses évènements futurs.",
       "id": "ID du cycle à supprimer",
@@ -150,8 +148,7 @@
       "name": "config"
     },
     "create": {
-      "blocks": {
-      },
+      "blocks": {},
       "description": "Créer un nouvel événement récurrent",
       "len": {
         "description": "Durée de chaque évènements (ex : 2h)"
@@ -177,8 +174,7 @@
       "id": "ID du cycle à afficher",
       "name": "lister"
     },
-    "modal": {
-    },
+    "modal": {},
     "name": "schedule",
     "pause": {
       "description": "Mettre un cycle en pause",
@@ -205,8 +201,7 @@
       "name": "decimal"
     },
     "description": "Gérer les modèles de variables (date, nombre et méteo)",
-    "image": {
-    },
+    "image": {},
     "name": "variables",
     "weather": {
       "description": "Définir la localisation de la météo"
@@ -225,7 +220,6 @@
     "location": "location",
     "locationNotFound": "La ville {{location}} est introuvable.",
     "name": "météo",
-    "set": {
-    }
+    "set": {}
   }
 }

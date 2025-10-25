@@ -58,7 +58,8 @@
   },
   "error": {
     "cron": "The cron is invalid.",
-    "invalidAnchorDate": "Invalid anchor date “{{anchorISO}}”. Expected format `{{format}}.`",
+    "duplicateLabel": "The label `{{label}}` is already used for block {{index}}. Each label must be unique.",
+    "invalidAnchorDate": "Invalid anchor date \"{{anchorISO}}\". Expected format `{{format}}`.",
     "invalidBlock": "Invalid bloc \"{{blocStr}}\"",
     "invalidLength": "Invalid duration “{{lenStr}}”",
     "invalidScheduleId": "No cycle with id `{{scheduleId}}` found.",
@@ -81,8 +82,7 @@
       "name": "language",
       "set": "The bot language is now {{lang}}."
     },
-    "locale": {
-    },
+    "locale": {},
     "minFuturBlock": {
       "description": "Adjust the number of event that will be created at each cycle.",
       "name": "future_min_blocks",
@@ -93,8 +93,7 @@
       "set": "The default time zone has been set to {{tz}}."
     }
   },
-  "globalsettingsSettings": {
-  },
+  "globalsettingsSettings": {},
   "list": {
     "anchor": "Start date :",
     "banners": "Image(s):",
@@ -138,8 +137,7 @@
     "success": "⏸️ Cycle **{{scheduleId}}** paused.\nIt will no longer generate new events, but events that have already been created will remain."
   },
   "schedule": {
-    "active": {
-    },
+    "active": {},
     "cancel": {
       "description": "Delete a cycle and its future events.",
       "id": "Cycle id to delete",
@@ -150,8 +148,7 @@
       "name": "config"
     },
     "create": {
-      "blocks": {
-      },
+      "blocks": {},
       "description": "Create a new recurring event",
       "len": {
         "description": "Len of each events (eg, 2h)"
@@ -177,8 +174,7 @@
       "id": "Cycle ID to display",
       "name": "list"
     },
-    "modal": {
-    },
+    "modal": {},
     "name": "schedule",
     "pause": {
       "description": "Pause a cycle",
@@ -205,8 +201,7 @@
       "name": "decimal"
     },
     "description": "Manage variables template (date, number and weather)",
-    "image": {
-    },
+    "image": {},
     "name": "variables",
     "weather": {
       "description": "Set the weather location"
@@ -225,7 +220,6 @@
     "location": "location",
     "locationNotFound": "The city {{location}} cannot be found.",
     "name": "weather",
-    "set": {
-    }
+    "set": {}
   }
 }

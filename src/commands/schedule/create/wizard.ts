@@ -11,6 +11,7 @@ import {
 	type WizardState,
 	wizardKey,
 	type EventKey,
+	type BannerSpec,
 } from "@/interface";
 import { tFn } from "@/localization";
 import { getBannerHash, getSettings } from "@/utils";
@@ -132,6 +133,15 @@ export async function altScheduleWizard(
 		const currentIndex = state.current - 1;
 		const oldLabel = state.labels[currentIndex]; // Get the old label before replacing
 
+		// Check if this label is already used in another slot
+		const duplicateIndex = state.labels.findIndex((l, idx) => l === label && idx !== currentIndex);
+		if (duplicateIndex !== -1) {
+			await interaction.editReply({
+				content: ul("error.duplicateLabel", { label, index: duplicateIndex + 1 }),
+			});
+			return;
+		}
+
 		// If we're replacing a label, clean up old description and banner
 		if (oldLabel && oldLabel !== label) {
 			delete state.descriptions[oldLabel];
@@ -142,9 +152,13 @@ export async function altScheduleWizard(
 		if (description.length) state.descriptions[label] = description;
 		if (att) state.banners[label] = att;
 		state.current += 1;
-		Wizard.set(wizardKey(guildId, userId), state);
 
-		// 3. S'il reste des étapes => on s'arrête là, on renvoie le bouton "Suivant"
+		console.log(`[Wizard Debug] Step ${currentIndex + 1}/${state.total}:`);
+		console.log(`  Label: "${label}"`);
+		console.log(`  Description: "${description}"`);
+		console.log(`  Current descriptions:`, JSON.stringify(state.descriptions, null, 2));
+
+		Wizard.set(wizardKey(guildId, userId), state);		// 3. S'il reste des étapes => on s'arrête là, on renvoie le bouton "Suivant"
 		if (state.current <= state.total) {
 			return await interaction.reply({
 				content: ul("modals.scheduleEvent.nextPrompt", {
@@ -211,6 +225,19 @@ export async function altScheduleWizard(
 				delete g.events[eventKey as EventKey];
 			}
 
+			// Clean up descriptions and banners for labels that no longer exist
+			const cleanedDescriptions: Record<string, string> = {};
+			const cleanedBanners: Record<string, BannerSpec> = {};
+
+			for (const label of labels) {
+				if (state.descriptions[label]) {
+					cleanedDescriptions[label] = state.descriptions[label];
+				}
+				if (state.banners[label]) {
+					cleanedBanners[label] = state.banners[label];
+				}
+			}
+
 			// Update the existing schedule with new data
 			g.schedules[scheduleId] = {
 				...existingSchedule,
@@ -222,8 +249,8 @@ export async function altScheduleWizard(
 				nextBlockIndex: 0, // Reset to recreate events
 				location: state.location,
 				locationType: state.locationType,
-				description: state.descriptions,
-				banners: state.banners,
+				description: cleanedDescriptions,
+				banners: cleanedBanners,
 			};
 		} else {
 			// Create a new schedule
@@ -241,11 +268,24 @@ export async function altScheduleWizard(
 			});
 			scheduleId = result.scheduleId;
 
+			// Clean up descriptions and banners for labels that no longer exist
+			const cleanedDescriptions: Record<string, string> = {};
+			const cleanedBanners: Record<string, BannerSpec> = {};
+
+			for (const label of labels) {
+				if (state.descriptions[label]) {
+					cleanedDescriptions[label] = state.descriptions[label];
+				}
+				if (state.banners[label]) {
+					cleanedBanners[label] = state.banners[label];
+				}
+			}
+
 			// Add descriptions and banners
 			g.schedules[scheduleId] = {
 				...g.schedules[scheduleId],
-				description: state.descriptions,
-				banners: state.banners,
+				description: cleanedDescriptions,
+				banners: cleanedBanners,
 			};
 		}
 

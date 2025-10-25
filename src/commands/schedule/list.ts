@@ -136,13 +136,12 @@ function formatMessage(
 		`__${ul("list.createdBy")}__ <@${s.createdBy}>`
 	);
 	if (s.description) {
-		const descBits = Object.entries(s.description)
-			.map(
-				([lbl, txt]) => `\`${lbl}\`: \`${txt.slice(0, 60)}${txt.length > 60 ? "…" : ""}\``
-			)
-			.join(" | ");
-		if (descBits || descBits.length > 0) {
-			part.lines.push(`__${ul("list.description")}__ ${descBits}`);
+		const descEntries = Object.entries(s.description);
+		if (descEntries.length > 0) {
+			const descLines = descEntries.map(
+				([lbl, txt]) => `\`${lbl}\`: \`${txt.slice(0, 100)}${txt.length > 100 ? "…" : ""}\``
+			);
+			part.lines.push(`__${ul("list.description")}__\n     - ${descLines.join("\n     - ")}`);
 		}
 	}
 	if (s.banners) {
