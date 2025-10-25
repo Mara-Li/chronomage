@@ -10,7 +10,6 @@ export async function ensureBufferForGuild(client: EClient, guildId: string) {
 	const g = client.settings.get(guildId);
 	if (!g || !g.schedules) return;
 
-	console.log(`[${guildId}] Ensuring event buffer...`);
 	const FutureMinBlocks = g.settings?.futurMinBlock ?? FUTURE_MIN_BLOCKS;
 
 	for (const [scheduleId, s] of Object.entries(g.schedules)) {
@@ -72,10 +71,6 @@ export async function ensureBufferForGuild(client: EClient, guildId: string) {
 					: undefined;
 
 			const channel = needsChannel ? s.location : undefined;
-
-			console.log(
-				`[${guildId}] Creating event for schedule ${scheduleId} at ${startIso} (label: ${label})`
-			);
 
 			const ev = await guild.scheduledEvents.create({
 				name: await processTemplate(label, client, guild),

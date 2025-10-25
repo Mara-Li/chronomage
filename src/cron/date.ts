@@ -13,22 +13,28 @@ export function setDate(guild: Djs.Guild, client: EClient) {
 	const settings = client.settings.get(guild.id);
 	const counter = settings?.templates.date;
 	if (!counter) return;
+
 	const cron = counter.cron;
 	if (!cron) return;
 	const job = new CronJob(
 		cron,
 		() => {
 			//calculate the new date value with Luxon
-			const date = DateTime.fromISO(counter.currentValue, {
+			let currentValue = counter.currentValue;
+			if (!currentValue) {
+				const zone = counter.timezone || settings?.settings?.zone || "utc";
+				currentValue =
+					DateTime.fromISO(counter.start, { zone }).toISO() ??
+					DateTime.fromISO(counter.start).toISO() ??
+					DateTime.now().toISO();
+			}
+			const date = DateTime.fromISO(currentValue, {
 				zone: counter.timezone || settings?.settings?.zone || "utc",
 			});
 			//the step is already in ms
-			const currentValue = date.plus(counter.step).toISO();
+			const newCurrent = date.plus(counter.step).toISO();
 			//update the database
-			client.settings.set(guild.id, currentValue, "templates.date.currentValue");
-			console.log(
-				`[Date Template] Updated date for guild ${guild.id} to ${currentValue}`
-			);
+			client.settings.set(guild.id, newCurrent, "templates.date.currentValue");
 		},
 		null,
 		true,

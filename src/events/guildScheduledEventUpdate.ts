@@ -4,7 +4,6 @@ import { processTemplate } from "../schedule/utils";
 
 export default (client: EClient): void => {
 	client.on("guildScheduledEventUpdate", async (oldEvent, newEvent) => {
-		console.log(`Guild scheduled event updated: ${newEvent.id}`);
 		//compute the templates for the event description
 		if (!newEvent.guild) return;
 		if (
@@ -13,7 +12,6 @@ export default (client: EClient): void => {
 			oldEvent?.name !== newEvent.name ||
 			oldEvent?.description !== newEvent.description
 		) {
-			console.log(`New scheduled event started in guild ${newEvent.guild.id}`);
 			const settings = client.settings.get(newEvent.guild.id);
 			if (!settings?.templates) return;
 			let description = newEvent.description || undefined;

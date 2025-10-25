@@ -138,9 +138,7 @@ export const schedule = {
 	},
 	async execute(interaction: Djs.ChatInputCommandInteraction, client: EClient) {
 		if (!interaction.guild) return; //tbh impossible bc of setContexts but ts ...
-		const guild = interaction.guild.id;
 		const subcommand = interaction.options.getSubcommand(true);
-		console.log(`Executing schedule subcommand: ${subcommand} in guild ${guild}`);
 
 		switch (subcommand) {
 			case t("schedule.create.name"): {
@@ -319,7 +317,6 @@ async function handleList(interaction: Djs.ChatInputCommandInteraction, client: 
 		parts.push(part);
 	}
 	const allLines = parts.map((p) => p.lines.join("\n")).join("\n");
-	console.log(allLines.length);
 	if (allLines.length >= 1090) {
 		//send in a message each part
 		for (const p of parts) {
@@ -365,7 +362,6 @@ async function handleCancel(
 		interaction.guild!,
 		client.settings.get(interaction.guild!.id)!
 	);
-	console.log(`Cancelling schedule with ID: ${scheduleId}`);
 	if (scheduleId === "all") {
 		await cancelAll(interaction.guild!, client);
 		return interaction.editReply(ul("cancel.allSuccess"));

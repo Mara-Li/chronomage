@@ -1,5 +1,6 @@
 import { isValidCron } from "cron-validator";
 import * as Djs from "discord.js";
+import humanizeDuration from "humanize-duration";
 import type { TFunction } from "i18next";
 import { DateTime } from "luxon";
 import type { EClient } from "../../client";
@@ -21,6 +22,11 @@ function display(
 	const formatDateStart = (dateStr?: string, format = "f") => {
 		if (!dateStr) return null;
 		return DateTime.fromISO(dateStr).toFormat(format);
+	};
+
+	const humanizeStep = (step: number | null | undefined) => {
+		if (step == null) return ul("common.not_set");
+		return humanizeDuration(step, { language: interaction.locale });
 	};
 
 	const embed = new Djs.EmbedBuilder()
@@ -45,7 +51,7 @@ function display(
 			},
 			{
 				name: ul("common.step").toTitle(),
-				value: date ? `\`${date.step}\`` : ul("common.not_set"),
+				value: date ? `\`${humanizeStep(date.step)}\`` : ul("common.not_set"),
 			},
 			{
 				name: ul("template.compute.name").toTitle(),
@@ -183,8 +189,6 @@ export function anchorIsoDate(
 	const rawAnchor =
 		interaction.options.getString(t("schedule.create.anchor.name")) ??
 		DateTime.now().setZone(zone).plus({ minutes: 30 }).toISO();
-
-	console.log("Raw anchor date input:", rawAnchor, "zone:", zone, "locale:", locale);
 
 	// 2. on essaie deux parse possibles : format custom et ISO
 	const parsedFromFormat =

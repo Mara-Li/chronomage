@@ -15,9 +15,6 @@ export function setCount(guild: Djs.Guild, client: EClient) {
 				counter.decimal
 			);
 			client.settings.set(guild.id, currentValue, "templates.count.currentValue");
-			console.log(
-				`[Count Cron] Guild: ${guild.name} (${guild.id}) - New Value: ${currentValue}`
-			);
 		},
 		null,
 		true,

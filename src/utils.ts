@@ -9,7 +9,7 @@ export function defaultTemplate(): Templates {
 			timezone: "UTC",
 			cron: "0 0 * * *",
 			start: new Date().toISOString(),
-			step: 1,
+			step: 86400000,
 			currentValue: new Date().toISOString(),
 			computeAtStart: false,
 		},

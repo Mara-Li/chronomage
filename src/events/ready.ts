@@ -47,10 +47,8 @@ export default (client: EClient): void => {
 			"*/1 * * * *",
 			async () => {
 				for (const guild of client.guilds.cache.values()) {
-					console.log(`[${guild.name}] Running ensureBufferForGuild...`);
 					try {
 						await ensureBufferForGuild(client, guild.id);
-						console.log(`[${guild.name}] ensureBufferForGuild executed successfully.`);
 					} catch (err) {
 						console.error(`[${guild.name}] ensureBufferForGuild error:`, err);
 					}
