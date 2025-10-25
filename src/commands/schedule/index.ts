@@ -3,8 +3,10 @@ import dedent from "dedent";
 import * as Djs from "discord.js";
 import { DateTime } from "luxon";
 import type { EClient } from "@/client";
+import { startWizardFromSlash } from "@/commands/schedule/wizard";
 import { parseDurationLocalized } from "@/duration";
 import { t, tFn } from "@/localization";
+import { ensureBufferForGuild } from "@/schedule/buffer";
 import {
 	cancelAll,
 	deleteSchedule,
@@ -13,7 +15,6 @@ import {
 	setScheduleActive,
 } from "@/schedule/crud";
 import { anchorIsoDate } from "../template/date";
-import { startWizardFromSlash } from "./modal";
 
 /**
  * Schedule commands
@@ -32,17 +33,14 @@ export const schedule = {
 				.setDescriptions("schedule.create.description")
 				.addIntegerOption((o) =>
 					o
-						.setNames("template.count.name")
-						.setDescriptions("schedule.create.count.description")
+						.setNames("count.name")
+						.setDescriptions("count.description")
 						.setRequired(true)
 						.setMinValue(1)
 						.setMaxValue(20)
 				)
 				.addStringOption((s) =>
-					s
-						.setNames("schedule.create.bloc.name")
-						.setDescriptions("schedule.create.bloc.description")
-						.setRequired(true)
+					s.setNames("bloc.name").setDescriptions("bloc.description").setRequired(true)
 				)
 				.addStringOption((o) =>
 					o
@@ -52,31 +50,27 @@ export const schedule = {
 				)
 				.addStringOption((o) =>
 					o
-						.setNames("schedule.len.name")
+						.setNames("common.len")
 						.setDescriptions("schedule.create.len.description")
 						.setRequired(true)
 				)
 				.addStringOption((o) =>
 					o
-						.setNames("schedule.location.string.name")
-						.setDescriptions("schedule.location.string.description")
+						.setNames("location.string.name")
+						.setDescriptions("location.string.description")
 						.setMaxLength(100)
 				)
 				.addChannelOption((o) =>
 					o
-						.setNames("schedule.location.vocal.name")
-						.setDescriptions("schedule.location.vocal.description")
+						.setNames("location.vocal.name")
+						.setDescriptions("location.vocal.description")
 						.addChannelTypes(Djs.ChannelType.GuildVoice, Djs.ChannelType.GuildStageVoice)
 				)
 				.addStringOption((o) =>
-					o
-						.setNames("schedule.create.anchor.name")
-						.setDescriptions("schedule.create.anchor.description")
+					o.setNames("anchor.name").setDescriptions("anchor.description")
 				)
 				.addStringOption((o) =>
-					o
-						.setNames("template.date.timezone.name")
-						.setDescriptions("schedule.create.zone.name")
+					o.setNames("timezone.name").setDescriptions("schedule.create.zone.name")
 				)
 		)
 		//LIST SUBCOMMAND
@@ -107,6 +101,52 @@ export const schedule = {
 						.setDescriptions("schedule.cancel.id")
 						.setAutocomplete(true)
 						.setRequired(true)
+				)
+		)
+		//EDIT SUBCOMMAND
+		.addSubcommandGroup((grp) =>
+			grp
+				.setNames("schedule.edit.name")
+				.setDescriptions("schedule.edit.description")
+				//EDIT settings subcommand
+				.addSubcommand((sub) =>
+					sub
+						.setNames("schedule.config.name")
+						.setDescriptions("schedule.config.description")
+						.addStringOption((o) =>
+							o
+								.setNames("common.id")
+								.setDescriptions("schedule.edit.id")
+								.setAutocomplete(true)
+								.setRequired(true)
+						)
+						.addStringOption((opt) =>
+							opt
+								.setNames("common.len")
+								.setDescriptions("schedule.create.len.description")
+						)
+						.addStringOption((opt) =>
+							opt.setNames("common.start").setDescriptions("schedule.create.start")
+						)
+						.addStringOption((opt) =>
+							opt.setNames("timezone.name").setDescriptions("timezone.description")
+						)
+				)
+				//EDIT fields (desc, labels, banners)
+				.addSubcommand((sub) =>
+					sub
+						.setNames("schedule.edit.bloc.name")
+						.setDescriptions("schedule.edit.bloc.description")
+						.addStringOption((o) =>
+							o
+								.setNames("common.id")
+								.setDescriptions("schedule.edit.id")
+								.setAutocomplete(true)
+								.setRequired(true)
+						)
+						.addIntegerOption((o) =>
+							o.setNames("bloc.name").setDescriptions("bloc.description")
+						)
 				)
 		),
 	async autocomplete(interaction: Djs.AutocompleteInteraction, client: EClient) {
@@ -153,6 +193,9 @@ export const schedule = {
 			case t("schedule.cancel.name"): {
 				return await handleCancel(interaction, client);
 			}
+			case t("schedule.edit.fields.name"): {
+				return await handleEdit(interaction, client);
+			}
 			default: {
 				const { ul } = tFn(
 					interaction.locale,
@@ -180,12 +223,10 @@ async function handleCreate(
 	const total = interaction.options.getInteger(t("template.count.name"), true);
 	const blocStr = interaction.options.getString(t("schedule.create.bloc.name"), true);
 	const startHHMM = interaction.options.getString(t("common.start"), true);
-	const lenStr = interaction.options.getString(t("schedule.len.name"), true);
+	const lenStr = interaction.options.getString(t("common.len"), true);
 	const date = client.settings.get(interaction.guild!.id)?.templates.date;
 	const zone =
-		interaction.options.getString(t("template.date.timezone.name")) ||
-		date?.timezone ||
-		"UTC";
+		interaction.options.getString(t("timezone.name")) || date?.timezone || "UTC";
 
 	// Validate inputs here if necessary, e.g., check date formats, timezones, etc.
 
@@ -213,10 +254,11 @@ async function handleCreate(
 	const anchor = anchorIsoDate(interaction, ul, zone, locale, date);
 	if (!anchor) return; //anchorIsoDate already replied with error
 
-	const location = interaction.options.getString(t("schedule.location.string.name"));
-	const vocalChannel = interaction.options.getChannel(
-		t("schedule.location.vocal.name")
-	) as Djs.VoiceChannel | Djs.StageChannel | null;
+	const location = interaction.options.getString(t("location.string.name"));
+	const vocalChannel = interaction.options.getChannel(t("location.vocal.name")) as
+		| Djs.VoiceChannel
+		| Djs.StageChannel
+		| null;
 	let finalLocation = location;
 	let locationType: Djs.GuildScheduledEventEntityType | null = null; //
 	if (location && vocalChannel) {
@@ -373,4 +415,73 @@ async function handleCancel(
 		});
 	}
 	return interaction.editReply(ul("cancel.success", { scheduleId }));
+}
+
+async function handleEdit(interaction: Djs.ChatInputCommandInteraction, client: EClient) {
+	// Implementation for edit subcommand goes here
+	const guildId = interaction.guildId!;
+	const { ul, locale } = tFn(
+		interaction.locale,
+		interaction.guild!,
+		client.settings.get(guildId)
+	);
+	const id = interaction.options.getString("id", true);
+
+	const g = client.settings.get(guildId);
+	if (!g?.schedules?.[id]) {
+		return interaction.reply({
+			content: ul("error.invalidScheduleId", { id }),
+			flags: Djs.MessageFlags.Ephemeral,
+		});
+	}
+	const s = g.schedules[id];
+	const lenStr = interaction.options.getString(t("common.len"));
+	const startHHMM = interaction.options.getString(t("common.start"));
+	const zone = interaction.options.getString(t("timezone.name"));
+	try {
+		if (lenStr) s.lenMs = parseDurationLocalized(lenStr, locale);
+		if (startHHMM) {
+			if (!/^\d{2}:\d{2}$/.test(startHHMM)) new Error("Heure invalide (HH:MM)");
+			s.start.hhmm = startHHMM;
+		}
+		if (zone) s.start.zone = zone;
+
+		// met à jour la date d’ancrage
+		s.anchorISO = DateTime.now().setZone(s.start.zone).toISODate()!;
+		s.nextBlockIndex = 0;
+
+		g.schedules[id] = s;
+		client.settings.set(guildId, g);
+		setTimeout(async () => {
+			try {
+				console.info(`[${guildId}] Boot buffer (post-wizard)...`);
+				await ensureBufferForGuild(client, guildId);
+			} catch (err) {
+				console.error(`[${guildId}] ensureBufferForGuild post-wizard failed:`, err);
+				client.settings.delete(guildId, `schedules.${id}`);
+				await interaction.followUp({
+					content: ul("modals.scheduleEvent.completedError", {
+						err: err instanceof Error ? err.message : String(err),
+					}),
+					flags: Djs.MessageFlags.Ephemeral,
+				});
+			}
+		}, 2000);
+		const unchanged = ul("common.noChange");
+		return interaction.reply(
+			ul("edit.success", {
+				id,
+				lenStr: lenStr ?? unchanged,
+				startHHMM: startHHMM ?? unchanged,
+				zone: zone ?? unchanged,
+			})
+		);
+	} catch (err) {
+		return interaction.reply({
+			content: ul("errors.unknown", {
+				err: err instanceof Error ? err.message : String(err),
+			}),
+			flags: Djs.MessageFlags.Ephemeral,
+		});
+	}
 }

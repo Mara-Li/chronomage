@@ -4,15 +4,10 @@
     "description": "Manage variables template (date, number and weather)",
     "date": {
       "description": "Manage date : timezone, cron, format, start...",
-      "timezone": {
-        "name": "timezone",
-        "description": "Set the timezone"
-      },
       "format": "Set how the date should be displayed",
       "step": "Duration to add as set"
     },
     "count": {
-      "name": "count",
       "description": "Number to increment or decrement"
     },
     "decimal": {
@@ -20,7 +15,6 @@
       "description": "Number of digits after the decimal point"
     },
     "weather": {
-      "name": "weather",
       "description": "Set the weather location"
     },
     "currentValue": "Current value: {{ex}}",
@@ -44,7 +38,11 @@
     "label": "Label",
     "description": "Description",
     "id": "id",
-    "all": "All"
+    "all": "All",
+    "noChange": "unchanged",
+    "len": "len",
+    "next": "Next",
+    "cancel": "Cancel"
   },
   "description": {
     "cron": "Set the schedule (cron) for when the variable should be updated",
@@ -78,7 +76,9 @@
   "count": {
     "display": {
       "title": "Configuration - Count"
-    }
+    },
+    "name": "count",
+    "description": "Number of different events (labels and descriptions)"
   },
   "error": {
     "cron": "The cron is invalid.",
@@ -92,10 +92,6 @@
     "locationConflict": "Only one location can be used at the same time.",
     "noLocation": "A location is mandatory for event.",
     "pastAnchorDate": "The start_date `{{anchor}}` is in the past."
-  },
-  "globalsettings": {
-    "name": "settings",
-    "description": "Edit the global bot settings"
   },
   "globalSettings": {
     "language": {
@@ -114,7 +110,9 @@
       "name": "future_min_blocks",
       "description": "Adjust the number of event that will be created at each cycle.",
       "set": "Each cycle will create {{futurMinBlock}} events."
-    }
+    },
+    "description": "Edit the global bot settings",
+    "name": "settings"
   },
   "schedule": {
     "modal": {
@@ -125,23 +123,15 @@
     "create": {
       "name": "create",
       "description": "Create a new recurring event",
-      "count": {
-        "description": "Number of different events (labels and descriptions)"
-      },
-      "bloc": {
-        "name": "bloc",
-        "description": "Interval between the start of successive events (e.g., 2d, 48h)"
-      },
       "start": "Local time at which each event starts",
-      "anchor": {
-        "name": "start_date",
-        "description": "First event date"
-      },
       "zone": {
         "name": "Time zone (e.g. Europe/Paris)"
       },
       "len": {
         "description": "Len of each events (eg, 2h)"
+      },
+      "blocks": {
+        "name": "blocks"
       }
     },
     "list": {
@@ -158,18 +148,21 @@
       "description": "Delete a cycle and its future events.",
       "id": "Cycle id to delete"
     },
-    "len": {
-      "name": "len"
-    },
-    "location": {
-      "string": {
-        "name": "location_elsewhere",
-        "description": "Set any location (plain text)"
-      },
-      "vocal": {
-        "name": "location_channel",
-        "description": "Set a channel location (stage or voice)"
+    "edit": {
+      "name": "edit",
+      "description": "Edit an scheduled event",
+      "id": "Cycle id to be edited",
+      "bloc": {
+        "name": "blocs",
+        "description": "Edit the fields of an event (bloc, description, label...)"
       }
+    },
+    "active": {
+      "name": "active"
+    },
+    "config": {
+      "name": "config",
+      "description": "Change cycle settings (bloc, len, duration...)"
     }
   },
   "modals": {
@@ -183,7 +176,8 @@
       },
       "completedQuick": "The event `{{scheduleId}}` has been planned correctly! Please wait a few minutes before viewing.",
       "completedError": "Error: {{e}}"
-    }
+    },
+    "title": "Cycle creation"
   },
   "list": {
     "block": "Bloc duration:",
@@ -208,5 +202,30 @@
     "unauthorized": "This modal is not for you.",
     "wizardNotFound": "Wizard state not found or has expired.",
     "unknown": "Unknown error: {{error}}"
+  },
+  "edit": {
+    "success": "✅ Schedule **{{id}}** updated.\n- __Block__: {{blocStr}\n- __Duration__: {{lenStr}}\n- __Time__: {{startHHMM]}\n- __Zone__: {{s.start.zone}}"
+  },
+  "bloc": {
+    "name": "bloc",
+    "description": "Interval between the start of successive events (e.g., 2d, 48h)"
+  },
+  "location": {
+    "string": {
+      "name": "location_elsewhere",
+      "description": "Set any location (plain text)"
+    },
+    "vocal": {
+      "name": "location_channel",
+      "description": "Set a channel location (stage or voice)"
+    }
+  },
+  "anchor": {
+    "name": "start_date",
+    "description": "First event date"
+  },
+  "timezone": {
+    "name": "timezone",
+    "description": "Set the timezone (eg Europe/Paris)"
   }
 }

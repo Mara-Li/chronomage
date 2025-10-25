@@ -1,8 +1,5 @@
 import * as Djs from "discord.js";
 import type { TFunction } from "i18next";
-import type { EClient } from "@/client";
-import { Wizard, type WizardOptions, wizardKey } from "@/interface";
-import { tFn } from "@/localization";
 
 export async function buildScheduleModal(
 	guild: Djs.Guild,
@@ -38,61 +35,23 @@ export async function buildScheduleModal(
 
 	return new Djs.ModalBuilder()
 		.setCustomId(`altwiz:${guild.id}:${userId}:${index}`)
-		.setTitle(ul("modals.scheduleEvent.title"))
+		.setTitle(ul("modals.title"))
 		.setLabelComponents(labelEventBuilder, descriptionEventBuilder, imageBuilder);
 }
 
-export function buttonFollow(guildId: string, userId: string) {
+export function buttonFollow(guildId: string, userId: string, ul: TFunction) {
 	return [
 		new Djs.ActionRowBuilder<Djs.ButtonBuilder>().addComponents(
 			new Djs.ButtonBuilder()
 				.setCustomId(`altwiz-next:${guildId}:${userId}`)
-				.setLabel("Suivant")
+				.setLabel(ul("common.next"))
 				.setStyle(Djs.ButtonStyle.Primary)
 		),
 		new Djs.ActionRowBuilder<Djs.ButtonBuilder>().addComponents(
 			new Djs.ButtonBuilder()
 				.setCustomId(`altwiz-cancel:${guildId}:${userId}`)
-				.setLabel("Annuler")
+				.setLabel(ul("common.cancel"))
 				.setStyle(Djs.ButtonStyle.Danger)
 		),
 	];
-}
-
-export function startWizardFromSlash(
-	interaction: Djs.ChatInputCommandInteraction,
-	client: EClient,
-	opts: WizardOptions
-) {
-	const guildId = interaction.guildId!;
-	const userId = interaction.user.id;
-
-	const { ul } = tFn(
-		interaction.locale,
-		interaction.guild!,
-		client.settings.get(guildId)
-	);
-
-	Wizard.set(wizardKey(guildId, userId), {
-		guildId,
-		userId,
-		total: opts.total,
-		current: 1,
-		base: {
-			blocMs: opts.blocMs,
-			startHHMM: opts.startHHMM,
-			lenMs: opts.lenMs,
-			anchorISO: opts.anchorISO,
-			zone: opts.zone,
-		},
-		labels: [],
-		descriptions: {},
-		createdBy: userId,
-		startedAt: Date.now(),
-		location: opts.location,
-		locationType: opts.locationType,
-		banners: {},
-	});
-
-	return buildScheduleModal(interaction.guild!, userId, 1, ul);
 }

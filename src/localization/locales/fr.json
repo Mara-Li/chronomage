@@ -4,15 +4,10 @@
     "description": "Gérer les modèles de variables (date, nombre et méteo)",
     "date": {
       "description": "Gérer la date : zone, cron, format, début...",
-      "timezone": {
-        "name": "timezone",
-        "description": "Définir le fuseau horaire"
-      },
       "format": "Définir le mode d'affichage de la date",
       "step": "Durée à utiliser comme pas"
     },
     "count": {
-      "name": "compte",
       "description": "Number to increase or decrease"
     },
     "decimal": {
@@ -20,7 +15,6 @@
       "description": "Nombre de chiffres après la virgule"
     },
     "weather": {
-      "name": "météo",
       "description": "Définir la localisation de la météo"
     },
     "currentValue": "Valeur actuelle : {{ex}}",
@@ -44,7 +38,11 @@
     "label": "Nom",
     "description": "Description",
     "id": "id",
-    "all": "Tout"
+    "all": "Tout",
+    "noChange": "inchangé",
+    "len": "durée",
+    "next": "Suivant",
+    "cancel": "Annuler"
   },
   "description": {
     "cron": "Définissez le calendrier (cron) pour la mise à jour de la variable",
@@ -78,7 +76,9 @@
   "count": {
     "display": {
       "title": "Configuration - Compte"
-    }
+    },
+    "name": "compte",
+    "description": "Nombre d'évènements différents (labels et descriptions)"
   },
   "error": {
     "cron": "Le cron est invalide.",
@@ -92,10 +92,6 @@
     "locationConflict": "Un seul emplacement peut être utilisé à la fois.",
     "noLocation": "Un lieu est obligatoire pour l'événement.",
     "pastAnchorDate": "La date de début `{{anchor}}` est dans le passé."
-  },
-  "globalsettings": {
-    "name": "paramètres",
-    "description": "Changer les paramètres généraux du bot."
   },
   "globalSettings": {
     "language": {
@@ -114,7 +110,9 @@
       "name": "future_min_blocks",
       "description": "Ajustez le nombre d'événements qui seront créés à chaque cycle.",
       "set": "Chaque cycle créera {{futurMinBlock}} évènements."
-    }
+    },
+    "description": "Changer les paramètres généraux du bot.",
+    "name": "paramètres"
   },
   "schedule": {
     "modal": {
@@ -125,23 +123,15 @@
     "create": {
       "name": "créer",
       "description": "Créer un nouvel événement récurrent",
-      "count": {
-        "description": "Nombre d'évènements différents (labels et descriptions)"
-      },
-      "bloc": {
-        "name": "bloc",
-        "description": "Intervalle entre le début des évènements successifs (ex : 2j, 48h)"
-      },
       "start": "Heure locale à laquelle chaque évènement démarre",
-      "anchor": {
-        "name": "jour_départ",
-        "description": "Date du premier évènement"
-      },
       "zone": {
         "name": "Fuseau horaire (ex : Europe/Paris)"
       },
       "len": {
         "description": "Durée de chaque évènements (ex : 2h)"
+      },
+      "blocks": {
+        "name": "blocks"
       }
     },
     "list": {
@@ -158,18 +148,21 @@
       "description": "Supprimer un cycle et ses évènements futurs.",
       "id": "ID du cycle à supprimer"
     },
-    "len": {
-      "name": "durée"
-    },
-    "location": {
-      "string": {
-        "name": "localisation_ailleurs",
-        "description": "Définir n'importe quel emplacement (texte brut)"
-      },
-      "vocal": {
-        "name": "localisation_salon",
-        "description": "Définir l'emplacement d'un salon (stage ou vocal)"
+    "edit": {
+      "name": "edit",
+      "description": "Modifier un évènement programmé",
+      "id": "ID du cycle à modifier",
+      "bloc": {
+        "name": "blocs",
+        "description": "Modifier les champs d'un événement (bloc, description, label...)"
       }
+    },
+    "active": {
+      "name": "active"
+    },
+    "config": {
+      "name": "config",
+      "description": "Modifier les paramètres d'un cycle (blocage, longueur, durée, etc.)"
     }
   },
   "modals": {
@@ -183,7 +176,8 @@
       },
       "completedQuick": "L'évènement `{{scheduleId}}` a correctement été planifié ! Veuillez attendre quelque minutes avant l'affichage.",
       "completedError": "Erreur : {{e}}"
-    }
+    },
+    "title": "Création d'un cycle"
   },
   "list": {
     "block": "Durée d'un bloc :",
@@ -208,5 +202,30 @@
     "unauthorized": "Ce modal n'est pas pour vous !",
     "wizardNotFound": "Wizard non trouvé ou expiré.",
     "unknown": "Erreur inconnue : {{error}}"
+  },
+  "edit": {
+    "success": "✅ Planning **{{id}}** mis à jour.\n- __Bloc__ : {{blocStr}\n- __Durée__ : {{lenStr}}\n- __Heure__ : {{startHHMM]}\n- __Zone__ : {{s.start.zone}}"
+  },
+  "bloc": {
+    "name": "bloc",
+    "description": "Intervalle entre le début des évènements successifs (ex : 2j, 48h)"
+  },
+  "location": {
+    "string": {
+      "name": "localisation_ailleurs",
+      "description": "Définir n'importe quel emplacement (texte brut)"
+    },
+    "vocal": {
+      "name": "localisation_salon",
+      "description": "Définir l'emplacement d'un salon (stage ou vocal)"
+    }
+  },
+  "anchor": {
+    "name": "jour_départ",
+    "description": "Date du premier évènement"
+  },
+  "timezone": {
+    "name": "timezone",
+    "description": "Définir le fuseau horaire (ex : Europe/Paris)"
   }
 }

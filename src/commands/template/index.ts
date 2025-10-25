@@ -97,7 +97,7 @@ export const template = {
 		 */
 		.addSubcommand((sub) => {
 			return sub
-				.setNames("template.weather.name")
+				.setNames("weather.name")
 				.setDescriptions("template.weather.description")
 				.addStringOption((opt) =>
 					opt
@@ -119,7 +119,7 @@ export const template = {
 		const { ul } = tFn(interaction.locale, interaction.guild, settings);
 
 		switch (subcommand) {
-			case t("template.weather.name"):
+			case t("weather.name"):
 				return weather(client, interaction, ul, settings);
 			case t("common.date"):
 				return date(client, interaction, ul, settings);

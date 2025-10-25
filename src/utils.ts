@@ -1,6 +1,6 @@
 import type * as Djs from "discord.js";
 import type { EClient } from "@/client";
-import { DEFAULT_ZONE, type Templates } from "@/interface";
+import { type BannerSpec, DEFAULT_ZONE, type Templates } from "@/interface";
 
 export function defaultTemplate(): Templates {
 	return {
@@ -40,4 +40,17 @@ export function getSettings(
 			zone: DEFAULT_ZONE,
 		},
 	});
+}
+
+export function getBannerHash(
+	interaction: Djs.ModalSubmitInteraction
+): BannerSpec | undefined {
+	const banner = interaction.fields.getUploadedFiles("image", false);
+	if (!banner) return;
+	const file = banner.first();
+	if (!file) return;
+	return {
+		url: file.url,
+		contentType: file.contentType,
+	};
 }

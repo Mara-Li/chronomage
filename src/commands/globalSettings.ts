@@ -5,17 +5,17 @@ import { ln, t, tFn } from "@/localization";
 
 export const globalSettings = {
 	data: new Djs.SlashCommandBuilder()
-		.setNames("globalsettings.name")
-		.setDescriptions("globalsettings.description")
+		.setNames("globalSettings.settings")
+		.setDescriptions("globalSettings.description")
 		.setContexts(Djs.InteractionContextType.Guild)
 		.addSubcommand((sub) =>
 			sub
-				.setNames("template.date.timezone.name")
-				.setDescriptions("template.date.timezone.description")
+				.setNames("timezone.name")
+				.setDescriptions("timezone.description")
 				.addStringOption((opt) =>
 					opt
-						.setNames("template.date.timezone.name")
-						.setDescriptions("template.date.timezone.description")
+						.setNames("timezone.name")
+						.setDescriptions("timezone.description")
 						.setRequired(true)
 				)
 		)
@@ -49,11 +49,8 @@ export const globalSettings = {
 	async execute(interaction: Djs.ChatInputCommandInteraction, client: EClient) {
 		const subcommand = interaction.options.getSubcommand();
 		if (!interaction.guild) return;
-		if (subcommand === t("template.date.timezone.name")) {
-			const timezone = interaction.options.getString(
-				t("template.date.timezone.name"),
-				true
-			);
+		if (subcommand === t("timezone.name")) {
+			const timezone = interaction.options.getString(t("timezone.name"), true);
 			client.settings.set(interaction.guild.id, timezone, "settings.zone");
 			const { ul } = tFn(
 				interaction.locale,
