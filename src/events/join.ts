@@ -1,6 +1,6 @@
-import type { EClient } from "../client";
-import { commandsList } from "../commands";
-import { defaultTemplate } from "../utils";
+import type { EClient } from "client";
+import { commandsList } from "commands";
+import { defaultTemplate } from "utils";
 
 export default (client: EClient): void => {
 	client.on("guildCreate", async (guild) => {

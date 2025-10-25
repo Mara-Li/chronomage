@@ -9,6 +9,7 @@
 	"repository": "",
 	"scripts": {
 		"build": "tsc",
+		"build:esbuild": "node esbuild.config.mjs",
 		"prestart": "pnpm run build",
 		"start": "pm2 start dist/src/index.js --name narrakit --log-date-format=\"YYYY-MM-DD HH:mm Z\"",
 		"stop": "pm2 stop narrakit",
@@ -45,6 +46,7 @@
 		"luxon": "^3.7.2",
 		"nodemon": "^3.1.10",
 		"parse-duration": "^2.1.4",
+		"rimraf": "^6.0.1",
 		"ts-dedent": "^2.2.0",
 		"ts-node": "^10.9.2",
 		"ts-node-dev": "^2.0.0",
@@ -55,6 +57,8 @@
 		"weather-describe": "^1.0.4"
 	},
 	"devDependencies": {
-		"dotenv": "^17.2.3"
+		"dotenv": "^17.2.3",
+		"esbuild": "^0.25.11",
+		"glob": "^11.0.3"
 	}
 }

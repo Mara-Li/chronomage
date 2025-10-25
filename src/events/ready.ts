@@ -1,11 +1,11 @@
 import process from "node:process";
+import type { EClient } from "client";
+import { commandsList } from "commands";
 import { CronJob } from "cron";
 import dotenv from "dotenv";
+import { ensureBufferForGuild } from "schedule/buffer";
 import { VERSION } from "..";
-import type { EClient } from "../client";
-import { commandsList } from "../commands";
 import { initAll } from "../cron";
-import { ensureBufferForGuild } from "../schedule/buffer";
 
 dotenv.config({ path: ".env" });
 

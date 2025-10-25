@@ -1,9 +1,8 @@
+import type { EClient } from "client";
 import * as Djs from "discord.js";
 import type { TFunction } from "i18next";
-import type { EClient } from "../../client";
-import { Wizard, type WizardOptions, wizardKey } from "../../interface";
-
-import { tFn } from "../../localization";
+import { Wizard, type WizardOptions, wizardKey } from "interface";
+import { tFn } from "localization";
 
 export async function buildScheduleModal(
 	guild: Djs.Guild,

@@ -1,9 +1,9 @@
+import type { EClient } from "client";
 import * as Djs from "discord.js";
 import humanId from "human-id";
+import { DEFAULT_ZONE, type EventGuildData, type Schedule } from "interface";
 import { DateTime } from "luxon";
-import type { EClient } from "../client";
-import { DEFAULT_ZONE, type EventGuildData, type Schedule } from "../interface";
-import { getSettings } from "../utils";
+import { getSettings } from "utils";
 import { computeInitialBlockIndex } from "./utils";
 
 export function createSchedule(

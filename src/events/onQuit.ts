@@ -1,5 +1,5 @@
-import type { EClient } from "../client";
-import { CountJobs, DateJobs } from "../interface";
+import type { EClient } from "client";
+import { CountJobs, DateJobs } from "interface";
 export default (client: EClient): void => {
 	client.on("guildDelete", async (guild) => {
 		client.settings.delete(guild.id);

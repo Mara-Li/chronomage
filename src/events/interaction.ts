@@ -1,12 +1,12 @@
+import type { EClient } from "client";
+import { autoCompleteCommands, commandsList } from "commands";
+import { buildScheduleModal, buttonFollow } from "commands/schedule/modal";
 import * as Djs from "discord.js";
-import type { EClient } from "../client";
-import { autoCompleteCommands, commandsList } from "../commands";
-import { buildScheduleModal, buttonFollow } from "../commands/schedule/modal";
-import { type BannerSpec, Wizard, wizardKey } from "../interface";
-import { tFn } from "../localization";
-import { ensureBufferForGuild } from "../schedule/buffer";
-import { createSchedule } from "../schedule/crud";
-import { getSettings } from "../utils";
+import { type BannerSpec, Wizard, wizardKey } from "interface";
+import { tFn } from "localization";
+import { ensureBufferForGuild } from "schedule/buffer";
+import { createSchedule } from "schedule/crud";
+import { getSettings } from "utils";
 
 export default (client: EClient): void => {
 	client.on("interactionCreate", async (interaction: Djs.BaseInteraction) => {

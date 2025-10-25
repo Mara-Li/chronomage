@@ -16,7 +16,19 @@
 		"removeComments": true,
 		"typeRoots": ["node_modules/@types", "src/@types"],
 		"sourceMap": false,
-		"baseUrl": "./"
+		"baseUrl": "./",
+		"paths": {
+			"client": ["src/client.ts"],
+			"interface": ["src/interface.ts"],
+			"localization": ["src/localization/index.ts"],
+			"discord_ext": ["src/discord_ext.ts"],
+			"utils": ["src/utils.ts"],
+			"cron/*": ["src/cron/*"],
+			"duration": ["src/duration.ts"],
+			"schedule/*": ["src/schedule/*"],
+			"commands/*": ["src/commands/*"],
+			"commands": ["src/commands/index.ts"]
+		}
 	},
 	"files": ["src/index.ts", "src/@types/parse-duration.d.ts"],
 	"include": ["./**/*.ts", "./**/*.json", "./**/*.d.ts"],

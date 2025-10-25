@@ -1,5 +1,5 @@
 import * as Djs from "discord.js";
-import { cmdLn, t } from "./localization";
+import { cmdLn, t } from "localization";
 
 // Déclarations TypeScript
 declare module "discord.js" {

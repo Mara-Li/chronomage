@@ -1,15 +1,10 @@
 import * as process from "node:process";
+import { EClient } from "client";
 import * as Djs from "discord.js";
 import dotenv from "dotenv";
-
-import * as pkg from "../package.json";
-import { EClient } from "./client";
-import interaction from "./events/interaction";
-import join from "./events/join";
-import ready from "./events/ready";
 import "uniformize";
-import onGuildScheduledEventCreate from "./events/guildScheduledEventUpdate";
-import onQuit from "./events/onQuit";
+import * as pkg from "../package.json";
+import { interaction, join, onGuildScheduledEventCreate, onQuit, ready } from "./events";
 
 dotenv.config({ path: ".env" });
 
