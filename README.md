@@ -4,6 +4,22 @@ Chronomate is a Discord bot that helps you plan recurring events, auto-fill even
 
 It is built on discord.js v14, TypeScript, Enmap (SQLite), Cron jobs, and i18next for localization.
 
+## Documentation
+
+📚 **[Complete Documentation](docs/README.md)** - All documentation in one place
+
+**For Users:**
+- 📖 [User Guide](docs/USER_GUIDE.md) - Complete guide to using Chronomate
+- 🔧 [Commands Reference](docs/Commands.md) - Quick reference for all commands
+- 📝 [Templates Guide](docs/Templates.md) - Using placeholders and dynamic content
+
+**Legal:**
+- 🔒 [Privacy Policy](docs/PRIVACY_POLICY.md) - How we handle your data
+- 📜 [Terms of Service](docs/TERMS_OF_SERVICE.md) - Rules and responsibilities
+
+**For Developers:**
+- Continue reading below for setup and technical information
+
 
 ## Highlights
 - Recurring events generator using Discord Scheduled Events
