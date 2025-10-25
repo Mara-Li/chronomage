@@ -1,7 +1,6 @@
 import * as Djs from "discord.js";
-import { default as i18next } from "i18next";
 import type { EventGuildData } from "../interface";
-import { resources } from "./init";
+import i18next, { resources } from "./init";
 
 export const t = i18next.getFixedT("en");
 

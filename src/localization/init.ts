@@ -17,14 +17,21 @@ export enum LocalePrimary {
 	English = "English",
 }
 
-i18next.init({
-	lng: "en",
-	fallbackLng: "en",
-	resources,
-	returnNull: false,
-	interpolation: {
-		escapeValue: false,
-	},
-});
+// Create a dedicated i18next instance so external libs can't overwrite our resources
+const i18n = i18next.createInstance();
 
-export default i18next;
+i18n
+	.init({
+		lng: "en",
+		fallbackLng: "en",
+		resources,
+		returnNull: false,
+		interpolation: {
+			escapeValue: false,
+		},
+	})
+	.then(() => {
+		// Initialized
+	});
+
+export default i18n;
