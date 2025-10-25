@@ -1,5 +1,5 @@
 {
-	"name": "narrakit",
+	"name": "chronomate",
 	"version": "1.0.0",
 	"description": "",
 	"main": "dist/index.js",
@@ -11,11 +11,11 @@
 		"prebuild": "tsc --noEmit",
 		"build": "node esbuild.config.mjs",
 		"prestart": "pnpm run build",
-		"start": "pm2 start dist/src/index.js --name narrakit --log-date-format=\"YYYY-MM-DD HH:mm Z\"",
-		"stop": "pm2 stop narrakit",
+		"start": "pm2 start dist/src/index.js --name chronomate --log-date-format=\"YYYY-MM-DD HH:mm Z\"",
+		"stop": "pm2 stop chronomate",
 		"prerestart": "pnpm run build",
-		"restart": "pm2 restart narrakit",
-		"delete": "pm2 delete narrakit",
+		"restart": "pm2 restart chronomate",
+		"delete": "pm2 delete chronomate",
 		"dev": "ts-node-dev --respawn -r tsconfig-paths/register -- src/index.ts",
 		"dev:prod": "cross-env ENV=production ts-node-dev --respawn -r tsconfig-paths/register -- src/index.ts"
 	},

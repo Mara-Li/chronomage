@@ -1,6 +1,6 @@
-# Narrakit — Discord Scheduling Bot (TypeScript)
+# Chronomate — Discord Scheduling Bot (TypeScript)
 
-Narrakit is a Discord bot that helps you plan recurring events, auto-fill event titles/descriptions with dynamic placeholders (date, counters, weather), and manage schedules with a simple slash-command and a guided modal wizard.
+Chronomate is a Discord bot that helps you plan recurring events, auto-fill event titles/descriptions with dynamic placeholders (date, counters, weather), and manage schedules with a simple slash-command and a guided modal wizard.
 
 It is built on discord.js v14, TypeScript, Enmap (SQLite), Cron jobs, and i18next for localization.
 
@@ -29,7 +29,7 @@ It is built on discord.js v14, TypeScript, Enmap (SQLite), Cron jobs, and i18nex
 
 ```cmd
 git clone <your-fork-or-repo-url>
-cd narrakit
+cd chronomate
 pnpm install
 ```
 
@@ -60,7 +60,7 @@ The bot loads commands for all guilds it is in and starts a background job that 
 
 ```cmd
 pnpm build
-pnpm start    REM starts via pm2 as "narrakit"
+pnpm start    REM starts via pm2 as "chronomate"
 ```
 
 Useful pm2 scripts:
@@ -213,7 +213,7 @@ Wizard flow:
 ## Scripts reference
 - pnpm dev: run in watch mode with ts-node-dev
 - pnpm build: type-check and build with esbuild into dist/
-- pnpm start: start the built bot under pm2 (process name: narrakit)
+- pnpm start: start the built bot under pm2 (process name: chronomate)
 - pnpm restart/stop/delete: pm2 lifecycle helpers
 - pnpm dev:prod: like dev but with ENV=production
 
