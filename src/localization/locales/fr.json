@@ -1,212 +1,212 @@
 {
-  "template": {
-    "name": "variables",
-    "description": "Gérer les modèles de variables (date, nombre et méteo)",
-    "date": {
-      "description": "Gérer la date : zone, cron, format, début...",
-      "timezone": {
-        "name": "timezone",
-        "description": "Définir le fuseau horaire"
-      },
-      "format": "Définir le mode d'affichage de la date",
-      "step": "Durée à utiliser comme pas"
-    },
-    "count": {
-      "name": "compte",
-      "description": "Number to increase or decrease"
-    },
-    "decimal": {
-      "name": "decimal",
-      "description": "Nombre de chiffres après la virgule"
-    },
-    "weather": {
-      "name": "météo",
-      "description": "Définir la localisation de la météo"
-    },
-    "currentValue": "Valeur actuelle : {{ex}}",
-    "image": {
-      "name": "image"
-    },
-    "compute": {
-      "name": "calculer_au_début",
-      "description": "Permet de calculer (ou non) la valeur au moment du lancement de l'évènement"
-    }
-  },
-  "common": {
-    "format": "format",
-    "cron": "cron",
-    "start": "heure_début",
-    "step": "pas",
-    "not_set": "/",
-    "date": "date",
-    "success": "Les paramètres ont bien été sauvegardés.",
-    "example": "__Exemple__ : `{{ex}}`",
-    "label": "Nom",
-    "description": "Description",
-    "id": "id",
-    "all": "Tout"
-  },
-  "description": {
-    "cron": "Définissez le calendrier (cron) pour la mise à jour de la variable",
-    "step": "How much to add to the variable",
-    "start": {
-      "date": "Date de début qui sera utilisée",
-      "number": "Définir le numéro de départ"
-    },
-    "location": "Mettre la localization dont vous voulez la météo"
-  },
-  "weather": {
-    "display": {
-      "title": "Configuration - Météo",
-      "location": "Lieu"
-    },
-    "set": {
-      "success": "Les paramètres de météos ont bien été sauvegardée."
-    },
-    "location": "location",
-    "name": "météo",
-    "description": "Obtenir la météo pour une ville donnée / ville par défaut du modèle"
-  },
-  "date": {
-    "display": {
-      "title": "Configuration - Date"
-    },
-    "set": {
-      "success": "La date a été correctement enregistrée.\n__Exemple__ : {{ex}}"
-    }
-  },
-  "count": {
-    "display": {
-      "title": "Configuration - Compte"
-    }
-  },
-  "error": {
-    "cron": "Le cron est invalide.",
-    "invalidBlock": "Bloc \"{{blocStr}}\" invalide",
-    "invalidLength": "Durée \"{{lenStr}}\" invalide",
-    "invalidStartTime": "Heure \"{{startHHMM}}\" invalide.\nFormat attendu `HH:MM`.",
-    "invalidAnchorDate": "Date d'ancrage \"{{anchorISO}}\" invalide. Format attendu `{{format}}.`",
-    "noSchedules": "Aucun cycle configuré",
-    "invalidScheduleId": "Aucun cyle avec l'id `{{scheduleId}}` trouvé.",
-    "unknownSubcommand": "Sous commande inconnue",
-    "locationConflict": "Un seul emplacement peut être utilisé à la fois.",
-    "noLocation": "Un lieu est obligatoire pour l'événement.",
-    "pastAnchorDate": "La date de début `{{anchor}}` est dans le passé."
-  },
-  "globalsettings": {
-    "name": "paramètres",
-    "description": "Changer les paramètres généraux du bot."
-  },
-  "globalSettings": {
-    "language": {
-      "name": "langue",
-      "description": "Changer la langue du bot",
-      "set": "Le bot est maintenance configuré en {{lang}}."
-    },
-    "locale": {
-      "description": "Définir les paramètres régionaux par défaut pour la date",
-      "name": "locale"
-    },
-    "timezone": {
-      "set": "Le fuseau horaire par défaut a été défini sur {{tz}}."
-    },
-    "minFuturBlock": {
-      "name": "future_min_blocks",
-      "description": "Ajustez le nombre d'événements qui seront créés à chaque cycle.",
-      "set": "Chaque cycle créera {{futurMinBlock}} évènements."
-    }
-  },
-  "schedule": {
-    "modal": {
-      "title": "Évènement n°{{index}}"
-    },
-    "name": "schedule",
-    "description": "Gérer des cycles d'évènements à partir de durée",
-    "create": {
-      "name": "créer",
-      "description": "Créer un nouvel événement récurrent",
-      "count": {
-        "description": "Nombre d'évènements différents (labels et descriptions)"
-      },
-      "bloc": {
-        "name": "bloc",
-        "description": "Intervalle entre le début des évènements successifs (ex : 2j, 48h)"
-      },
-      "start": "Heure locale à laquelle chaque évènement démarre",
-      "anchor": {
-        "name": "jour_départ",
-        "description": "Date du premier évènement"
-      },
-      "zone": {
-        "name": "Fuseau horaire (ex : Europe/Paris)"
-      },
-      "len": {
-        "description": "Durée de chaque évènements (ex : 2h)"
-      }
-    },
-    "list": {
-      "name": "lister",
-      "description": "Lister les cycles actifs et les prochains évènements"
-    },
-    "pause": {
-      "id": "ID du cycle à mettre en pause",
-      "name": "pause",
-      "description": "Mettre un cycle en pause"
-    },
-    "cancel": {
-      "name": "annulation",
-      "description": "Supprimer un cycle et ses évènements futurs.",
-      "id": "ID du cycle à supprimer"
-    },
-    "len": {
-      "name": "durée"
-    },
-    "location": {
-      "string": {
-        "name": "localisation_ailleurs",
-        "description": "Définir n'importe quel emplacement (texte brut)"
-      },
-      "vocal": {
-        "name": "localisation_salon",
-        "description": "Définir l'emplacement d'un salon (stage ou vocal)"
-      }
-    }
-  },
-  "modals": {
-    "description": "Des placeholder peuvent être utilisé. Verifiez la doc pour plus d'information.",
-    "scheduleEvent": {
-      "nextPrompt": "Évènements {{current}}/{{total}} sauvegardé sous `{{label}}`. Préparation de l'évènement suivant...",
-      "completed": "Évenements créés avec succès !",
-      "image": {
-        "label": "Bannière",
-        "description": "Bannière optionnel pour l'évènement"
-      },
-      "completedQuick": "L'évènement `{{scheduleId}}` a correctement été planifié ! Veuillez attendre quelque minutes avant l'affichage.",
-      "completedError": "Erreur : {{e}}"
-    }
-  },
-  "list": {
-    "block": "Durée d'un bloc :",
-    "len": "Durée d'un évent :",
-    "start": "Heure de début des blocs :",
-    "anchor": "Date de début :",
-    "upcomingEvents": "Prochains évènements :",
-    "location": "Localisation :",
-    "createdBy": "Créé par :",
-    "banners": "Image(s) :",
-    "description": "Description(s) :",
-    "labels": "Label(s) :"
-  },
-  "pause": {
-    "success": "⏸️ Cycle **{{scheduleId}}** mise en pause.\nElle ne générera plus de nouveaux events, mais les events déjà créés restent."
-  },
-  "cancel": {
-    "success": "🧹 Cycle **{{scheduleId}}** supprimée.\nLes events futurs liés sont purgés côté stockage local.",
-    "allSuccess": "Tous les évènements ont été supprimés."
-  },
-  "errors": {
-    "unauthorized": "Ce modal n'est pas pour vous !",
-    "wizardNotFound": "Wizard non trouvé ou expiré.",
-    "unknown": "Erreur inconnue : {{error}}"
-  }
+	"template": {
+		"name": "variables",
+		"description": "Gérer les modèles de variables (date, nombre et méteo)",
+		"date": {
+			"description": "Gérer la date : zone, cron, format, début...",
+			"timezone": {
+				"name": "timezone",
+				"description": "Définir le fuseau horaire"
+			},
+			"format": "Définir le mode d'affichage de la date",
+			"step": "Durée à utiliser comme pas"
+		},
+		"count": {
+			"name": "compte",
+			"description": "Number to increase or decrease"
+		},
+		"decimal": {
+			"name": "decimal",
+			"description": "Nombre de chiffres après la virgule"
+		},
+		"weather": {
+			"name": "météo",
+			"description": "Définir la localisation de la météo"
+		},
+		"currentValue": "Valeur actuelle : {{ex}}",
+		"image": {
+			"name": "image"
+		},
+		"compute": {
+			"name": "calculer_au_début",
+			"description": "Permet de calculer (ou non) la valeur au moment du lancement de l'évènement"
+		}
+	},
+	"common": {
+		"format": "format",
+		"cron": "cron",
+		"start": "heure_début",
+		"step": "pas",
+		"not_set": "/",
+		"date": "date",
+		"success": "Les paramètres ont bien été sauvegardés.",
+		"example": "__Exemple__ : `{{ex}}`",
+		"label": "Nom",
+		"description": "Description",
+		"id": "id",
+		"all": "Tout"
+	},
+	"description": {
+		"cron": "Définissez le calendrier (cron) pour la mise à jour de la variable",
+		"step": "How much to add to the variable",
+		"start": {
+			"date": "Date de début qui sera utilisée",
+			"number": "Définir le numéro de départ"
+		},
+		"location": "Mettre la localization dont vous voulez la météo"
+	},
+	"weather": {
+		"display": {
+			"title": "Configuration - Météo",
+			"location": "Lieu"
+		},
+		"set": {
+			"success": "Les paramètres de météos ont bien été sauvegardée."
+		},
+		"location": "location",
+		"name": "météo",
+		"description": "Obtenir la météo pour une ville donnée / ville par défaut du modèle"
+	},
+	"date": {
+		"display": {
+			"title": "Configuration - Date"
+		},
+		"set": {
+			"success": "La date a été correctement enregistrée.\n__Exemple__ : {{ex}}"
+		}
+	},
+	"count": {
+		"display": {
+			"title": "Configuration - Compte"
+		}
+	},
+	"error": {
+		"cron": "Le cron est invalide.",
+		"invalidBlock": "Bloc \"{{blocStr}}\" invalide",
+		"invalidLength": "Durée \"{{lenStr}}\" invalide",
+		"invalidStartTime": "Heure \"{{startHHMM}}\" invalide.\nFormat attendu `HH:MM`.",
+		"invalidAnchorDate": "Date d'ancrage \"{{anchorISO}}\" invalide. Format attendu `{{format}}.`",
+		"noSchedules": "Aucun cycle configuré",
+		"invalidScheduleId": "Aucun cyle avec l'id `{{scheduleId}}` trouvé.",
+		"unknownSubcommand": "Sous commande inconnue",
+		"locationConflict": "Un seul emplacement peut être utilisé à la fois.",
+		"noLocation": "Un lieu est obligatoire pour l'événement.",
+		"pastAnchorDate": "La date de début `{{anchor}}` est dans le passé."
+	},
+	"globalsettings": {
+		"name": "paramètres",
+		"description": "Changer les paramètres généraux du bot."
+	},
+	"globalSettings": {
+		"language": {
+			"name": "langue",
+			"description": "Changer la langue du bot",
+			"set": "Le bot est maintenance configuré en {{lang}}."
+		},
+		"locale": {
+			"description": "Définir les paramètres régionaux par défaut pour la date",
+			"name": "locale"
+		},
+		"timezone": {
+			"set": "Le fuseau horaire par défaut a été défini sur {{tz}}."
+		},
+		"minFuturBlock": {
+			"name": "future_min_blocks",
+			"description": "Ajustez le nombre d'événements qui seront créés à chaque cycle.",
+			"set": "Chaque cycle créera {{futurMinBlock}} évènements."
+		}
+	},
+	"schedule": {
+		"modal": {
+			"title": "Évènement n°{{index}}"
+		},
+		"name": "schedule",
+		"description": "Gérer des cycles d'évènements à partir de durée",
+		"create": {
+			"name": "créer",
+			"description": "Créer un nouvel événement récurrent",
+			"count": {
+				"description": "Nombre d'évènements différents (labels et descriptions)"
+			},
+			"bloc": {
+				"name": "bloc",
+				"description": "Intervalle entre le début des évènements successifs (ex : 2j, 48h)"
+			},
+			"start": "Heure locale à laquelle chaque évènement démarre",
+			"anchor": {
+				"name": "jour_départ",
+				"description": "Date du premier évènement"
+			},
+			"zone": {
+				"name": "Fuseau horaire (ex : Europe/Paris)"
+			},
+			"len": {
+				"description": "Durée de chaque évènements (ex : 2h)"
+			}
+		},
+		"list": {
+			"name": "lister",
+			"description": "Lister les cycles actifs et les prochains évènements"
+		},
+		"pause": {
+			"id": "ID du cycle à mettre en pause",
+			"name": "pause",
+			"description": "Mettre un cycle en pause"
+		},
+		"cancel": {
+			"name": "annulation",
+			"description": "Supprimer un cycle et ses évènements futurs.",
+			"id": "ID du cycle à supprimer"
+		},
+		"len": {
+			"name": "durée"
+		},
+		"location": {
+			"string": {
+				"name": "localisation_ailleurs",
+				"description": "Définir n'importe quel emplacement (texte brut)"
+			},
+			"vocal": {
+				"name": "localisation_salon",
+				"description": "Définir l'emplacement d'un salon (stage ou vocal)"
+			}
+		}
+	},
+	"modals": {
+		"description": "Des placeholder peuvent être utilisé. Verifiez la doc pour plus d'information.",
+		"scheduleEvent": {
+			"nextPrompt": "Évènements {{current}}/{{total}} sauvegardé sous `{{label}}`. Préparation de l'évènement suivant...",
+			"completed": "Évenements créés avec succès !",
+			"image": {
+				"label": "Bannière",
+				"description": "Bannière optionnel pour l'évènement"
+			},
+			"completedQuick": "L'évènement `{{scheduleId}}` a correctement été planifié ! Veuillez attendre quelque minutes avant l'affichage.",
+			"completedError": "Erreur : {{e}}"
+		}
+	},
+	"list": {
+		"block": "Durée d'un bloc :",
+		"len": "Durée d'un évent :",
+		"start": "Heure de début des blocs :",
+		"anchor": "Date de début :",
+		"upcomingEvents": "Prochains évènements :",
+		"location": "Localisation :",
+		"createdBy": "Créé par :",
+		"banners": "Image(s) :",
+		"description": "Description(s) :",
+		"labels": "Label(s) :"
+	},
+	"pause": {
+		"success": "⏸️ Cycle **{{scheduleId}}** mise en pause.\nElle ne générera plus de nouveaux events, mais les events déjà créés restent."
+	},
+	"cancel": {
+		"success": "🧹 Cycle **{{scheduleId}}** supprimée.\nLes events futurs liés sont purgés côté stockage local.",
+		"allSuccess": "Tous les évènements ont été supprimés."
+	},
+	"errors": {
+		"unauthorized": "Ce modal n'est pas pour vous !",
+		"wizardNotFound": "Wizard non trouvé ou expiré.",
+		"unknown": "Erreur inconnue : {{error}}"
+	}
 }
