@@ -116,11 +116,11 @@ export const template = {
 		const subcommand = interaction.options.getSubcommand();
 		if (!interaction.guild) return;
 		const settings = getSettings(client, interaction.guild, interaction.locale);
-		const { ul } = tFn(interaction.locale, interaction.guild, settings);
+		const { ul, locale } = tFn(interaction.locale, interaction.guild, settings);
 
 		switch (subcommand) {
 			case t("weather.name"):
-				return weather(client, interaction, ul, settings);
+				return weather(client, interaction, ul, settings, locale);
 			case t("common.date"):
 				return date(client, interaction, ul, settings);
 			case t("count.name"):

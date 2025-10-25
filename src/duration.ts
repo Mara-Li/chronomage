@@ -12,7 +12,7 @@ type Units = typeof parse.unit;
 
 const LOCALES: Record<string, Units> = { en, fr, es, de, pt, ru, ja, zh };
 
-function normalizeLocale(discordLocale?: string): keyof typeof LOCALES {
+export function normalizeLocale(discordLocale?: string): keyof typeof LOCALES {
 	const raw = (discordLocale ?? "").toLowerCase(); // ex: "fr", "en-US", "pt-BR"
 	const base = raw.split("-")[0]; // "fr", "en", "pt"
 	return base in LOCALES ? (base as keyof typeof LOCALES) : "en";
