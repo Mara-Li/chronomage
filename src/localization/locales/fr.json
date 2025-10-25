@@ -54,7 +54,7 @@
     "step": "How much to add to the variable"
   },
   "edit": {
-    "success": "✅ Planning **{{id}}** mis à jour.\n- __Bloc__ : {{blocStr}\n- __Durée__ : {{lenStr}}\n- __Heure__ : {{startHHMM]}\n- __Zone__ : {{s.start.zone}}"
+    "success": "✅ Planning **{{id}}** mis à jour.\n- __Bloc__ : {{blocStr}\n- __Durée__ : {{lenStr}}\n- __Heure__ : {{startHHMM]}\n- __Zone__ : {{zone}}\n- __Bloc__ : {{blocStr}}\n- __Localisation__ : {{location}}"
   },
   "error": {
     "cron": "Le cron est invalide.",

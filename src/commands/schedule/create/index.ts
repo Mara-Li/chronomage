@@ -8,6 +8,7 @@ import { anchorIsoDate } from "@/commands/template/date";
 import { parseDurationLocalized } from "@/duration";
 import { DEFAULT_ZONE, type EventGuildData, type Schedule } from "@/interface";
 import { t, tFn } from "@/localization";
+import type { TFunction } from "i18next";
 
 export function createSchedule(
 	g: EventGuildData,
@@ -60,66 +61,22 @@ export async function handleCreate(
 		client.settings.get(interaction.guild!.id)!
 	);
 	const total = interaction.options.getInteger(t("count.name"), true);
-	const blocStr = interaction.options.getString(t("bloc.name"), true);
-	const startHHMM = interaction.options.getString(t("common.start"), true);
-	const lenStr = interaction.options.getString(t("common.len"), true);
+
 	const date = client.settings.get(interaction.guild!.id)?.templates.date;
 	const zone =
 		interaction.options.getString(t("timezone.name")) || date?.timezone || "UTC";
 
 	// Validate inputs here if necessary, e.g., check date formats, timezones, etc.
 
-	const blocMs = parseDurationLocalized(blocStr, locale);
-	const lenMs = parseDurationLocalized(lenStr, locale);
-	if (!blocMs || blocMs <= 0) {
-		return interaction.reply({
-			flags: Djs.MessageFlags.Ephemeral,
-			content: ul("error.invalidBlock", { blocStr }),
-		});
-	}
-	if (!lenMs || lenMs <= 0) {
-		return interaction.reply({
-			flags: Djs.MessageFlags.Ephemeral,
-			content: ul("error.invalidLength", { lenStr }),
-		});
-	}
-	//validate time with regex HH:MM
-	if (!/^\d{2}:\d{2}$/.test(startHHMM)) {
-		return interaction.reply({
-			flags: Djs.MessageFlags.Ephemeral,
-			content: ul("error.invalidStartTime", { startHHMM }),
-		});
-	}
+	const timeData = await getTimes(interaction, ul, locale);
+	if (!timeData) return;
+	const { blocMs, lenMs, startHHMM } = timeData;
 	const anchor = anchorIsoDate(interaction, ul, zone, locale, date);
 	if (!anchor) return; //anchorIsoDate already replied with error
 
-	const location = interaction.options.getString(t("location.string.name"));
-	const vocalChannel = interaction.options.getChannel(t("location.vocal.name")) as
-		| Djs.VoiceChannel
-		| Djs.StageChannel
-		| null;
-	let finalLocation = location;
-	let locationType: Djs.GuildScheduledEventEntityType | null = null; //
-	if (location && vocalChannel) {
-		return interaction.reply({
-			flags: Djs.MessageFlags.Ephemeral,
-			content: ul("error.locationConflict"),
-		});
-	}
-	if (vocalChannel?.isVoiceBased()) {
-		finalLocation = vocalChannel.id;
-		//get if the channel is a stage or voice
-		if (vocalChannel instanceof Djs.StageChannel) {
-			locationType = Djs.GuildScheduledEventEntityType.StageInstance;
-		} else locationType = Djs.GuildScheduledEventEntityType.Voice;
-	} else if (location) locationType = Djs.GuildScheduledEventEntityType.External;
-
-	if (!locationType) {
-		return interaction.reply({
-			flags: Djs.MessageFlags.Ephemeral,
-			content: ul("error.noLocation"),
-		});
-	}
+	const locationData = await getLocation(interaction, ul);
+	if (!locationData) return;
+	const { finalLocation, locationType } = locationData;
 
 	const modal = await startWizardFromSlash(interaction, client, {
 		total,
@@ -132,4 +89,68 @@ export async function handleCreate(
 		locationType,
 	});
 	return await interaction.showModal(modal);
+}
+
+export async function getLocation(interaction: Djs.ChatInputCommandInteraction, ul: TFunction) {
+	const location = interaction.options.getString(t("location.string.name"));
+	const vocalChannel = interaction.options.getChannel(t("location.vocal.name")) as
+		| Djs.VoiceChannel
+		| Djs.StageChannel
+		| null;
+	let finalLocation = location;
+	let locationType: Djs.GuildScheduledEventEntityType | null = null; //
+	if (location && vocalChannel) {
+		await interaction.reply({
+			flags: Djs.MessageFlags.Ephemeral,
+			content: ul("error.locationConflict"),
+		});
+		return false;
+	}
+	if (vocalChannel?.isVoiceBased()) {
+		finalLocation = vocalChannel.id;
+		//get if the channel is a stage or voice
+		if (vocalChannel instanceof Djs.StageChannel) {
+			locationType = Djs.GuildScheduledEventEntityType.StageInstance;
+		} else locationType = Djs.GuildScheduledEventEntityType.Voice;
+	} else if (location) locationType = Djs.GuildScheduledEventEntityType.External;
+
+	if (!locationType) {
+		await interaction.reply({
+			flags: Djs.MessageFlags.Ephemeral,
+			content: ul("error.noLocation"),
+		});
+		return false;
+	}
+	return { finalLocation: finalLocation!, locationType };
+}
+
+export async function getTimes(interaction: Djs.ChatInputCommandInteraction, ul: TFunction, locale: string) {
+	const blocStr = interaction.options.getString(t("bloc.name"), true);
+	const startHHMM = interaction.options.getString(t("common.start"), true);
+	const lenStr = interaction.options.getString(t("common.len"), true);
+	const blocMs = parseDurationLocalized(blocStr, locale);
+	const lenMs = parseDurationLocalized(lenStr, locale);
+	if (!blocMs || blocMs <= 0) {
+		await interaction.reply({
+			flags: Djs.MessageFlags.Ephemeral,
+			content: ul("error.invalidBlock", { blocStr }),
+		});
+		return false;
+	}
+	if (!lenMs || lenMs <= 0) {
+		await interaction.reply({
+			flags: Djs.MessageFlags.Ephemeral,
+			content: ul("error.invalidLength", { lenStr }),
+		});
+		return false;
+	}
+	//validate time with regex HH:MM
+	if (!/^\d{2}:\d{2}$/.test(startHHMM)) {
+		await interaction.reply({
+			flags: Djs.MessageFlags.Ephemeral,
+			content: ul("error.invalidStartTime", { startHHMM }),
+		});
+		return false;
+	}
+	return { blocMs, lenMs, startHHMM };
 }

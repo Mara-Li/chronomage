@@ -112,6 +112,9 @@ export const schedule = {
 								.setAutocomplete(true)
 								.setRequired(true)
 						)
+						.addStringOption((s) =>
+							s.setNames("bloc.name").setDescriptions("bloc.description").setRequired(true)
+						)
 						.addStringOption((opt) =>
 							opt
 								.setNames("common.len")
@@ -123,6 +126,19 @@ export const schedule = {
 						.addStringOption((opt) =>
 							opt.setNames("timezone.name").setDescriptions("timezone.description")
 						)
+						.addStringOption((o) =>
+							o
+								.setNames("location.string.name")
+								.setDescriptions("location.string.description")
+								.setMaxLength(100)
+						)
+						.addChannelOption((o) =>
+							o
+								.setNames("location.vocal.name")
+								.setDescriptions("location.vocal.description")
+								.addChannelTypes(Djs.ChannelType.GuildVoice, Djs.ChannelType.GuildStageVoice)
+						)
+
 				)
 				//EDIT fields (desc, labels, banners)
 				.addSubcommand((sub) =>
@@ -137,7 +153,7 @@ export const schedule = {
 								.setRequired(true)
 						)
 						.addIntegerOption((o) =>
-							o.setNames("bloc.name").setDescriptions("bloc.description").setMinValue(1)
+							o.setNames("count.name").setDescriptions("count.description").setMinValue(1).setMaxValue(20)
 						)
 				)
 		),

@@ -3,14 +3,15 @@ import { createEvent, ensureBufferForGuild } from "@/buffer";
 import type { EClient } from "@/client";
 import { createSchedule } from "@/commands/schedule/create";
 import { buildScheduleModal, buttonFollow } from "@/commands/schedule/create/modal";
-import { Wizard, type WizardOptions, wizardKey } from "@/interface";
+import { type Schedule, Wizard, type WizardOptions, type WizardState, wizardKey } from "@/interface";
 import { tFn } from "@/localization";
 import { getBannerHash, getSettings } from "@/utils";
 
 export function startWizardFromSlash(
 	interaction: Djs.ChatInputCommandInteraction,
 	client: EClient,
-	opts: WizardOptions
+	opts: WizardOptions,
+	old?: Schedule
 ) {
 	const guildId = interaction.guildId!;
 	const userId = interaction.user.id;
@@ -33,8 +34,8 @@ export function startWizardFromSlash(
 			anchorISO: opts.anchorISO,
 			zone: opts.zone,
 		},
-		labels: [],
-		descriptions: {},
+		labels: old?.labels ? old.labels : [],
+		descriptions: old?.description ? old.description : {},
 		createdBy: userId,
 		startedAt: Date.now(),
 		location: opts.location,
