@@ -28,8 +28,8 @@ export const template = {
 				)
 				.addStringOption((opt) =>
 					opt
-						.setNames("template.date.timezone.name")
-						.setDescriptions("template.date.timezone.description")
+						.setNames("timezone.name")
+						.setDescriptions("timezone.description")
 						.setRequired(false)
 				)
 				.addStringOption((opt) =>
@@ -56,7 +56,7 @@ export const template = {
 		 */
 		.addSubcommand((sub) =>
 			sub
-				.setNames("template.count.name")
+				.setNames("count.name")
 				.setDescriptions("template.count.description")
 				.addNumberOption((opt) =>
 					opt
@@ -123,7 +123,7 @@ export const template = {
 				return weather(client, interaction, ul, settings);
 			case t("common.date"):
 				return date(client, interaction, ul, settings);
-			case t("template.count.name"):
+			case t("count.name"):
 				return count(client, interaction, ul, settings);
 			default:
 				return;

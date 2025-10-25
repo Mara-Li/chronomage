@@ -67,7 +67,7 @@ export async function altWizardCancel(
 
 	Wizard.delete(wizardKey(guildId, userId));
 	await interaction.reply({
-		content: ul("modals.scheduleEvent.canceled"),
+		content: ul("modals.canceled"),
 		flags: Djs.MessageFlags.Ephemeral,
 	});
 }

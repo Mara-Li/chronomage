@@ -1,69 +1,40 @@
 {
-  "template": {
-    "name": "variables",
-    "description": "Manage variables template (date, number and weather)",
-    "date": {
-      "description": "Manage date : timezone, cron, format, start...",
-      "format": "Set how the date should be displayed",
-      "step": "Duration to add as set"
-    },
-    "count": {
-      "description": "Number to increment or decrement"
-    },
-    "decimal": {
-      "name": "decimal",
-      "description": "Number of digits after the decimal point"
-    },
-    "weather": {
-      "description": "Set the weather location"
-    },
-    "currentValue": "Current value: {{ex}}",
-    "image": {
-      "name": "image"
-    },
-    "compute": {
-      "name": "compute_at_start",
-      "description": "Allows you to calculate (or not) the value at the time the event is launched."
-    }
+  "anchor": {
+    "description": "First event date",
+    "name": "start_date"
+  },
+  "bloc": {
+    "description": "Interval between the start of successive events (e.g., 2d, 48h)",
+    "name": "bloc"
+  },
+  "cancel": {
+    "allSuccess": "All events was deleted.",
+    "success": "🧹 Cycle **{{scheduleId}}** deleted.\nRelated future events are purged from local storage."
   },
   "common": {
-    "format": "format",
-    "cron": "cron",
-    "start": "start_time",
-    "step": "step",
-    "not_set": "/",
-    "date": "date",
-    "success": "The settings was successfully saved.",
-    "example": "__Example__: `{{ex}}`",
-    "label": "Label",
-    "description": "Description",
-    "id": "id",
     "all": "All",
-    "noChange": "unchanged",
+    "cancel": "Cancel",
+    "cron": "cron",
+    "date": "date",
+    "description": "Description",
+    "example": "__Example__: `{{ex}}`",
+    "format": "format",
+    "id": "id",
+    "label": "Label",
     "len": "len",
     "next": "Next",
-    "cancel": "Cancel"
+    "noChange": "unchanged",
+    "not_set": "/",
+    "start": "start_time",
+    "step": "step",
+    "success": "The settings was successfully saved."
   },
-  "description": {
-    "cron": "Set the schedule (cron) for when the variable should be updated",
-    "step": "How much to add to the variable",
-    "start": {
-      "date": "First date that will be used",
-      "number": "Set the start number"
-    },
-    "location": "Enter the location for which you want the weather."
-  },
-  "weather": {
+  "count": {
+    "description": "Number of different events (labels and descriptions)",
     "display": {
-      "title": "Configuration - Weather",
-      "location": "Location"
+      "title": "Configuration - Count"
     },
-    "set": {
-      "success": "The weather settings have been saved successfully."
-    },
-    "location": "location",
-    "name": "weather",
-    "description": "Get the weather for a given city / default template city"
+    "name": "count"
   },
   "date": {
     "display": {
@@ -73,159 +44,183 @@
       "success": "The date was set successfully.\n__Example__: {{ex}}"
     }
   },
-  "count": {
-    "display": {
-      "title": "Configuration - Count"
+  "description": {
+    "cron": "Set the schedule (cron) for when the variable should be updated",
+    "location": "Enter the location for which you want the weather.",
+    "start": {
+      "date": "First date that will be used",
+      "number": "Set the start number"
     },
-    "name": "count",
-    "description": "Number of different events (labels and descriptions)"
-  },
-  "error": {
-    "cron": "The cron is invalid.",
-    "invalidBlock": "Invalid bloc \"{{blocStr}}\"",
-    "invalidLength": "Invalid duration “{{lenStr}}”",
-    "invalidStartTime": "Invalid time “{{startHHMM}}”. Expected format `HH:MM`.",
-    "invalidAnchorDate": "Invalid anchor date “{{anchorISO}}”. Expected format `{{format}}.`",
-    "noSchedules": "No cycle configured",
-    "invalidScheduleId": "No cycle with id `{{scheduleId}}` found.",
-    "unknownSubcommand": "Unknow subcommand",
-    "locationConflict": "Only one location can be used at the same time.",
-    "noLocation": "A location is mandatory for event.",
-    "pastAnchorDate": "The start_date `{{anchor}}` is in the past."
-  },
-  "globalSettings": {
-    "language": {
-      "name": "language",
-      "description": "Change the lang of the bot",
-      "set": "The bot language is now {{lang}}."
-    },
-    "locale": {
-      "description": "Set the default locale for date",
-      "name": "locale"
-    },
-    "timezone": {
-      "set": "The default time zone has been set to {{tz}}."
-    },
-    "minFuturBlock": {
-      "name": "future_min_blocks",
-      "description": "Adjust the number of event that will be created at each cycle.",
-      "set": "Each cycle will create {{futurMinBlock}} events."
-    },
-    "description": "Edit the global bot settings",
-    "name": "settings"
-  },
-  "schedule": {
-    "modal": {
-      "title": "Event n°{{index}}"
-    },
-    "name": "schedule",
-    "description": "Manage cycles events based on duration",
-    "create": {
-      "name": "create",
-      "description": "Create a new recurring event",
-      "start": "Local time at which each event starts",
-      "zone": {
-        "name": "Time zone (e.g. Europe/Paris)"
-      },
-      "len": {
-        "description": "Len of each events (eg, 2h)"
-      },
-      "blocks": {
-        "name": "blocks"
-      }
-    },
-    "list": {
-      "name": "list",
-      "description": "List actives cycles and upcoming events"
-    },
-    "pause": {
-      "id": "ID of the cycle to be paused",
-      "name": "pause",
-      "description": "Pause a cycle"
-    },
-    "cancel": {
-      "name": "cancel",
-      "description": "Delete a cycle and its future events.",
-      "id": "Cycle id to delete"
-    },
-    "edit": {
-      "name": "edit",
-      "description": "Edit an scheduled event",
-      "id": "Cycle id to be edited",
-      "bloc": {
-        "name": "blocs",
-        "description": "Edit the fields of an event (bloc, description, label...)"
-      }
-    },
-    "active": {
-      "name": "active"
-    },
-    "config": {
-      "name": "config",
-      "description": "Change cycle settings (bloc, len, duration...)"
-    }
-  },
-  "modals": {
-    "description": "Placeholders can be used. Check the documentation for more information.\nProvide more details about your events, support Markdown syntax, line breaks, and links.",
-    "scheduleEvent": {
-      "nextPrompt": "Event {{current}}/{{total}} saved as `{{label}`. Preparing next event...",
-      "completed": "Events created successfully!",
-      "image": {
-        "label": "Banner",
-        "description": "Optional banner for the event. We recommend an image that is at least 800px wide and 320px high."
-      },
-      "completedQuick": "The event `{{scheduleId}}` has been planned correctly! Please wait a few minutes before viewing.",
-      "completedError": "Error: {{e}}"
-    },
-    "title": "Cycle creation"
-  },
-  "list": {
-    "block": "Bloc duration:",
-    "len": "Event's duration:",
-    "start": "Bloc start time :",
-    "anchor": "Start date :",
-    "upcomingEvents": "Upcoming events :",
-    "location": "Location:",
-    "createdBy": "Created by:",
-    "banners": "Image(s):",
-    "description": "Description(s):",
-    "labels": "Label(s):"
-  },
-  "pause": {
-    "success": "⏸️ Cycle **{{scheduleId}}** paused.\nIt will no longer generate new events, but events that have already been created will remain."
-  },
-  "cancel": {
-    "success": "🧹 Cycle **{{scheduleId}}** deleted.\nRelated future events are purged from local storage.",
-    "allSuccess": "All events was deleted."
-  },
-  "errors": {
-    "unauthorized": "This modal is not for you.",
-    "wizardNotFound": "Wizard state not found or has expired.",
-    "unknown": "Unknown error: {{error}}"
+    "step": "How much to add to the variable"
   },
   "edit": {
     "success": "✅ Schedule **{{id}}** updated.\n- __Block__: {{blocStr}\n- __Duration__: {{lenStr}}\n- __Time__: {{startHHMM]}\n- __Zone__: {{s.start.zone}}"
   },
-  "bloc": {
-    "name": "bloc",
-    "description": "Interval between the start of successive events (e.g., 2d, 48h)"
+  "error": {
+    "cron": "The cron is invalid.",
+    "invalidAnchorDate": "Invalid anchor date “{{anchorISO}}”. Expected format `{{format}}.`",
+    "invalidBlock": "Invalid bloc \"{{blocStr}}\"",
+    "invalidLength": "Invalid duration “{{lenStr}}”",
+    "invalidScheduleId": "No cycle with id `{{scheduleId}}` found.",
+    "invalidStartTime": "Invalid time “{{startHHMM}}”. Expected format `HH:MM`.",
+    "locationConflict": "Only one location can be used at the same time.",
+    "noLocation": "A location is mandatory for event.",
+    "noSchedules": "No cycle configured",
+    "pastAnchorDate": "The start_date `{{anchor}}` is in the past.",
+    "unknownSubcommand": "Unknow subcommand"
+  },
+  "errors": {
+    "unauthorized": "This modal is not for you.",
+    "unknown": "Unknown error: {{error}}",
+    "wizardNotFound": "Wizard state not found or has expired."
+  },
+  "globalSettings": {
+    "description": "Edit the global bot settings",
+    "language": {
+      "description": "Change the lang of the bot",
+      "name": "language",
+      "set": "The bot language is now {{lang}}."
+    },
+    "locale": {
+    },
+    "minFuturBlock": {
+      "description": "Adjust the number of event that will be created at each cycle.",
+      "name": "future_min_blocks",
+      "set": "Each cycle will create {{futurMinBlock}} events."
+    },
+    "settings": "settings",
+    "timezone": {
+      "set": "The default time zone has been set to {{tz}}."
+    }
+  },
+  "globalsettingsSettings": {
+  },
+  "list": {
+    "anchor": "Start date :",
+    "banners": "Image(s):",
+    "block": "Bloc duration:",
+    "createdBy": "Created by:",
+    "description": "Description(s):",
+    "labels": "Label(s):",
+    "len": "Event's duration:",
+    "location": "Location:",
+    "start": "Bloc start time :",
+    "upcomingEvents": "Upcoming events :"
   },
   "location": {
     "string": {
-      "name": "location_elsewhere",
-      "description": "Set any location (plain text)"
+      "description": "Set any location (plain text)",
+      "name": "location_elsewhere"
     },
     "vocal": {
-      "name": "location_channel",
-      "description": "Set a channel location (stage or voice)"
+      "description": "Set a channel location (stage or voice)",
+      "name": "location_channel"
     }
   },
-  "anchor": {
-    "name": "start_date",
-    "description": "First event date"
+  "modals": {
+    "canceled": "Canceled",
+    "description": "Placeholders can be used. Check the documentation for more information.\nProvide more details about your events, support Markdown syntax, line breaks, and links.",
+    "scheduleEvent": {
+      "completedError": "Error: {{e}}",
+      "completedQuick": "The event `{{scheduleId}}` has been planned correctly! Please wait a few minutes before viewing.",
+      "image": {
+        "description": "Optional banner for the event. We recommend an image that is at least 800px wide and 320px high.",
+        "label": "Banner"
+      },
+      "nextPrompt": "Event {{current}}/{{total}} saved as `{{label}`. Preparing next event..."
+    },
+    "title": "Cycle creation"
+  },
+  "pause": {
+    "success": "⏸️ Cycle **{{scheduleId}}** paused.\nIt will no longer generate new events, but events that have already been created will remain."
+  },
+  "schedule": {
+    "active": {
+    },
+    "cancel": {
+      "description": "Delete a cycle and its future events.",
+      "id": "Cycle id to delete",
+      "name": "cancel"
+    },
+    "config": {
+      "description": "Change cycle settings (bloc, len, duration...)",
+      "name": "config"
+    },
+    "create": {
+      "blocks": {
+      },
+      "description": "Create a new recurring event",
+      "len": {
+        "description": "Len of each events (eg, 2h)"
+      },
+      "name": "create",
+      "start": "Local time at which each event starts",
+      "zone": {
+        "name": "Time zone (e.g. Europe/Paris)"
+      }
+    },
+    "description": "Manage cycles events based on duration",
+    "edit": {
+      "bloc": {
+        "description": "Edit the fields of an event (bloc, description, label...)",
+        "name": "blocs"
+      },
+      "description": "Edit an scheduled event",
+      "id": "Cycle id to be edited",
+      "name": "edit"
+    },
+    "list": {
+      "description": "List actives cycles and upcoming events",
+      "name": "list"
+    },
+    "modal": {
+    },
+    "name": "schedule",
+    "pause": {
+      "description": "Pause a cycle",
+      "id": "ID of the cycle to be paused",
+      "name": "pause"
+    }
+  },
+  "template": {
+    "compute": {
+      "description": "Allows you to calculate (or not) the value at the time the event is launched.",
+      "name": "compute_at_start"
+    },
+    "count": {
+      "description": "Number to increment or decrement"
+    },
+    "currentValue": "Current value: {{ex}}",
+    "date": {
+      "description": "Manage date : timezone, cron, format, start...",
+      "format": "Set how the date should be displayed",
+      "step": "Duration to add as set"
+    },
+    "decimal": {
+      "description": "Number of digits after the decimal point",
+      "name": "decimal"
+    },
+    "description": "Manage variables template (date, number and weather)",
+    "image": {
+    },
+    "name": "variables",
+    "weather": {
+      "description": "Set the weather location"
+    }
   },
   "timezone": {
-    "name": "timezone",
-    "description": "Set the timezone (eg Europe/Paris)"
+    "description": "Set the timezone (eg Europe/Paris)",
+    "name": "timezone"
+  },
+  "weather": {
+    "description": "Get the weather for a given city / default template city",
+    "display": {
+      "location": "Location",
+      "title": "Configuration - Weather"
+    },
+    "location": "location",
+    "name": "weather",
+    "set": {
+    }
   }
 }

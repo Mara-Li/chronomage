@@ -14,8 +14,8 @@ export const getWeather = {
 		)
 		.addStringOption((opt) =>
 			opt
-				.setNames("template.date.timezone.name")
-				.setDescriptions("template.date.timezone.description")
+				.setNames("timezone.name")
+				.setDescriptions("timezone.description")
 		),
 	async execute(interaction: Djs.ChatInputCommandInteraction, client: EClient) {
 		const settings = client.settings.get(interaction.guild!.id);
@@ -23,7 +23,7 @@ export const getWeather = {
 			interaction.options.getString(t("weather.location")) ??
 			settings?.templates?.weather.location;
 		const timezone =
-			interaction.options.getString(t("template.date.timezone.name")) ??
+			interaction.options.getString(t("timezone.name")) ??
 			settings?.settings?.zone;
 		const lang =
 			settings?.settings?.language ??

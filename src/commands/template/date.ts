@@ -46,7 +46,7 @@ function display(
 				value: formatDateStart(date?.start, date?.format) ?? ul("common.not_set"),
 			},
 			{
-				name: ul("template.date.timezone.name").toTitle(),
+				name: ul("timezone.name").toTitle(),
 				value: date?.timezone ?? ul("common.not_set"),
 			},
 			{
@@ -61,8 +61,8 @@ function display(
 	const example = formatDateStart(date?.start ?? DateTime.now().toISO(), date?.format);
 	const currentValue = date?.currentValue
 		? DateTime.fromISO(date?.currentValue, { zone: date?.timezone }).toFormat(
-				date?.format ?? "f"
-			)
+			date?.format ?? "f"
+		)
 		: (example ?? ul("common.not_set"));
 	return interaction.reply({
 		embeds: [embed],
@@ -91,7 +91,7 @@ function getOptions(
 	const options = interaction.options;
 	const format = options.getString(t("common.format")) || fallBack?.format;
 	const timezone =
-		options.getString(t("template.date.timezone.name")) || fallBack?.timezone;
+		options.getString(t("timezone.name")) || fallBack?.timezone;
 	const cron = options.getString(t("common.cron")) || fallBack?.cron;
 	const start = options.getString(t("common.start")) || fallBack?.start;
 	const step = convertStep(options.getString(t("common.step")), locale) || fallBack?.step;
@@ -187,7 +187,7 @@ export function anchorIsoDate(
 	date?: EventGuildData["templates"]["date"]
 ) {
 	const rawAnchor =
-		interaction.options.getString(t("schedule.create.anchor.name")) ??
+		interaction.options.getString(t("anchor.name")) ??
 		DateTime.now().setZone(zone).plus({ minutes: 30 }).toISO();
 
 	// 2. on essaie deux parse possibles : format custom et ISO

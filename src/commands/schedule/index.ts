@@ -193,7 +193,7 @@ export const schedule = {
 			case t("schedule.cancel.name"): {
 				return await handleCancel(interaction, client);
 			}
-			case t("schedule.edit.fields.name"): {
+			case t("schedule.config.name"): {
 				return await handleEdit(interaction, client);
 			}
 			default: {
@@ -220,8 +220,8 @@ async function handleCreate(
 		interaction.guild!,
 		client.settings.get(interaction.guild!.id)!
 	);
-	const total = interaction.options.getInteger(t("template.count.name"), true);
-	const blocStr = interaction.options.getString(t("schedule.create.bloc.name"), true);
+	const total = interaction.options.getInteger(t("count.name"), true);
+	const blocStr = interaction.options.getString(t("bloc.name"), true);
 	const startHHMM = interaction.options.getString(t("common.start"), true);
 	const lenStr = interaction.options.getString(t("common.len"), true);
 	const date = client.settings.get(interaction.guild!.id)?.templates.date;
@@ -425,7 +425,7 @@ async function handleEdit(interaction: Djs.ChatInputCommandInteraction, client: 
 		interaction.guild!,
 		client.settings.get(guildId)
 	);
-	const id = interaction.options.getString("id", true);
+	const id = interaction.options.getString(t("common.id"), true);
 
 	const g = client.settings.get(guildId);
 	if (!g?.schedules?.[id]) {
