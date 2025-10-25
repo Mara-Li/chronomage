@@ -16,29 +16,38 @@ export function setDate(guild: Djs.Guild, client: EClient) {
 
 	const cron = counter.cron;
 	if (!cron) return;
+	const stableZone = counter.timezone || settings?.settings?.zone || "utc";
 	const job = new CronJob(
 		cron,
 		() => {
-			//calculate the new date value with Luxon
-			let currentValue = counter.currentValue;
+			const liveSettings = client.settings.get(guild.id);
+			const liveCounter = liveSettings?.templates?.date;
+
+			// currentValue actuel en base, sinon fallback
+			let currentValue = liveCounter?.currentValue;
 			if (!currentValue) {
-				const zone = counter.timezone || settings?.settings?.zone || "utc";
+				// init de départ : start > sinon now
 				currentValue =
-					DateTime.fromISO(counter.start, { zone }).toISO() ??
-					DateTime.fromISO(counter.start).toISO() ??
+					(counter.start &&
+						(DateTime.fromISO(counter.start, { zone: stableZone }).toISO() ||
+							DateTime.fromISO(counter.start).toISO())) ||
+					DateTime.now().setZone(stableZone).toISO() ||
 					DateTime.now().toISO();
 			}
-			const date = DateTime.fromISO(currentValue, {
-				zone: counter.timezone || settings?.settings?.zone || "utc",
-			});
-			//the step is already in ms
+
+			// Parse + avance
+			const date = DateTime.fromISO(currentValue, { zone: stableZone });
+
+			// NOTE: counter.step est censé être un Duration-like (ms)
+			// Si c'est bien un objet { days: 4 } etc., ajuste ici.
 			const newCurrent = date.plus(counter.step).toISO();
-			//update the database
+
+			// Persiste la nouvelle valeur
 			client.settings.set(guild.id, newCurrent, "templates.date.currentValue");
 		},
 		null,
 		true,
-		settings.settings?.zone
+		stableZone // <- timezone utilisée par le CronJob lui-même
 	);
 	DateJobs.set(guild.id, job);
 	job.start();
