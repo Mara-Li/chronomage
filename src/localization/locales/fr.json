@@ -26,6 +26,10 @@
     "currentValue": "Valeur actuelle : {{ex}}",
     "image": {
       "name": "image"
+    },
+    "compute": {
+      "name": "calculer_au_début",
+      "description": "Permet de calculer (ou non) la valeur au moment du lancement de l'évènement"
     }
   },
   "common": {

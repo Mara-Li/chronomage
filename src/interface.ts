@@ -9,6 +9,7 @@ export interface Templates {
 		step: number;
 		timezone: string;
 		currentValue: string;
+		computeAtStart: boolean;
 	};
 	count: {
 		start: number;
@@ -16,8 +17,9 @@ export interface Templates {
 		decimal: number;
 		cron: string;
 		currentValue: number;
+		computeAtStart: boolean;
 	};
-	weather: { location: string };
+	weather: { location: string; computeAtStart: boolean };
 }
 
 /**

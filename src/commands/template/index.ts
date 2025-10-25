@@ -44,6 +44,12 @@ export const template = {
 				.addStringOption((opt) =>
 					opt.setNames("common.step").setDescriptions("template.date.step")
 				)
+				.addBooleanOption((opt) =>
+					opt
+						.setNames("template.compute.name")
+						.setDescriptions("template.compute.description")
+						.setRequired(false)
+				)
 		)
 		/**
 		 * Count subcommand
@@ -79,6 +85,12 @@ export const template = {
 						.setDescriptions("description.cron")
 						.setRequired(false)
 				)
+				.addBooleanOption((opt) =>
+					opt
+						.setNames("template.compute.name")
+						.setDescriptions("template.compute.description")
+						.setRequired(false)
+				)
 		)
 		/**
 		 * Weather subcommand
@@ -91,6 +103,12 @@ export const template = {
 					opt
 						.setNames("weather.location")
 						.setDescriptions("description.location")
+						.setRequired(false)
+				)
+				.addBooleanOption((opt) =>
+					opt
+						.setNames("template.compute.name")
+						.setDescriptions("template.compute.description")
 						.setRequired(false)
 				);
 		}),

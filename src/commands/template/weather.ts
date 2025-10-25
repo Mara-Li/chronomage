@@ -16,10 +16,16 @@ function display(
 	const embed = new Djs.EmbedBuilder()
 		.setTitle(ul("weather.display.title"))
 		.setColor("Blue")
-		.addFields({
-			name: ul("weather.display.location"),
-			value: weather?.location ?? ul("common.not_set"),
-		});
+		.addFields(
+			{
+				name: ul("weather.display.location"),
+				value: weather?.location ?? ul("common.not_set"),
+			},
+			{
+				name: ul("template.compute.name").toTitle(),
+				value: `\`${weather?.computeAtStart ? "✅" : "❌"}\``,
+			}
+		);
 	return interaction.reply({ embeds: [embed] });
 }
 
@@ -31,10 +37,12 @@ function set(
 	if (!interaction.guild) return;
 	const options = interaction.options as Djs.CommandInteractionOptionResolver;
 	const location = options.getString(t("weather.location"));
+	const computeAtStart = options.getBoolean(t("template.compute.name"));
 	const temp = defaultTemplate();
 
 	const weather = {
 		location: location ?? temp.weather.location,
+		computeAtStart: computeAtStart ?? temp.weather.computeAtStart,
 	};
 
 	client.settings.set(interaction.guild.id, weather, "templates.weather");
@@ -50,7 +58,8 @@ export function weather(
 	if (!interaction.guild) return;
 	const options = interaction.options;
 	const location = options.getString(t("weather.location"));
-	if (!location) return display(interaction, settings, ul);
+	const computeAtStart = options.getBoolean(t("template.compute.name"));
+	if (!location && computeAtStart == null) return display(interaction, settings, ul);
 
 	return set(client, interaction, ul);
 }
@@ -58,7 +67,7 @@ export function weather(
 export async function processTemplate(client: EClient, guild: Djs.Guild, text: string) {
 	const weatherTemplate = TEMPLATES.weather;
 	const weather = client.settings.get(guild.id)?.templates?.weather;
-	if (!weather) return text;
+	if (!weather || weather.computeAtStart) return text;
 	const settings = getSettings(client, guild, Djs.Locale.EnglishUS);
 	const lang = settings.settings?.language ?? Djs.Locale.EnglishUS;
 	let locale: string = lang as string;

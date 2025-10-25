@@ -46,6 +46,10 @@ function display(
 			{
 				name: ul("common.step").toTitle(),
 				value: date ? `\`${date.step}\`` : ul("common.not_set"),
+			},
+			{
+				name: ul("template.compute.name").toTitle(),
+				value: `\`${date?.computeAtStart ? "✅" : "❌"}\``,
 			}
 		);
 	const example = formatDateStart(date?.start ?? DateTime.now().toISO(), date?.format);
@@ -84,7 +88,10 @@ function getOptions(
 	const start = options.getString(t("common.start")) || defaultDate?.start;
 	const step =
 		convertStep(options.getString(t("common.step")), locale) || defaultDate?.step;
-	return { format, timezone, cron, start, step };
+	const compute =
+		interaction.options.getBoolean(t("template.compute.name")) ??
+		defaultDate?.computeAtStart;
+	return { format, timezone, cron, start, step, compute };
 }
 
 export function set(
@@ -96,7 +103,11 @@ export function set(
 	if (!interaction.guild) return;
 	const locale =
 		settings?.settings?.language ?? interaction.locale ?? interaction.guildLocale;
-	const { format, timezone, cron, start, step } = getOptions(interaction, locale, true);
+	const { format, timezone, cron, start, step, compute } = getOptions(
+		interaction,
+		locale,
+		true
+	);
 	if (cron && !isValidCron(cron)) return interaction.reply(ul("error.cron"));
 
 	//convert the duration to number
@@ -108,6 +119,7 @@ export function set(
 			zone: timezone as string,
 		}).toISO(),
 		step,
+		computeAtStart: compute,
 	};
 	client.settings.set(interaction.guild.id, date, "templates.date");
 	setDate(interaction.guild, client);
@@ -129,8 +141,11 @@ export function date(
 	if (!interaction.guild) return;
 	const locale =
 		settings?.settings?.language ?? interaction.locale ?? interaction.guildLocale;
-	const { format, timezone, cron, start, step } = getOptions(interaction, locale);
-	if (!format && !timezone && !cron && !start && step == null)
+	const { format, timezone, cron, start, step, compute } = getOptions(
+		interaction,
+		locale
+	);
+	if (!format && !timezone && !cron && !start && step == null && compute == null)
 		return display(interaction, settings, ul);
 
 	return set(client, interaction, settings, ul);
@@ -139,7 +154,7 @@ export function date(
 export function processTemplate(client: EClient, guild: Djs.Guild, text: string) {
 	const settings = client.settings.get(guild.id);
 	const dateTemplate = settings?.templates.date;
-	if (!dateTemplate) return text;
+	if (!dateTemplate || dateTemplate.computeAtStart) return text;
 	const template = TEMPLATES.date;
 	if (text.match(template)) {
 		const dt = DateTime.fromISO(dateTemplate.currentValue, {

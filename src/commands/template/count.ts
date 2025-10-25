@@ -37,6 +37,10 @@ function display(
 			{
 				name: ul("template.decimal.name").toTitle(),
 				value: `\`${count?.decimal ?? ul("common.not_set")}\``,
+			},
+			{
+				name: ul("template.compute.name").toTitle(),
+				value: `\`${count?.computeAtStart ? "✅" : "❌"}\``,
 			}
 		);
 
@@ -64,7 +68,10 @@ function getOptions(interaction: Djs.ChatInputCommandInteraction, setDefault?: b
 	const decimal =
 		interaction.options.getInteger(t("template.decimal.name")) ??
 		defaultTemplateData?.decimal;
-	return { start, step, cron, decimal };
+	const compute =
+		interaction.options.getBoolean(t("template.compute.name")) ??
+		defaultTemplateData?.computeAtStart;
+	return { start, step, cron, decimal, compute };
 }
 
 function set(
@@ -78,16 +85,14 @@ function set(
 
 	const template = settings?.templates ?? temp;
 
-	const { start, step, cron, decimal } = getOptions(interaction);
+	const { start, step, cron, decimal, compute } = getOptions(interaction);
 	template.count.start = start ?? template.count.start;
 	template.count.step = step ?? template.count.step;
 	template.count.cron = cron ?? template.count.cron;
-
-	if (!isValidCron(template.count.cron)) {
-		return interaction.reply(ul("error.cron"));
-	}
-
+	template.count.computeAtStart = compute ?? template.count.computeAtStart;
 	template.count.decimal = decimal ?? template.count.decimal;
+
+	if (!isValidCron(template.count.cron)) return interaction.reply(ul("error.cron"));
 
 	client.settings.set(interaction.guild.id, settings!);
 	setCount(interaction.guild, client);
@@ -101,8 +106,8 @@ export function count(
 	settings: EventGuildData
 ) {
 	if (!interaction.guild) return;
-	const { start, step, cron, decimal } = getOptions(interaction);
-	if (!cron && start == null && step == null && decimal == null)
+	const { start, step, cron, decimal, compute } = getOptions(interaction);
+	if (!cron && start == null && step == null && decimal == null && compute == null)
 		return display(interaction, settings, ul);
 
 	return set(client, interaction, settings, ul);
@@ -112,6 +117,7 @@ export function processTemplate(client: EClient, guild: Djs.Guild, text: string)
 	const settings = getSettings(client, guild, Djs.Locale.EnglishUS);
 	const template = TEMPLATES.date;
 	const count = settings.templates.count;
+	if (!count || count.computeAtStart) return text;
 	if (text.match(template)) {
 		const currentValue = count?.currentValue ?? count?.start ?? 0;
 		const decimalPlaces = count?.decimal ?? 0;
