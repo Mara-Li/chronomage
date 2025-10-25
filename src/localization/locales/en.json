@@ -54,7 +54,7 @@
     "step": "How much to add to the variable"
   },
   "edit": {
-    "success": "✅ Schedule **{{id}}** updated.\n- __Block__: {{blocStr}\n- __Duration__: {{lenStr}}\n- __Time__: {{startHHMM]}\n- __Zone__: {{zone}}\n- __Bloc__: {{blocStr}}\n- __Location__: {{location}}"
+    "success": "✅ Schedule **{{id}}** updated.\n- __Block__: {{bloc}}\n- __Duration__: {{lenStr}}\n- __Time__: {{start}}\n- __Zone__: {{zone}}\n- __Location__: {{location}}"
   },
   "error": {
     "cron": "The cron is invalid.",
@@ -119,12 +119,15 @@
   },
   "modals": {
     "canceled": "Canceled",
-    "description": "Placeholders can be used. Check the documentation for more information.\nProvide more details about your events, support Markdown syntax, line breaks, and links.",
+    "description": "Supports Markdown syntax, newlines and links.",
+    "placeholder": "Supports placeholder variables. Refer to the documentation for more information.",
     "scheduleEvent": {
       "completedError": "Error: {{e}}",
       "completedQuick": "The event `{{scheduleId}}` has been planned correctly! Please wait a few minutes before viewing.",
+      "edited": "The event `{{scheduleId}}` has been correctly modified! \nPlease wait a few minutes before updating.",
+      "editedQuick": "The schedule `{{scheduleId}}` has been updated! Future events will be recreated.",
       "image": {
-        "description": "Optional banner for the event. We recommend an image that is at least 800px wide and 320px high.",
+        "description": "Optional banner for the event. Recommended format: at least 800px wide and 320px high.",
         "label": "Banner"
       },
       "nextPrompt": "Event {{current}}/{{total}} saved as `{{label}`. Preparing next event..."

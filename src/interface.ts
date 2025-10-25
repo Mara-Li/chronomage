@@ -110,6 +110,7 @@ export type WizardState = {
 	location: string;
 	locationType: Djs.GuildScheduledEventEntityType;
 	banners: Record<string, BannerSpec>;
+	editingScheduleId?: string; // If set, we're editing an existing schedule
 };
 
 export type WizardOptions = {

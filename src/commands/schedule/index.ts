@@ -3,7 +3,7 @@ import * as Djs from "discord.js";
 import type { EClient } from "@/client";
 import { handleCancel } from "@/commands/schedule/cancel";
 import { handleCreate } from "@/commands/schedule/create";
-import { handleEdit } from "@/commands/schedule/edit";
+import { handleEdit, handleEditBlocks } from "@/commands/schedule/edit";
 import { handleList } from "@/commands/schedule/list";
 import { handlePause } from "@/commands/schedule/pause";
 import { t, tFn } from "@/localization";
@@ -113,7 +113,7 @@ export const schedule = {
 								.setRequired(true)
 						)
 						.addStringOption((s) =>
-							s.setNames("bloc.name").setDescriptions("bloc.description").setRequired(true)
+							s.setNames("bloc.name").setDescriptions("bloc.description")
 						)
 						.addStringOption((opt) =>
 							opt
@@ -173,10 +173,12 @@ export const schedule = {
 				choices.push({ name: id, value: id });
 			}
 		}
-		choices.push({
-			name: ul("common.all"),
-			value: "all",
-		});
+		const subcommand = options.getSubcommand(true);
+		if (subcommand === t("schedule.cancel.name"))
+			choices.push({
+				name: ul("common.all"),
+				value: "all",
+			});
 		const filtered = choices.filter(
 			(choice) =>
 				choice.name.subText(focused.value) ||
@@ -203,6 +205,9 @@ export const schedule = {
 			}
 			case t("schedule.config.name"): {
 				return await handleEdit(interaction, client);
+			}
+			case t("schedule.edit.bloc.name"): {
+				return await handleEditBlocks(interaction, client);
 			}
 			default: {
 				const { ul } = tFn(

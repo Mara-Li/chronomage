@@ -12,9 +12,10 @@ export async function buildScheduleModal(
 ) {
 	const oldLabel = old?.labels?.[index - 1] ?? "";
 	const oldDescription = old?.description?.[old?.labels?.[index - 1] ?? ""] ?? "";
+
 	const labelEventBuilder: Djs.LabelBuilder = new Djs.LabelBuilder()
 		.setLabel(ul("common.label"))
-		.setDescription(ul("modals.description"))
+		.setDescription(ul("modals.placeholder"))
 		.setTextInputComponent(
 			new Djs.TextInputBuilder()
 				.setCustomId("label")
@@ -25,13 +26,14 @@ export async function buildScheduleModal(
 		);
 	const descriptionEventBuilder: Djs.LabelBuilder = new Djs.LabelBuilder()
 		.setLabel(ul("common.description"))
-		.setDescription(ul("modals.description"))
+		.setDescription(ul("modals.placeholder"))
 		.setTextInputComponent(
 			new Djs.TextInputBuilder()
 				.setCustomId("description")
 				.setStyle(Djs.TextInputStyle.Paragraph)
 				.setMaxLength(1000)
 				.setRequired(false)
+				.setPlaceholder(ul("modals.description"))
 				.setValue(oldDescription)
 		);
 

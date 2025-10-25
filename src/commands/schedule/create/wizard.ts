@@ -1,9 +1,10 @@
 import * as Djs from "discord.js";
-import { createEvent, ensureBufferForGuild } from "@/buffer";
+import { DateTime } from "luxon";
+import { createEvent } from "@/buffer";
 import type { EClient } from "@/client";
 import { createSchedule } from "@/commands/schedule/create";
 import { buildScheduleModal, buttonFollow } from "@/commands/schedule/create/modal";
-import { type Schedule, Wizard, type WizardOptions, type WizardState, wizardKey } from "@/interface";
+import { type Schedule, Wizard, type WizardOptions, type WizardState, wizardKey, type EventKey } from "@/interface";
 import { tFn } from "@/localization";
 import { getBannerHash, getSettings } from "@/utils";
 
@@ -22,6 +23,16 @@ export function startWizardFromSlash(
 		client.settings.get(guildId)
 	);
 
+	// Prepare labels array with correct size, pre-filled with old values if editing
+	const labels: string[] = Array(opts.total).fill("");
+	if (old?.labels) {
+		// Copy old labels up to the minimum of old length and new total
+		const copyCount = Math.min(old.labels.length, opts.total);
+		for (let i = 0; i < copyCount; i++) {
+			labels[i] = old.labels[i];
+		}
+	}
+
 	Wizard.set(wizardKey(guildId, userId), {
 		guildId,
 		userId,
@@ -34,16 +45,17 @@ export function startWizardFromSlash(
 			anchorISO: opts.anchorISO,
 			zone: opts.zone,
 		},
-		labels: old?.labels ? old.labels : [],
-		descriptions: old?.description ? old.description : {},
+		labels: labels,
+		descriptions: old?.description ? { ...old.description } : {},
 		createdBy: userId,
 		startedAt: Date.now(),
 		location: opts.location,
 		locationType: opts.locationType,
-		banners: {},
+		banners: old?.banners ? old.banners : {},
+		editingScheduleId: old?.scheduleId, // Mark as editing if old schedule exists
 	});
 
-	return buildScheduleModal(interaction.guild!, userId, 1, ul);
+	return buildScheduleModal(interaction.guild!, userId, 1, ul, old);
 }
 
 export async function altWizardCancel(
@@ -77,7 +89,6 @@ export async function altScheduleWizard(
 	interaction: Djs.ModalSubmitInteraction,
 	client: EClient
 ) {
-	await interaction.deferReply();
 	try {
 		const ul = tFn(
 			interaction.locale,
@@ -96,7 +107,7 @@ export async function altScheduleWizard(
 
 		const state = Wizard.get(wizardKey(guildId, userId));
 		if (!state) {
-			await interaction.editReply({
+			await interaction.reply({
 				content: ul("errors.wizardNotFound"),
 			});
 			return;
@@ -110,7 +121,17 @@ export async function altScheduleWizard(
 		const att = getBannerHash(interaction); // si t'as une bannière
 
 		// 2. maj du wizard state
-		state.labels.push(label);
+		// Use current-1 as index (current is 1-based)
+		const currentIndex = state.current - 1;
+		const oldLabel = state.labels[currentIndex]; // Get the old label before replacing
+
+		// If we're replacing a label, clean up old description and banner
+		if (oldLabel && oldLabel !== label) {
+			delete state.descriptions[oldLabel];
+			delete state.banners[oldLabel];
+		}
+
+		state.labels[currentIndex] = label; // Replace instead of push
 		if (description.length) state.descriptions[label] = description;
 		if (att) state.banners[label] = att;
 		state.current += 1;
@@ -118,7 +139,7 @@ export async function altScheduleWizard(
 
 		// 3. S'il reste des étapes => on s'arrête là, on renvoie le bouton "Suivant"
 		if (state.current <= state.total) {
-			return await interaction.editReply({
+			return await interaction.reply({
 				content: ul("modals.scheduleEvent.nextPrompt", {
 					current: state.current - 1,
 					total: state.total,
@@ -133,36 +154,98 @@ export async function altScheduleWizard(
 		const labels = state.labels;
 
 		const g = client.settings.get(guildId)!;
-		const { scheduleId } = createSchedule(g, {
-			guildId,
-			labels,
-			blocMs,
-			startHHMM,
-			lenMs,
-			anchorISO,
-			createdBy: state.userId,
-			zone,
-			location: state.location,
-			locationType: state.locationType,
-		});
 
-		// on ajoute descriptions et bannières par label
-		g.schedules[scheduleId] = {
-			...g.schedules[scheduleId],
-			description: state.descriptions,
-			banners: state.banners,
-			// active reste true
-		};
+		let scheduleId: string;
+
+		// Check if we're editing an existing schedule
+		if (state.editingScheduleId) {
+			scheduleId = state.editingScheduleId;
+			const existingSchedule = g.schedules[scheduleId];
+
+			if (!existingSchedule) {
+				await interaction.reply({
+					content: ul("error.invalidScheduleId", { scheduleId }),
+				});
+				Wizard.delete(wizardKey(guildId, userId));
+				return;
+			}
+
+			// Delete all future events for this schedule since we're changing the blocks
+			const now = DateTime.now().setZone(zone ?? existingSchedule.start.zone);
+			const guild = interaction.guild!;
+
+			for (const [eventKey, eventRow] of Object.entries(g.events)) {
+				if (eventRow.scheduleId !== scheduleId) continue;
+				if (eventRow.status !== "created") continue;
+
+				const eventStart = DateTime.fromISO(eventRow.start.iso, { zone: eventRow.start.zone });
+				if (eventStart <= now) continue;
+
+				// Delete the Discord event
+				if (eventRow.discordEventId) {
+					try {
+						const discordEvent = await guild.scheduledEvents.fetch(eventRow.discordEventId);
+						if (discordEvent) {
+							await discordEvent.delete();
+						}
+					} catch (err) {
+						console.error(`Failed to delete Discord event ${eventRow.discordEventId}:`, err);
+					}
+				}
+
+				// Delete from our DB
+				delete g.events[eventKey as EventKey];
+			}
+
+			// Update the existing schedule with new data
+			g.schedules[scheduleId] = {
+				...existingSchedule,
+				labels,
+				blockMs: blocMs,
+				start: { hhmm: startHHMM, zone: zone ?? existingSchedule.start.zone },
+				lenMs,
+				anchorISO: anchorISO ?? existingSchedule.anchorISO,
+				nextBlockIndex: 0, // Reset to recreate events
+				location: state.location,
+				locationType: state.locationType,
+				description: state.descriptions,
+				banners: state.banners,
+			};
+		} else {
+			// Create a new schedule
+			const result = createSchedule(g, {
+				guildId,
+				labels,
+				blocMs,
+				startHHMM,
+				lenMs,
+				anchorISO,
+				createdBy: state.userId,
+				zone,
+				location: state.location,
+				locationType: state.locationType,
+			});
+			scheduleId = result.scheduleId;
+
+			// Add descriptions and banners
+			g.schedules[scheduleId] = {
+				...g.schedules[scheduleId],
+				description: state.descriptions,
+				banners: state.banners,
+			};
+		}
+
 		client.settings.set(guildId, g);
 
 		// 5. on clôture le wizard ici
 		Wizard.delete(wizardKey(guildId, userId));
 
 		// 6. on répond direct à l'utilisateur, sans lancer ensureBufferForGuild maintenant
-		await interaction.editReply({
-			content: ul("modals.scheduleEvent.completedQuick", {
-				scheduleId,
-			}),
+		const isEditing = !!state.editingScheduleId;
+		await interaction.reply({
+			content: isEditing
+				? ul("modals.scheduleEvent.edited", { scheduleId })
+				: ul("modals.scheduleEvent.completedQuick", { scheduleId }),
 		});
 
 		// fin. pas d'appel lourd ici.
@@ -203,7 +286,14 @@ export async function altWizardNext(interaction: Djs.ButtonInteraction, client: 
 		return;
 	}
 
+	// If we're editing, get the original schedule to show old values
+	let oldSchedule: Schedule | undefined;
+	if (state.editingScheduleId) {
+		const g = client.settings.get(guildId);
+		oldSchedule = g?.schedules?.[state.editingScheduleId];
+	}
+
 	await interaction.showModal(
-		await buildScheduleModal(interaction.guild!, userId, state.current, ul)
+		await buildScheduleModal(interaction.guild!, userId, state.current, ul, oldSchedule)
 	);
 }

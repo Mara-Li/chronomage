@@ -54,7 +54,7 @@
     "step": "How much to add to the variable"
   },
   "edit": {
-    "success": "✅ Planning **{{id}}** mis à jour.\n- __Bloc__ : {{blocStr}\n- __Durée__ : {{lenStr}}\n- __Heure__ : {{startHHMM]}\n- __Zone__ : {{zone}}\n- __Bloc__ : {{blocStr}}\n- __Localisation__ : {{location}}"
+    "success": "✅ Planning **{{id}}** mis à jour.\n- __Bloc__ : {{bloc}}\n- __Durée__ : {{lenStr}}\n- __Heure__ : {{start}}\n- __Zone__ : {{zone}}\n- __Localisation__ : {{location}}"
   },
   "error": {
     "cron": "Le cron est invalide.",
@@ -119,12 +119,15 @@
   },
   "modals": {
     "canceled": "Annuler",
-    "description": "Des placeholder peuvent être utilisé. Verifiez la doc pour plus d'information.\nDonne plus de détail sur ton évènements, supporte la syntaxe Markdown, les retours à la ligne et les liens.",
+    "description": "Supporte la syntaxe Markdown, les retours à la ligne et les liens.",
+    "placeholder": "Supporte des variables \"placeholder\". Référez-vous à la documentation pour plus d'informations.",
     "scheduleEvent": {
       "completedError": "Erreur : {{e}}",
       "completedQuick": "L'évènement `{{scheduleId}}` a correctement été planifié ! Veuillez attendre quelque minutes avant l'affichage.",
+      "edited": "L'évènement `{{scheduleId}}` a correctement été modifié ! Veuillez attendre quelque minutes avant actualisation.",
+      "editedQuick": "Le cycle `{{scheduleId}}` a été mis à jour ! Les événements futurs vont être recréés.",
       "image": {
-        "description": "Bannière optionnel pour l'évènement. Nous recommandons une image d'au moins 800px de large et 320 px de haut.",
+        "description": "Bannière optionnel pour l'évènement. Format recommandé : au moins 800px de large et 320 px de haut.",
         "label": "Bannière"
       },
       "nextPrompt": "Évènements {{current}}/{{total}} sauvegardé sous `{{label}}`. Préparation de l'évènement suivant..."
