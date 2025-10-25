@@ -64,10 +64,15 @@ export function weather(
 	return set(client, interaction, ul);
 }
 
-export async function processTemplate(client: EClient, guild: Djs.Guild, text: string) {
+export async function processTemplate(
+	client: EClient,
+	guild: Djs.Guild,
+	text: string,
+	start = false
+): Promise<string> {
 	const weatherTemplate = TEMPLATES.weather;
 	const weather = client.settings.get(guild.id)?.templates?.weather;
-	if (!weather || weather.computeAtStart) return text;
+	if (!weather || (weather.computeAtStart && !start)) return text;
 	const settings = getSettings(client, guild, Djs.Locale.EnglishUS);
 	const lang = settings.settings?.language ?? Djs.Locale.EnglishUS;
 	let locale: string = lang as string;

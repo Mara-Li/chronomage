@@ -151,10 +151,15 @@ export function date(
 	return set(client, interaction, settings, ul);
 }
 
-export function processTemplate(client: EClient, guild: Djs.Guild, text: string) {
+export function processTemplate(
+	client: EClient,
+	guild: Djs.Guild,
+	text: string,
+	start = false
+) {
 	const settings = client.settings.get(guild.id);
 	const dateTemplate = settings?.templates.date;
-	if (!dateTemplate || dateTemplate.computeAtStart) return text;
+	if (!dateTemplate || (dateTemplate.computeAtStart && !start)) return text;
 	const template = TEMPLATES.date;
 	if (text.match(template)) {
 		const dt = DateTime.fromISO(dateTemplate.currentValue, {

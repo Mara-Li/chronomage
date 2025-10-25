@@ -113,11 +113,16 @@ export function count(
 	return set(client, interaction, settings, ul);
 }
 
-export function processTemplate(client: EClient, guild: Djs.Guild, text: string) {
+export function processTemplate(
+	client: EClient,
+	guild: Djs.Guild,
+	text: string,
+	start = false
+) {
 	const settings = getSettings(client, guild, Djs.Locale.EnglishUS);
 	const template = TEMPLATES.date;
 	const count = settings.templates.count;
-	if (!count || count.computeAtStart) return text;
+	if (!count || (count.computeAtStart && !start)) return text;
 	if (text.match(template)) {
 		const currentValue = count?.currentValue ?? count?.start ?? 0;
 		const decimalPlaces = count?.decimal ?? 0;
