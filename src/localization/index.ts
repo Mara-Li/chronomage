@@ -43,5 +43,10 @@ function getLocale(
 	guild: Djs.Guild,
 	settings?: EventGuildData
 ) {
-	return settings?.settings?.language ?? guild.preferredLocale ?? interactionLocale;
+	return (
+		settings?.settings?.language ??
+		guild.preferredLocale ??
+		interactionLocale ??
+		Djs.Locale.EnglishUS
+	);
 }

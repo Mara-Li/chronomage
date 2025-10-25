@@ -63,12 +63,10 @@ export async function deleteSchedule(
 		if (event.scheduleId === scheduleId) delete g.events[key];
 		if (event.discordEventId) {
 			try {
-				await guild.scheduledEvents.delete(event.discordEventId);
+				const ev = guild.scheduledEvents.cache.get(event.discordEventId);
+				ev?.delete();
 			} catch (err) {
-				console.error(
-					`[${guild.id}] Failed to delete Discord event ${event.discordEventId} for schedule ${scheduleId}:`,
-					err
-				);
+				//pass
 			}
 		}
 	}

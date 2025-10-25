@@ -1,7 +1,6 @@
 import "../../discord_ext";
 import dedent from "dedent";
 import * as Djs from "discord.js";
-import type { TFunction } from "i18next";
 import { DateTime } from "luxon";
 import type { EClient } from "../../client";
 import { parseDurationLocalized } from "../../duration";
@@ -142,25 +141,31 @@ export const schedule = {
 		const guild = interaction.guild.id;
 		const subcommand = interaction.options.getSubcommand(true);
 		console.log(`Executing schedule subcommand: ${subcommand} in guild ${guild}`);
-		const ul = tFn(interaction.locale, interaction.guild, client.settings.get(guild)!).ul;
+
 		switch (subcommand) {
 			case t("schedule.create.name"): {
 				return await handleCreate(interaction, client);
 			}
 			case t("schedule.list.name"): {
-				return await handleList(interaction, client, ul);
+				return await handleList(interaction, client);
 			}
 			case t("schedule.pause.name"): {
-				return await handlePause(interaction, client, ul);
+				return await handlePause(interaction, client);
 			}
 			case t("schedule.cancel.name"): {
-				return await handleCancel(interaction, client, ul);
+				return await handleCancel(interaction, client);
 			}
-			default:
+			default: {
+				const { ul } = tFn(
+					interaction.locale,
+					interaction.guild!,
+					client.settings.get(interaction.guild!.id)!
+				);
 				return interaction.reply({
 					flags: Djs.MessageFlags.Ephemeral,
 					content: ul("error.unknownSubcommand"),
 				});
+			}
 		}
 	},
 };
@@ -169,6 +174,11 @@ async function handleCreate(
 	interaction: Djs.ChatInputCommandInteraction,
 	client: EClient
 ) {
+	const { ul, locale } = tFn(
+		interaction.locale,
+		interaction.guild!,
+		client.settings.get(interaction.guild!.id)!
+	);
 	const total = interaction.options.getInteger(t("template.count.name"), true);
 	const blocStr = interaction.options.getString(t("schedule.create.bloc.name"), true);
 	const startHHMM = interaction.options.getString(t("common.start"), true);
@@ -178,12 +188,6 @@ async function handleCreate(
 		interaction.options.getString(t("template.date.timezone.name")) ||
 		date?.timezone ||
 		"UTC";
-
-	const { ul, locale } = tFn(
-		interaction.locale,
-		interaction.guild!,
-		client.settings.get(interaction.guild!.id)!
-	);
 
 	// Validate inputs here if necessary, e.g., check date formats, timezones, etc.
 
@@ -251,11 +255,12 @@ async function handleCreate(
 	return await interaction.showModal(modal);
 }
 
-async function handleList(
-	interaction: Djs.ChatInputCommandInteraction,
-	client: EClient,
-	ul: TFunction
-) {
+async function handleList(interaction: Djs.ChatInputCommandInteraction, client: EClient) {
+	const { ul } = tFn(
+		interaction.locale,
+		interaction.guild!,
+		client.settings.get(interaction.guild!.id)!
+	);
 	await interaction.deferReply();
 	const schedules = listSchedules(interaction.guild!.id, client);
 	const globalSettings = client.settings.get(interaction.guild!.id)?.templates.date;
@@ -313,8 +318,9 @@ async function handleList(
 		}
 		parts.push(part);
 	}
-	const allLines = parts.map((p) => p.lines.join("\n"));
-	if (allLines.length >= 2000) {
+	const allLines = parts.map((p) => p.lines.join("\n")).join("\n");
+	console.log(allLines.length);
+	if (allLines.length >= 1090) {
 		//send in a message each part
 		for (const p of parts) {
 			const finalMesssages = `- ${p.label}\n  - ${p.lines.join("\n  - ")}`;
@@ -330,9 +336,13 @@ async function handleList(
 
 async function handlePause(
 	interaction: Djs.ChatInputCommandInteraction,
-	client: EClient,
-	ul: TFunction
+	client: EClient
 ) {
+	const { ul } = tFn(
+		interaction.locale,
+		interaction.guild!,
+		client.settings.get(interaction.guild!.id)!
+	);
 	const scheduleId = interaction.options.getString(t("common.id"), true);
 	const ok = setScheduleActive(interaction.guildId!, scheduleId, false, client);
 	if (!ok) {
@@ -346,21 +356,25 @@ async function handlePause(
 
 async function handleCancel(
 	interaction: Djs.ChatInputCommandInteraction,
-	client: EClient,
-	ul: TFunction
+	client: EClient
 ) {
+	await interaction.deferReply();
 	const scheduleId = interaction.options.getString(t("common.id"), true);
+	const { ul } = tFn(
+		interaction.locale,
+		interaction.guild!,
+		client.settings.get(interaction.guild!.id)!
+	);
+	console.log(`Cancelling schedule with ID: ${scheduleId}`);
 	if (scheduleId === "all") {
-		await interaction.deferReply();
 		await cancelAll(interaction.guild!, client);
 		return interaction.editReply(ul("cancel.allSuccess"));
 	}
 	const ok = await deleteSchedule(interaction.guild!, scheduleId, client);
 	if (!ok) {
-		return interaction.reply({
-			flags: Djs.MessageFlags.Ephemeral,
+		return interaction.editReply({
 			content: ul("error.invalidScheduleId", { scheduleId }),
 		});
 	}
-	return interaction.reply(ul("cancel.success", { scheduleId }));
+	return interaction.editReply(ul("cancel.success", { scheduleId }));
 }
