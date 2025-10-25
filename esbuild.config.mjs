@@ -2,6 +2,8 @@
 import { copyFileSync, mkdirSync, rmSync } from "node:fs";
 import * as path from "node:path";
 import { build } from "esbuild";
+import { fixImportsPlugin, writeFilePlugin } from "esbuild-fix-imports-plugin";
+
 import { glob } from "glob";
 
 rmSync("dist", { recursive: true, force: true });
@@ -20,6 +22,8 @@ await build({
 	platform: "node",
 	target: "node20",
 	format: "cjs",
+	tsconfig: "./tsconfig.json",
+	write: false,
 	sourcemap: !isProd,
 	minify: isProd,
 	drop: isProd ? ["console"] : [],
@@ -29,6 +33,7 @@ await build({
 	// Préserve la structure des dossiers
 	outbase: "src",
 	sourceRoot: "src",
+	plugins: [fixImportsPlugin(), writeFilePlugin()],
 });
 
 // Copier package.json dans dist/

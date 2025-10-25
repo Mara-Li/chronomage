@@ -4,8 +4,8 @@ import { commandsList } from "commands";
 import { CronJob } from "cron";
 import dotenv from "dotenv";
 import { ensureBufferForGuild } from "schedule/buffer";
-import { VERSION } from "..";
 import { initAll } from "../cron";
+import { VERSION } from "../index";
 
 dotenv.config({ path: ".env" });
 

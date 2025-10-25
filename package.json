@@ -8,16 +8,16 @@
 	},
 	"repository": "",
 	"scripts": {
-		"build": "tsc",
-		"build:esbuild": "node esbuild.config.mjs",
+		"prebuild": "tsc --noEmit",
+		"build": "node esbuild.config.mjs",
 		"prestart": "pnpm run build",
 		"start": "pm2 start dist/src/index.js --name narrakit --log-date-format=\"YYYY-MM-DD HH:mm Z\"",
 		"stop": "pm2 stop narrakit",
 		"prerestart": "pnpm run build",
 		"restart": "pm2 restart narrakit",
 		"delete": "pm2 delete narrakit",
-		"dev": "ts-node-dev --respawn -- src/index.ts",
-		"dev:prod": "cross-env ENV=production ts-node-dev --respawn -- src/index.ts"
+		"dev": "ts-node-dev --respawn -r tsconfig-paths/register -- src/index.ts",
+		"dev:prod": "cross-env ENV=production ts-node-dev --respawn -r tsconfig-paths/register -- src/index.ts"
 	},
 	"commit-and-tag-version": {
 		"t": ""
@@ -40,16 +40,22 @@
 		"dedent": "^1.7.0",
 		"discord.js": "^14.24.0",
 		"enmap": "^6.0.5",
+		"esbuild-fix-imports-plugin": "^1.0.23",
+		"esbuild-plugin-tsconfig-paths": "^1.0.1",
 		"human-id": "^4.1.2",
 		"humanize-duration": "^3.33.1",
 		"i18next": "^25.6.0",
+		"load-tsconfig": "^0.2.5",
 		"luxon": "^3.7.2",
 		"nodemon": "^3.1.10",
 		"parse-duration": "^2.1.4",
 		"rimraf": "^6.0.1",
 		"ts-dedent": "^2.2.0",
+		"ts-loader": "^9.5.4",
 		"ts-node": "^10.9.2",
 		"ts-node-dev": "^2.0.0",
+		"tsc-alias": "^1.8.16",
+		"tsconfig-paths": "^4.2.0",
 		"tslib": "^2.8.1",
 		"tsx": "^4.20.6",
 		"typescript": "^5.9.3",
@@ -57,6 +63,7 @@
 		"weather-describe": "^1.0.4"
 	},
 	"devDependencies": {
+		"@esbuild-plugins/tsconfig-paths": "^0.1.2",
 		"dotenv": "^17.2.3",
 		"esbuild": "^0.25.11",
 		"glob": "^11.0.3"

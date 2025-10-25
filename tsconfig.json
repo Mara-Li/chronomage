@@ -1,4 +1,13 @@
 {
+	"ts-node": {
+		"require": ["tsconfig-paths/register"],
+		"esm": true,
+		"transpileOnly": true,
+		"experimentalSpecifierResolution": "node"
+	},
+	"tsc-alias": {
+		"resolveFullPaths": true
+	},
 	"compilerOptions": {
 		"target": "ESNext",
 		"module": "commonjs",
@@ -18,16 +27,17 @@
 		"sourceMap": false,
 		"baseUrl": "./",
 		"paths": {
-			"client": ["src/client.ts"],
-			"interface": ["src/interface.ts"],
-			"localization": ["src/localization/index.ts"],
-			"discord_ext": ["src/discord_ext.ts"],
-			"utils": ["src/utils.ts"],
+			"@root": ["src/index"],
+			"client": ["src/client"],
+			"interface": ["src/interface"],
+			"localization": ["src/localization/index"],
+			"discord_ext": ["src/discord_ext"],
+			"utils": ["src/utils"],
 			"cron/*": ["src/cron/*"],
-			"duration": ["src/duration.ts"],
+			"duration": ["src/duration"],
 			"schedule/*": ["src/schedule/*"],
 			"commands/*": ["src/commands/*"],
-			"commands": ["src/commands/index.ts"]
+			"commands": ["src/commands/index"]
 		}
 	},
 	"files": ["src/index.ts", "src/@types/parse-duration.d.ts"],
