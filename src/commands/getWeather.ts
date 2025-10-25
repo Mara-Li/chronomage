@@ -1,8 +1,8 @@
-import "discord_ext";
-import type { EClient } from "client";
+import "@/discord_ext";
 import * as Djs from "discord.js";
-import { t } from "localization";
 import { WeatherDescribe } from "weather-describe";
+import type { EClient } from "@/client";
+import { t } from "@/localization";
 
 export const getWeather = {
 	data: new Djs.SlashCommandBuilder()

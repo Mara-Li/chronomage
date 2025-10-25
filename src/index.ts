@@ -1,7 +1,7 @@
 import * as process from "node:process";
-import { EClient } from "client";
 import * as Djs from "discord.js";
 import dotenv from "dotenv";
+import { EClient } from "@/client";
 import "uniformize";
 import * as pkg from "../package.json";
 import { interaction, join, onGuildScheduledEventCreate, onQuit, ready } from "./events";

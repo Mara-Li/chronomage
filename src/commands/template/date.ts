@@ -1,14 +1,14 @@
-import type { EClient } from "client";
-import { setDate } from "cron/date";
 import { isValidCron } from "cron-validator";
 import * as Djs from "discord.js";
-import { parseDurationLocalized } from "duration";
 import humanizeDuration from "humanize-duration";
 import type { TFunction } from "i18next";
-import { type EventGuildData, TEMPLATES } from "interface";
-import { t } from "localization";
 import { DateTime } from "luxon";
-import { defaultTemplate } from "utils";
+import type { EClient } from "@/client";
+import { setDate } from "@/cron/date";
+import { parseDurationLocalized } from "@/duration";
+import { type EventGuildData, TEMPLATES } from "@/interface";
+import { t } from "@/localization";
+import { defaultTemplate } from "@/utils";
 
 function display(
 	interaction: Djs.ChatInputCommandInteraction,

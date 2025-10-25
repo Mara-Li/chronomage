@@ -1,7 +1,7 @@
-import type { EClient } from "client";
 import * as Djs from "discord.js";
-import { type BannerSpec, eventKey } from "interface";
 import { DateTime } from "luxon";
+import type { EClient } from "@/client";
+import { type BannerSpec, eventKey } from "@/interface";
 import { blockStartAt, labelAt, processTemplate } from "./utils";
 
 const FUTURE_MIN_BLOCKS = 2; // nombre d'événements futurs qu'on veut toujours visibles

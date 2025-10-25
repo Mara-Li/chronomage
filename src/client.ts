@@ -1,6 +1,6 @@
 import * as Djs from "discord.js";
 import Enmap from "enmap";
-import type { EventGuildData } from "interface";
+import type { EventGuildData } from "@/interface";
 export class EClient extends Djs.Client {
 	public settings: Enmap<string, EventGuildData, unknown>;
 

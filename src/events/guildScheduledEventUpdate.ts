@@ -1,6 +1,6 @@
-import type { EClient } from "client";
 import * as Djs from "discord.js";
-import { processTemplate } from "schedule/utils";
+import type { EClient } from "@/client";
+import { processTemplate } from "@/schedule/utils";
 
 export default (client: EClient): void => {
 	client.on("guildScheduledEventUpdate", async (oldEvent, newEvent) => {

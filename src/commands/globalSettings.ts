@@ -1,7 +1,7 @@
-import "discord_ext";
-import type { EClient } from "client";
+import "@/discord_ext";
 import * as Djs from "discord.js";
-import { ln, t, tFn } from "localization";
+import type { EClient } from "@/client";
+import { ln, t, tFn } from "@/localization";
 
 export const globalSettings = {
 	data: new Djs.SlashCommandBuilder()

@@ -1,17 +1,17 @@
-import "discord_ext";
-import type { EClient } from "client";
+import "@/discord_ext";
 import dedent from "dedent";
 import * as Djs from "discord.js";
-import { parseDurationLocalized } from "duration";
-import { t, tFn } from "localization";
 import { DateTime } from "luxon";
+import type { EClient } from "@/client";
+import { parseDurationLocalized } from "@/duration";
+import { t, tFn } from "@/localization";
 import {
 	cancelAll,
 	deleteSchedule,
 	listSchedules,
 	listUpcomingEventsForGuild,
 	setScheduleActive,
-} from "schedule/crud";
+} from "@/schedule/crud";
 import { anchorIsoDate } from "../template/date";
 import { startWizardFromSlash } from "./modal";
 

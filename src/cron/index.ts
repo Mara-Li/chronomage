@@ -1,5 +1,5 @@
-import type { EClient } from "client";
 import type * as Djs from "discord.js";
+import type { EClient } from "@/client";
 import { setCount } from "./count";
 import { setDate } from "./date";
 

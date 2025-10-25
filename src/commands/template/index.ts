@@ -1,9 +1,9 @@
-import type { EClient } from "client";
 import * as Djs from "discord.js";
-import { t, tFn } from "localization";
+import type { EClient } from "@/client";
+import { t, tFn } from "@/localization";
 import { weather } from "./weather";
-import "discord_ext";
-import { getSettings } from "utils";
+import "@/discord_ext";
+import { getSettings } from "@/utils";
 import { count } from "./count";
 import { date } from "./date";
 

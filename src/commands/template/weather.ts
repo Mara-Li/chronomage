@@ -1,10 +1,10 @@
-import type { EClient } from "client";
 import * as Djs from "discord.js";
 import type { TFunction } from "i18next";
-import { type EventGuildData, TEMPLATES } from "interface";
-import { t } from "localization";
-import { defaultTemplate, getSettings } from "utils";
 import { WeatherDescribe } from "weather-describe";
+import type { EClient } from "@/client";
+import { type EventGuildData, TEMPLATES } from "@/interface";
+import { t } from "@/localization";
+import { defaultTemplate, getSettings } from "@/utils";
 
 function display(
 	interaction: Djs.ChatInputCommandInteraction,
