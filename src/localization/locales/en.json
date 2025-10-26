@@ -180,15 +180,16 @@
       "name": "compute_at_start"
     },
     "count": {
-      "description": "Number to increment or decrement"
+      "description": "Number to increment or decrement",
+      "pause": "The count was paused.",
+      "resume": "The count was correctly restarted."
     },
     "currentValue": "Current value: {{ex}}",
     "date": {
       "description": "Manage date : timezone, cron, format, start...",
       "format": "Set how the date should be displayed",
-      "resume": {
-        "success": ""
-      },
+      "pause": "The date template was successfully paused.",
+      "resume": "The date template was successfully restarted.",
       "step": "Duration to add as set"
     },
     "decimal": {
@@ -199,17 +200,23 @@
     "name": "variables",
     "pause": {
       "date": {
-        "nojob": "",
-        "success": ""
+        "nojob": ""
       },
       "description": "Pause or restart one (or all) of the variables",
       "disabled": "Disabled",
       "enabled": "Active",
       "name": "pause",
+      "status": {
+        "overall": "Variable statuses:\n- __Date__: {{date.value}} (`{{date.cron}}`)\n- __Count__: {{count.value}} (`{{count.cron}}`)\n- __Weather__: {{weather.value}} (`{{weather.cron}}`)"
+      },
       "variable": "Variable to pause or restart"
     },
     "weather": {
-      "description": "Set the weather location"
+      "cron": "Set the schedule (cron) for the weather update. Use \"/\" to delete.",
+      "description": "Set the weather location",
+      "not_set": "The weather cron is not configured. \nCancelation.",
+      "pause": "The weather cron has been paused.",
+      "resume": "The weather timer has been restarted."
     }
   },
   "timezone": {

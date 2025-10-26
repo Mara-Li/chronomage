@@ -180,15 +180,16 @@
       "name": "calculer_au_début"
     },
     "count": {
-      "description": "Number to increase or decrease"
+      "description": "Number to increase or decrease",
+      "pause": "le compteur a été mis en pause.",
+      "resume": "Le compteur a été correctement relancé."
     },
     "currentValue": "Valeur actuelle : {{ex}}",
     "date": {
       "description": "Gérer la date : zone, cron, format, début...",
       "format": "Définir le mode d'affichage de la date",
-      "resume": {
-        "success": "La template des date a été relancée."
-      },
+      "pause": "La template des date a bien été mise en pause.",
+      "resume": "La template des date a été relancée.",
       "step": "Durée à utiliser comme pas"
     },
     "decimal": {
@@ -199,17 +200,23 @@
     "name": "variables",
     "pause": {
       "date": {
-        "nojob": "Aucune date n'a été configurée, il n'y a donc pas de compteur actif.",
-        "success": "La template des date a bien été mise en pause."
+        "nojob": "Aucune date n'a été configurée, il n'y a donc pas de compteur actif."
       },
       "description": "Mettre une des variables (ou toute) en pause ou les relancer",
       "disabled": "Désactivé",
       "enabled": "Actif",
       "name": "pause",
+      "status": {
+        "overall": "Statuts des variables :\n- __Date__ : {{date.value}} (`{{date.cron}}`)\n- __Compte__ : {{count.value}} (`{{count.cron}}`)\n- __Météo__ : {{weather.value}} (`{{weather.cron}}`)"
+      },
       "variable": "Variable à mettre en pause ou relancer"
     },
     "weather": {
-      "description": "Définir la localisation de la météo"
+      "cron": "Définissez le calendrier (cron) pour la mise à jour de la météo. Utilisez \"/\" pour supprimer.",
+      "description": "Définir la localisation de la météo",
+      "not_set": "Le cron de la météo n'est pas configuré. Annulation.",
+      "pause": "La cron de la météo a été mise en pause.",
+      "resume": "Le timer de la météo a été relancé."
     }
   },
   "timezone": {

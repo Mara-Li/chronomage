@@ -10,3 +10,7 @@ export function initAll(guild: Djs.Guild, client: EClient): void {
 	setDate(guild, client);
 	setWeather(guild, client);
 }
+
+export { setCount } from "./count";
+export { setDate } from "./date";
+export { setWeather } from "./weather";

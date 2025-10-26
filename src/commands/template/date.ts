@@ -4,7 +4,7 @@ import humanizeDuration from "humanize-duration";
 import type { TFunction } from "i18next";
 import { DateTime } from "luxon";
 import type { EClient } from "@/client";
-import { setDate } from "@/cron/date";
+import { setDate } from "@/cron";
 import { parseDurationLocalized } from "@/duration";
 import type { DateT, EventGuildData } from "@/interface";
 import { TEMPLATES } from "@/interface/constant";

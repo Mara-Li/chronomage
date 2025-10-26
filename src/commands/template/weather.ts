@@ -3,7 +3,7 @@ import * as Djs from "discord.js";
 import type { TFunction } from "i18next";
 import { WeatherDescribe } from "weather-describe";
 import type { EClient } from "@/client";
-import { setWeather } from "@/cron/weather";
+import { setWeather } from "@/cron";
 import { normalizeLocale } from "@/duration";
 import type { EventGuildData, WeatherT } from "@/interface";
 import { TEMPLATES } from "@/interface/constant";
@@ -55,9 +55,10 @@ async function set(
 		location: location || oldSettings?.location || temp.weather.location,
 		computeAtStart:
 			computeAtStart || oldSettings?.computeAtStart || temp.weather.computeAtStart,
+		cron: oldSettings?.cron || temp.weather.cron,
 	};
 
-	if (cron) {
+	if (cron && cron !== "/") {
 		if (isValidCron(cron)) weather.cron = cron;
 		else {
 			return interaction.reply({
@@ -65,7 +66,7 @@ async function set(
 				flags: Djs.MessageFlags.Ephemeral,
 			});
 		}
-	}
+	} else if (cron === "/") weather.cron = undefined;
 
 	//verify if the city exists
 	try {

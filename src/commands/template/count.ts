@@ -2,7 +2,7 @@ import { isValidCron } from "cron-validator";
 import * as Djs from "discord.js";
 import type { TFunction } from "i18next";
 import type { EClient } from "@/client";
-import { setCount } from "@/cron/count";
+import { setCount } from "@/cron";
 import type { CountT, EventGuildData } from "@/interface";
 import { TEMPLATES } from "@/interface/constant";
 import { t } from "@/localization";

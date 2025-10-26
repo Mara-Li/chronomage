@@ -110,6 +110,12 @@ export const template = {
 						.setNames("template.compute.name")
 						.setDescriptions("template.compute.description")
 						.setRequired(false)
+				)
+				.addStringOption((opt) =>
+					opt
+						.setNames("common.cron")
+						.setDescriptions("template.weather.cron")
+						.setRequired(false)
 				);
 		})
 		/**

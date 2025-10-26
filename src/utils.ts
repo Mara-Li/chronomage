@@ -22,7 +22,7 @@ export function defaultTemplate(): Templates {
 			currentValue: 0,
 			computeAtStart: false,
 		},
-		weather: { location: "London", computeAtStart: true },
+		weather: { location: "London", computeAtStart: true, cron: undefined },
 	};
 }
 
