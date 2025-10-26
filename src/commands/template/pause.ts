@@ -166,17 +166,11 @@ async function displayStatus(
 		},
 	};
 	return await interaction.reply({
-		content: ul(
-			"template.pause.status.overall",
-			// TFunction has multiple overloads and TS may pick an overload
-			// that expects a string defaultValue as the second param. Cast
-			// the options object to `any` to satisfy the type system here.
-			{
-				date: vars.date,
-				count: vars.count,
-				weather: vars.weather,
-			} as unknown as TOptions
-		),
+		content: ul("template.pause.status.overall", {
+			date: vars.date,
+			count: vars.count,
+			weather: vars.weather,
+		} as unknown as TOptions),
 		flags: Djs.MessageFlags.Ephemeral,
 	});
 }
