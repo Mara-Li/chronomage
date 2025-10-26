@@ -1,11 +1,12 @@
+/** biome-ignore-all lint/suspicious/noExplicitAny: simplification */
 import type * as Djs from "discord.js";
 import { DateTime, Duration } from "luxon";
 import type { EClient } from "@/client";
+import * as count from "@/commands/template/count";
+import * as date from "@/commands/template/date";
+import * as weather from "@/commands/template/weather";
 import type { Schedule } from "@/interface";
-import * as count from "../commands/template/count";
-import * as date from "../commands/template/date";
-import * as weather from "../commands/template/weather";
-import { TEMPLATES } from "../interfaces/constant";
+import { TEMPLATES } from "@/interface/constant";
 
 function computeInitialBlockIndex(
 	anchorISO: string,
