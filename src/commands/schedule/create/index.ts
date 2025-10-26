@@ -7,8 +7,9 @@ import type { EClient } from "@/client";
 import { startWizardFromSlash } from "@/commands/schedule/create/wizard";
 import { anchorIsoDate } from "@/commands/template/date";
 import { parseDurationLocalized } from "@/duration";
-import { DEFAULT_ZONE, type EventGuildData, type Schedule } from "@/interface";
+import type { EventGuildData, Schedule } from "@/interface";
 import { t, tFn } from "@/localization";
+import { DEFAULT_ZONE } from "../../../interfaces/constant";
 
 export function createSchedule(
 	g: EventGuildData,

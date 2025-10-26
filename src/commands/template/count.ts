@@ -3,9 +3,10 @@ import * as Djs from "discord.js";
 import type { TFunction } from "i18next";
 import type { EClient } from "@/client";
 import { setCount } from "@/cron/count";
-import { type EventGuildData, TEMPLATES } from "@/interface";
+import type { EventGuildData } from "@/interface";
 import { t } from "@/localization";
 import { defaultTemplate, getSettings } from "@/utils";
+import { TEMPLATES } from "../../interfaces/constant";
 
 function display(
 	interaction: Djs.ChatInputCommandInteraction,

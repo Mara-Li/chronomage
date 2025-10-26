@@ -1,19 +1,19 @@
 import * as Djs from "discord.js";
 import { DateTime } from "luxon";
-import {
-	type BannerSpec,
-	type EventKey,
-	type Schedule,
-	Wizard,
-	type WizardOptions,
-	wizardKey,
-} from "@/interface";
 import { createEvent } from "@/buffer";
 import type { EClient } from "@/client";
 import { createSchedule } from "@/commands/schedule/create";
 import { buildScheduleModal, buttonFollow } from "@/commands/schedule/create/modal";
+import {
+	type BannerSpec,
+	type EventKey,
+	type Schedule,
+	type WizardOptions,
+	wizardKey,
+} from "@/interface";
 import { tFn } from "@/localization";
 import { getBannerHash, getSettings } from "@/utils";
+import { Wizard } from "../../../interfaces/constant";
 
 export function startWizardFromSlash(
 	interaction: Djs.ChatInputCommandInteraction,
@@ -157,7 +157,7 @@ export async function altScheduleWizard(
 		console.log(`[Wizard Debug] Step ${currentIndex + 1}/${state.total}:`);
 		console.log(`  Label: "${label}"`);
 		console.log(`  Description: "${description}"`);
-		console.log(`  Current descriptions:`, JSON.stringify(state.descriptions, null, 2));
+		console.log("  Current descriptions:", JSON.stringify(state.descriptions, null, 2));
 
 		Wizard.set(wizardKey(guildId, userId), state); // 3. S'il reste des étapes => on s'arrête là, on renvoie le bouton "Suivant"
 		if (state.current <= state.total) {

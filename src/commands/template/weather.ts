@@ -3,9 +3,10 @@ import type { TFunction } from "i18next";
 import { WeatherDescribe } from "weather-describe";
 import type { EClient } from "@/client";
 import { normalizeLocale } from "@/duration";
-import { type EventGuildData, TEMPLATES } from "@/interface";
+import type { EventGuildData } from "@/interface";
 import { t } from "@/localization";
 import { defaultTemplate, getSettings } from "@/utils";
+import { TEMPLATES } from "../../interfaces/constant";
 
 function display(
 	interaction: Djs.ChatInputCommandInteraction,

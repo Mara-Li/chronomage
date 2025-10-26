@@ -6,9 +6,10 @@ import { DateTime } from "luxon";
 import type { EClient } from "@/client";
 import { setDate } from "@/cron/date";
 import { parseDurationLocalized } from "@/duration";
-import { type EventGuildData, TEMPLATES } from "@/interface";
+import type { EventGuildData } from "@/interface";
 import { t } from "@/localization";
 import { defaultTemplate } from "@/utils";
+import { TEMPLATES } from "../../interfaces/constant";
 
 function display(
 	interaction: Djs.ChatInputCommandInteraction,

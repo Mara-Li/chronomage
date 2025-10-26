@@ -1,8 +1,8 @@
 import { CronJob } from "cron";
 import type * as Djs from "discord.js";
 import { DateTime } from "luxon";
-import { DateJobs } from "@/interface";
 import type { EClient } from "@/client";
+import { DateJobs } from "../interfaces/constant";
 export function setDate(guild: Djs.Guild, client: EClient) {
 	//stop any existing job
 	if (DateJobs.has(guild.id)) {
