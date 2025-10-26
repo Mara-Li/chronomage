@@ -15,111 +15,116 @@ export const template = {
 		.setDescriptions("template.description")
 		.setContexts(Djs.InteractionContextType.Guild)
 		.setDefaultMemberPermissions(Djs.PermissionsBitField.Flags.ManageEvents)
-		/**
-		 * Date subcommand
-		 */
-		.addSubcommand((sub) =>
-			sub
-				.setNames("common.date")
-				.setDescriptions("template.date.description")
-				.addStringOption((opt) =>
-					opt
-						.setNames("common.format")
-						.setDescriptions("template.date.format")
-						.setRequired(false)
+		.addSubcommandGroup((group) =>
+			group
+				.setNames("template.manage.name")
+				.setDescriptions("template.manage.description")
+				/**
+				 * Date subcommand
+				 */
+				.addSubcommand((sub) =>
+					sub
+						.setNames("common.date")
+						.setDescriptions("template.date.description")
+						.addStringOption((opt) =>
+							opt
+								.setNames("common.format")
+								.setDescriptions("template.date.format")
+								.setRequired(false)
+						)
+						.addStringOption((opt) =>
+							opt
+								.setNames("timezone.name")
+								.setDescriptions("timezone.description")
+								.setRequired(false)
+						)
+						.addStringOption((opt) =>
+							opt
+								.setNames("common.cron")
+								.setDescriptions("description.cron")
+								.setRequired(false)
+						)
+						.addStringOption((opt) =>
+							opt.setNames("common.start").setDescriptions("description.start.date")
+						)
+						.addStringOption((opt) =>
+							opt.setNames("common.step").setDescriptions("template.date.step")
+						)
+						.addBooleanOption((opt) =>
+							opt
+								.setNames("template.compute.name")
+								.setDescriptions("template.compute.description")
+								.setRequired(false)
+						)
 				)
-				.addStringOption((opt) =>
-					opt
-						.setNames("timezone.name")
-						.setDescriptions("timezone.description")
-						.setRequired(false)
+				/**
+				 * Count subcommand
+				 */
+				.addSubcommand((sub) =>
+					sub
+						.setNames("count.name")
+						.setDescriptions("template.count.description")
+						.addNumberOption((opt) =>
+							opt
+								.setNames("common.start")
+								.setDescriptions("description.start.number")
+								.setRequired(false)
+								.setMinValue(0)
+						)
+						.addNumberOption((opt) =>
+							opt
+								.setNames("common.step")
+								.setDescriptions("description.step")
+								.setRequired(false)
+								.setMinValue(1)
+						)
+						.addIntegerOption((opt) =>
+							opt
+								.setNames("template.decimal.name")
+								.setDescriptions("template.decimal.description")
+								.setRequired(false)
+								.setMinValue(0)
+						)
+						.addStringOption((opt) =>
+							opt
+								.setNames("common.cron")
+								.setDescriptions("description.cron")
+								.setRequired(false)
+						)
+						.addBooleanOption((opt) =>
+							opt
+								.setNames("template.compute.name")
+								.setDescriptions("template.compute.description")
+								.setRequired(false)
+						)
 				)
-				.addStringOption((opt) =>
-					opt
-						.setNames("common.cron")
-						.setDescriptions("description.cron")
-						.setRequired(false)
-				)
-				.addStringOption((opt) =>
-					opt.setNames("common.start").setDescriptions("description.start.date")
-				)
-				.addStringOption((opt) =>
-					opt.setNames("common.step").setDescriptions("template.date.step")
-				)
-				.addBooleanOption((opt) =>
-					opt
-						.setNames("template.compute.name")
-						.setDescriptions("template.compute.description")
-						.setRequired(false)
-				)
+				/**
+				 * Weather subcommand
+				 */
+				.addSubcommand((sub) => {
+					return sub
+						.setNames("weather.name")
+						.setDescriptions("template.weather.description")
+						.addStringOption((opt) =>
+							opt
+								.setNames("weather.location")
+								.setDescriptions("description.location")
+								.setRequired(false)
+						)
+						.addBooleanOption((opt) =>
+							opt
+								.setNames("template.compute.name")
+								.setDescriptions("template.compute.description")
+								.setRequired(false)
+						)
+						.addStringOption((opt) =>
+							opt
+								.setNames("common.cron")
+								.setDescriptions("template.weather.cron")
+								.setRequired(false)
+						);
+				})
 		)
-		/**
-		 * Count subcommand
-		 */
-		.addSubcommand((sub) =>
-			sub
-				.setNames("count.name")
-				.setDescriptions("template.count.description")
-				.addNumberOption((opt) =>
-					opt
-						.setNames("common.start")
-						.setDescriptions("description.start.number")
-						.setRequired(false)
-						.setMinValue(0)
-				)
-				.addNumberOption((opt) =>
-					opt
-						.setNames("common.step")
-						.setDescriptions("description.step")
-						.setRequired(false)
-						.setMinValue(1)
-				)
-				.addIntegerOption((opt) =>
-					opt
-						.setNames("template.decimal.name")
-						.setDescriptions("template.decimal.description")
-						.setRequired(false)
-						.setMinValue(0)
-				)
-				.addStringOption((opt) =>
-					opt
-						.setNames("common.cron")
-						.setDescriptions("description.cron")
-						.setRequired(false)
-				)
-				.addBooleanOption((opt) =>
-					opt
-						.setNames("template.compute.name")
-						.setDescriptions("template.compute.description")
-						.setRequired(false)
-				)
-		)
-		/**
-		 * Weather subcommand
-		 */
-		.addSubcommand((sub) => {
-			return sub
-				.setNames("weather.name")
-				.setDescriptions("template.weather.description")
-				.addStringOption((opt) =>
-					opt
-						.setNames("weather.location")
-						.setDescriptions("description.location")
-						.setRequired(false)
-				)
-				.addBooleanOption((opt) =>
-					opt
-						.setNames("template.compute.name")
-						.setDescriptions("template.compute.description")
-						.setRequired(false)
-				)
-				.addStringOption((opt) =>
-					opt
-						.setNames("common.cron")
-						.setDescriptions("template.weather.cron")
-						.setRequired(false)
-				);
-		})
 		/**
 		 * Set on pause
 		 */
@@ -153,6 +158,47 @@ export const template = {
 								value: "all",
 								name_localizations: cmdLn("common.all", true),
 							}
+						)
+				)
+		)
+		.addSubcommandGroup((grp) =>
+			grp
+				.setNames("common.channel")
+				.setDescriptions("template.channels.description")
+				.addSubcommand((sub) =>
+					sub
+						.setNames("template.channels.rename.name")
+						.setDescriptions("template.channels.rename.description")
+						.addChannelOption((opt) =>
+							opt
+								.setNames("common.channel")
+								.setDescriptions("template.channels.channelId")
+								.setRequired(true)
+								.addChannelTypes(Djs.ChannelType.GuildText, Djs.ChannelType.GuildCategory)
+						)
+						.addStringOption((opt) =>
+							opt
+								.setNames("common.message")
+								.setDescriptions("template.channels.text.description")
+								.setRequired(true)
+						)
+				)
+				.addSubcommand((sub) =>
+					sub
+						.setNames("template.channels.send.name")
+						.setDescriptions("template.channels.send.description")
+						.addChannelOption((opt) =>
+							opt
+								.setNames("common.channel")
+								.setDescriptions("template.channels.channelId")
+								.setRequired(true)
+								.addChannelTypes(Djs.ChannelType.GuildText)
+						)
+						.addStringOption((opt) =>
+							opt
+								.setNames("common.message")
+								.setDescriptions("template.channels.text.description")
+								.setRequired(true)
 						)
 				)
 		),

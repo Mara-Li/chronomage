@@ -2,6 +2,7 @@ import { CronJob } from "cron";
 import type * as Djs from "discord.js";
 import type { EClient } from "@/client";
 import { CountJobs } from "@/interface/constant";
+import { processTemplateChannels } from ".";
 export function setCount(guild: Djs.Guild, client: EClient) {
 	const settings = client.settings.get(guild.id);
 	const counter = settings?.templates.count;
@@ -16,7 +17,7 @@ export function setCount(guild: Djs.Guild, client: EClient) {
 	}
 	const job = new CronJob(
 		cron,
-		() => {
+		async () => {
 			const liveCounter = settings?.templates.count;
 			if (!liveCounter) return;
 
@@ -24,6 +25,14 @@ export function setCount(guild: Djs.Guild, client: EClient) {
 				liveCounter.decimal
 			);
 			client.settings.set(guild.id, currentValue, "templates.count.currentValue");
+			//send message if channel is set
+			const liveSettings = client.settings.get(guild.id);
+			await processTemplateChannels(
+				guild,
+				client,
+				liveSettings?.renameChannels,
+				liveSettings?.textChannels
+			);
 		},
 		null,
 		true,

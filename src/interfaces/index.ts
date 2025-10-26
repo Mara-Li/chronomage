@@ -1,4 +1,5 @@
 import type * as Djs from "discord.js";
+import type { LimitedMap } from "./limitedMap";
 
 export interface Templates {
 	date: {
@@ -33,6 +34,21 @@ export interface Templates {
 	};
 }
 
+export type ChannelT = {
+	id: string;
+	template: string;
+};
+
+/**
+ * Map of channel IDs to their rename format strings
+ * e.g., { "123456789012345678": "New Channel Name {count}" }
+ * where {count} is a placeholder for a dynamic value
+ * used for renaming channels based on templates
+ * @type {Map<string, string>}
+ * @max entries 5
+ */
+export type RenameChannel = LimitedMap<string, string>; // channelId -> Name
+export type ChannelTextT = LimitedMap<string, string>; // channelId -> Text
 export type WeatherT = Templates["weather"];
 export type DateT = Templates["date"];
 export type CountT = Templates["count"];
@@ -78,8 +94,8 @@ export type EventRow = {
 	bannerHash?: string;
 };
 /*
-key = `${scheduleId}:${start.iso}`
- */
+	key = `${scheduleId}:${start.iso}`
+*/
 export type EventKey = `${string}:${string}`; // scheduleId:startISO
 
 export type EventGuildData = {
@@ -87,6 +103,8 @@ export type EventGuildData = {
 	events: Record<EventKey, EventRow>; // scheduleId -> EventRow records
 	settings?: { zone?: string; futurMinBlock: number; language?: Djs.Locale };
 	templates: Templates;
+	renameChannels?: RenameChannel;
+	textChannels?: ChannelTextT;
 };
 
 export type WizardState = {

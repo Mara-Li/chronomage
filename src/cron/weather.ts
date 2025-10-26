@@ -4,6 +4,7 @@ import { WeatherDescribe } from "weather-describe";
 import type { EClient } from "@/client";
 import { normalizeLocale } from "@/duration";
 import { WeatherJobs } from "@/interface/constant";
+import { processTemplateChannels } from ".";
 export function setWeather(guild: Djs.Guild, client: EClient) {
 	if (!client.settings.has(guild.id)) return;
 	const settings = client.settings.get(guild.id);
@@ -22,10 +23,11 @@ export function setWeather(guild: Djs.Guild, client: EClient) {
 	const job = new CronJob(
 		cron,
 		async () => {
+			const liveSettings = client.settings.get(guild.id);
 			// Ici, on pourrait appeler une fonction pour mettre à jour la météo
-			const liveSettings = client.settings.get(guild.id)?.templates.weather;
-			if (!liveSettings) return;
-			let locale = client.settings.get(guild.id)?.settings?.language || "en-US";
+			const liveCounter = liveSettings?.templates.weather;
+			if (!liveCounter) return;
+			let locale = liveSettings?.settings?.language || "en-US";
 			locale = normalizeLocale(locale);
 			if (locale !== "en" && locale !== "fr") locale = "en";
 
@@ -34,17 +36,23 @@ export function setWeather(guild: Djs.Guild, client: EClient) {
 				timezone: stableZone,
 			});
 			try {
-				const weatherInfo = await wyd.byCity(liveSettings.location);
+				const weatherInfo = await wyd.byCity(liveCounter.location);
 				if (!weatherInfo) return;
-				liveSettings.currentValue = {
+				liveCounter.currentValue = {
 					emoji: weatherInfo.emoji,
 					long: weatherInfo.text.long,
 					short: weatherInfo.text.short,
 				};
 				client.settings.set(
 					guild.id,
-					liveSettings.currentValue,
+					liveCounter.currentValue,
 					"templates.weather.currentValue"
+				);
+				await processTemplateChannels(
+					guild,
+					client,
+					liveSettings?.renameChannels,
+					liveSettings?.textChannels
 				);
 			} catch (e) {
 				return;

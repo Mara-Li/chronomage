@@ -14,6 +14,7 @@
   "common": {
     "all": "All",
     "cancel": "Cancel",
+    "channel": "channel",
     "cron": "cron",
     "date": "date",
     "description": "Description",
@@ -22,6 +23,7 @@
     "id": "id",
     "label": "Label",
     "len": "len",
+    "message": "",
     "next": "Next",
     "not_set": "/",
     "start": "start_time",
@@ -175,6 +177,21 @@
     }
   },
   "template": {
+    "channels": {
+      "channelId": "",
+      "description": "Rename or send messages related to templates at times of changes.",
+      "rename": {
+        "description": "Rename a channel according to a template",
+        "name": ""
+      },
+      "send": {
+        "description": "Send a message with templates in a channel when values ​​change.",
+        "name": "send"
+      },
+      "text": {
+        "description": "Text with template values ​​to use"
+      }
+    },
     "compute": {
       "description": "Allows you to calculate (or not) the value at the time the event is launched.",
       "name": "compute_at_start"
@@ -197,6 +214,10 @@
       "name": "decimal"
     },
     "description": "Manage variables template (date, number and weather)",
+    "manage": {
+      "description": "",
+      "name": ""
+    },
     "name": "variables",
     "pause": {
       "date": {
@@ -204,7 +225,7 @@
       "description": "Pause or restart one (or all) of the variables",
       "disabled": "Disabled",
       "enabled": "Active",
-      "name": "pause",
+      "name": "switch",
       "status": {
         "overall": "Variable statuses:\n- __Date__: {{date.value}} (`{{date.cron}}`)\n- __Count__: {{count.value}} (`{{count.cron}}`)\n- __Weather__: {{weather.value}}{{weather.cron}}"
       },

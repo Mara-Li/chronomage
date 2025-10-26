@@ -3,6 +3,7 @@ import type * as Djs from "discord.js";
 import { DateTime } from "luxon";
 import type { EClient } from "@/client";
 import { DateJobs } from "@/interface/constant";
+import { processTemplateChannels } from ".";
 export function setDate(guild: Djs.Guild, client: EClient) {
 	//stop any existing job
 	const settings = client.settings.get(guild.id);
@@ -19,7 +20,7 @@ export function setDate(guild: Djs.Guild, client: EClient) {
 	const stableZone = counter.timezone || settings?.settings?.zone || "utc";
 	const job = new CronJob(
 		cron,
-		() => {
+		async () => {
 			const liveSettings = client.settings.get(guild.id);
 			const liveCounter = liveSettings?.templates?.date;
 
@@ -44,6 +45,12 @@ export function setDate(guild: Djs.Guild, client: EClient) {
 
 			// Persiste la nouvelle valeur
 			client.settings.set(guild.id, newCurrent, "templates.date.currentValue");
+			await processTemplateChannels(
+				guild,
+				client,
+				liveSettings?.renameChannels,
+				liveSettings?.textChannels
+			);
 		},
 		null,
 		true,
