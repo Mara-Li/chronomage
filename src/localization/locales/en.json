@@ -18,12 +18,14 @@
     "cron": "cron",
     "date": "date",
     "description": "Description",
+    "disabled": "disabled",
+    "enabled": "activated",
     "example": "__Example__: `{{ex}}`",
     "format": "format",
     "id": "id",
     "label": "Label",
     "len": "len",
-    "message": "",
+    "message": "text",
     "next": "Next",
     "not_set": "/",
     "start": "start_time",
@@ -76,6 +78,12 @@
     "wizardNotFound": "Wizard state not found or has expired."
   },
   "globalSettings": {
+    "autorename": {
+      "description": "Automatically rename channels that contain templates",
+      "name": "autorename_channel",
+      "set": "Auto renaming was {{status}}.",
+      "switch": "Enable/disable auto-renaming"
+    },
     "description": "Edit the global bot settings",
     "language": {
       "description": "Change the lang of the bot",
@@ -178,11 +186,11 @@
   },
   "template": {
     "channels": {
-      "channelId": "",
+      "channelId": "Channel ID to change",
       "description": "Rename or send messages related to templates at times of changes.",
       "rename": {
         "description": "Rename a channel according to a template",
-        "name": ""
+        "name": "rename"
       },
       "send": {
         "description": "Send a message with templates in a channel when values ​​change.",
@@ -215,8 +223,8 @@
     },
     "description": "Manage variables template (date, number and weather)",
     "manage": {
-      "description": "",
-      "name": ""
+      "description": "Manage template settings (date, weather, and counter)",
+      "name": "config"
     },
     "name": "variables",
     "pause": {

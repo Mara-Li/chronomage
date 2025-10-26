@@ -101,7 +101,12 @@ export type EventKey = `${string}:${string}`; // scheduleId:startISO
 export type EventGuildData = {
 	schedules: Record<string, Schedule>; // scheduleId -> Schedule records
 	events: Record<EventKey, EventRow>; // scheduleId -> EventRow records
-	settings?: { zone?: string; futurMinBlock: number; language?: Djs.Locale };
+	settings?: {
+		zone?: string;
+		futurMinBlock: number;
+		language?: Djs.Locale;
+		autoRenameChannel?: boolean;
+	};
 	templates: Templates;
 	renameChannels?: RenameChannel;
 	textChannels?: ChannelTextT;

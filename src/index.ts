@@ -5,6 +5,11 @@ import { EClient } from "@/client";
 import "uniformize";
 import * as pkg from "../package.json";
 import { interaction, join, onGuildScheduledEventCreate, onQuit, ready } from "./events";
+import {
+	onChannelCreate,
+	onChannelDelete,
+	onChannelUpdate,
+} from "./events/channelUpdate";
 
 dotenv.config({ path: ".env" });
 
@@ -21,6 +26,7 @@ export const client = new EClient({
 		Djs.Partials.GuildMember,
 		Djs.Partials.User,
 		Djs.Partials.GuildScheduledEvent,
+		Djs.Partials.Channel,
 	],
 });
 
@@ -32,6 +38,9 @@ try {
 	join(client);
 	onQuit(client);
 	onGuildScheduledEventCreate(client);
+	onChannelCreate(client);
+	onChannelUpdate(client);
+	onChannelDelete(client);
 } catch (error) {
 	console.error(error);
 }

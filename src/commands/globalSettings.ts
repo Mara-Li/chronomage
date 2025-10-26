@@ -45,18 +45,30 @@ export const globalSettings = {
 						.setRequired(true)
 						.setMinValue(1)
 				)
+		)
+		.addSubcommand((sub) =>
+			sub
+				.setNames("globalSettings.autorename.name")
+				.setDescriptions("globalSettings.autorename.description")
+				.addBooleanOption((opt) =>
+					opt
+						.setNames("template.pause.name")
+						.setDescriptions("globalSettings.autorename.switch")
+						.setRequired(true)
+				)
 		),
 	async execute(interaction: Djs.ChatInputCommandInteraction, client: EClient) {
 		const subcommand = interaction.options.getSubcommand();
+
 		if (!interaction.guild) return;
+		const { ul } = tFn(
+			interaction.locale,
+			interaction.guild,
+			client.settings.get(interaction.guild.id)!
+		);
 		if (subcommand === t("timezone.name")) {
 			const timezone = interaction.options.getString(t("timezone.name"), true);
 			client.settings.set(interaction.guild.id, timezone, "settings.zone");
-			const { ul } = tFn(
-				interaction.locale,
-				interaction.guild,
-				client.settings.get(interaction.guild.id)!
-			);
 			return interaction.reply(ul("globalSettings.timezone.set", { tz: timezone }));
 		}
 		if (subcommand === t("globalSettings.language.name")) {
@@ -74,13 +86,25 @@ export const globalSettings = {
 				true
 			);
 			client.settings.set(interaction.guild.id, minFuturBlock, "settings.futurMinBlock");
-			const { ul } = tFn(
-				interaction.locale,
-				interaction.guild,
-				client.settings.get(interaction.guild.id)!
-			);
+
 			return interaction.reply(
 				ul("globalSettings.minFuturBlock.set", { futurMinBlock: minFuturBlock })
+			);
+		}
+		if (subcommand === t("globalSettings.autorename.name")) {
+			const autoRenameChannel = interaction.options.getBoolean(
+				t("template.pause.name"),
+				true
+			);
+			client.settings.set(
+				interaction.guild.id,
+				autoRenameChannel,
+				"settings.autoRenameChannel"
+			);
+			return interaction.reply(
+				ul("globalSettings.autorename.set", {
+					status: autoRenameChannel ? ul("common.enabled") : ul("common.disabled"),
+				})
 			);
 		}
 	},
