@@ -19,8 +19,12 @@ export interface Templates {
 		currentValue: number;
 		computeAtStart: boolean;
 	};
-	weather: { location: string; computeAtStart: boolean };
+	weather: { location: string; computeAtStart: boolean; cron?: string };
 }
+
+export type WeatherT = typeof TEMPLATES.weather;
+export type DateT = typeof TEMPLATES.date;
+export type CountT = typeof TEMPLATES.count;
 
 /**
  * Structure for a recurring event
@@ -76,7 +80,7 @@ export type EventGuildData = {
 
 export const CountJobs = new Map<string, CronJob>();
 export const DateJobs = new Map<string, CronJob>();
-
+export const WeatherJobs = new Map<string, CronJob>();
 export const DEFAULT_ZONE = "Europe/Paris";
 export const eventKey = (scheduleId: string, startIso: string): EventKey =>
 	`${scheduleId}:${startIso}`;

@@ -1,14 +1,13 @@
 import * as Djs from "discord.js";
+import humanizeDuration from "humanize-duration";
 import { DateTime } from "luxon";
 import { createEvent } from "@/buffer";
 import type { EClient } from "@/client";
 import { parseDurationLocalized } from "@/duration";
-import { Wizard, wizardKey, type EventRow, type EventKey } from "@/interface";
+import type { EventKey } from "@/interface";
 import { t, tFn } from "@/localization";
 import { getLocation } from "./create";
 import { startWizardFromSlash } from "./create/wizard";
-import humanizeDuration from "humanize-duration";
-import { listAllUpcomingForSchedule } from "./list";
 
 export async function handleEdit(
 	interaction: Djs.ChatInputCommandInteraction,

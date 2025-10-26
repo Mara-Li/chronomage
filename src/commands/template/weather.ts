@@ -2,10 +2,10 @@ import * as Djs from "discord.js";
 import type { TFunction } from "i18next";
 import { WeatherDescribe } from "weather-describe";
 import type { EClient } from "@/client";
+import { normalizeLocale } from "@/duration";
 import { type EventGuildData, TEMPLATES } from "@/interface";
 import { t } from "@/localization";
 import { defaultTemplate, getSettings } from "@/utils";
-import { normalizeLocale } from "@/duration";
 
 function display(
 	interaction: Djs.ChatInputCommandInteraction,
@@ -53,19 +53,17 @@ async function set(
 	try {
 		const wyd = new WeatherDescribe({
 			lang: normalizeLocale(locale) as "fr" | "en",
-			timezone: client.settings.get(interaction.guild.id)?.settings?.zone
+			timezone: client.settings.get(interaction.guild.id)?.settings?.zone,
 		});
 		const weatherText = await wyd.byCity(location);
 		client.settings.set(interaction.guild.id, weather, "templates.weather");
-		if (weatherText.current)
-			return interaction.reply(ul("common.success"));
-		else
-			return interaction.reply({
-				content: t("weather.locationNotFound", {
-					location,
-				}),
-				flags: Djs.MessageFlags.Ephemeral,
-			});
+		if (weatherText.current) return interaction.reply(ul("common.success"));
+		return interaction.reply({
+			content: t("weather.locationNotFound", {
+				location,
+			}),
+			flags: Djs.MessageFlags.Ephemeral,
+		});
 	} catch (e) {
 		console.error(e);
 		return interaction.reply({
@@ -75,9 +73,6 @@ async function set(
 			flags: Djs.MessageFlags.Ephemeral,
 		});
 	}
-
-
-
 }
 
 export function weather(
@@ -91,7 +86,9 @@ export function weather(
 	const options = interaction.options;
 	const location = options.getString(t("weather.location"));
 	const computeAtStart = options.getBoolean(t("template.compute.name"));
-	if (!location && computeAtStart == null) return display(interaction, settings, ul);
+	const cron = options.getString(t("common.cron"));
+	if (!location && computeAtStart == null && !cron)
+		return display(interaction, settings, ul);
 
 	return set(client, interaction, ul, locale);
 }

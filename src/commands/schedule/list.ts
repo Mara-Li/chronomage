@@ -1,11 +1,11 @@
 import dedent from "dedent";
 import * as Djs from "discord.js";
+import humanizeDuration from "humanize-duration";
+import type { TFunction } from "i18next";
 import { DateTime } from "luxon";
+import type { EventGuildData, Schedule } from "@/interface";
 import type { EClient } from "@/client";
 import { tFn } from "@/localization";
-import humanizeDuration from "humanize-duration";
-import type { EventGuildData, Schedule } from "@/interface";
-import type { TFunction } from "i18next";
 
 function listUpcomingEventsForSchedule(
 	guildId: string,
@@ -139,9 +139,12 @@ function formatMessage(
 		const descEntries = Object.entries(s.description);
 		if (descEntries.length > 0) {
 			const descLines = descEntries.map(
-				([lbl, txt]) => `\`${lbl}\`: \`${txt.slice(0, 100)}${txt.length > 100 ? "…" : ""}\``
+				([lbl, txt]) =>
+					`\`${lbl}\`: \`${txt.slice(0, 100)}${txt.length > 100 ? "…" : ""}\``
 			);
-			part.lines.push(`__${ul("list.description")}__\n     - ${descLines.join("\n     - ")}`);
+			part.lines.push(
+				`__${ul("list.description")}__\n     - ${descLines.join("\n     - ")}`
+			);
 		}
 	}
 	if (s.banners) {

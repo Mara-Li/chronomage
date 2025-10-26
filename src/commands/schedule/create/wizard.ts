@@ -1,18 +1,17 @@
 import * as Djs from "discord.js";
 import { DateTime } from "luxon";
+import {
+	type BannerSpec,
+	type EventKey,
+	type Schedule,
+	Wizard,
+	type WizardOptions,
+	wizardKey,
+} from "@/interface";
 import { createEvent } from "@/buffer";
 import type { EClient } from "@/client";
 import { createSchedule } from "@/commands/schedule/create";
 import { buildScheduleModal, buttonFollow } from "@/commands/schedule/create/modal";
-import {
-	type Schedule,
-	Wizard,
-	type WizardOptions,
-	type WizardState,
-	wizardKey,
-	type EventKey,
-	type BannerSpec,
-} from "@/interface";
 import { tFn } from "@/localization";
 import { getBannerHash, getSettings } from "@/utils";
 
@@ -134,7 +133,9 @@ export async function altScheduleWizard(
 		const oldLabel = state.labels[currentIndex]; // Get the old label before replacing
 
 		// Check if this label is already used in another slot
-		const duplicateIndex = state.labels.findIndex((l, idx) => l === label && idx !== currentIndex);
+		const duplicateIndex = state.labels.findIndex(
+			(l, idx) => l === label && idx !== currentIndex
+		);
 		if (duplicateIndex !== -1) {
 			await interaction.editReply({
 				content: ul("error.duplicateLabel", { label, index: duplicateIndex + 1 }),
@@ -158,7 +159,7 @@ export async function altScheduleWizard(
 		console.log(`  Description: "${description}"`);
 		console.log(`  Current descriptions:`, JSON.stringify(state.descriptions, null, 2));
 
-		Wizard.set(wizardKey(guildId, userId), state);		// 3. S'il reste des étapes => on s'arrête là, on renvoie le bouton "Suivant"
+		Wizard.set(wizardKey(guildId, userId), state); // 3. S'il reste des étapes => on s'arrête là, on renvoie le bouton "Suivant"
 		if (state.current <= state.total) {
 			return await interaction.reply({
 				content: ul("modals.scheduleEvent.nextPrompt", {

@@ -1,6 +1,6 @@
 import type * as Djs from "discord.js";
-import type { EClient } from "@/client";
 import { type BannerSpec, DEFAULT_ZONE, type Templates } from "@/interface";
+import type { EClient } from "@/client";
 
 export function defaultTemplate(): Templates {
 	return {

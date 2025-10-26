@@ -1,5 +1,6 @@
 import * as Djs from "discord.js";
 import humanId from "human-id";
+import type { TFunction } from "i18next";
 import { DateTime } from "luxon";
 import { computeInitialBlockIndex } from "@/buffer/utils";
 import type { EClient } from "@/client";
@@ -8,7 +9,6 @@ import { anchorIsoDate } from "@/commands/template/date";
 import { parseDurationLocalized } from "@/duration";
 import { DEFAULT_ZONE, type EventGuildData, type Schedule } from "@/interface";
 import { t, tFn } from "@/localization";
-import type { TFunction } from "i18next";
 
 export function createSchedule(
 	g: EventGuildData,

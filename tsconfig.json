@@ -29,7 +29,7 @@
 		"paths": {
 			"@/root": ["src/index"],
 			"@/client": ["src/client"],
-			"@/interface": ["src/interface"],
+			"@/interface": ["src/interfaces/index"],
 			"@/localization": ["src/localization/index"],
 			"@/discord_ext": ["src/discord_ext"],
 			"@/utils": ["src/utils"],

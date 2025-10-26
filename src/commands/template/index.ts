@@ -111,7 +111,27 @@ export const template = {
 						.setDescriptions("template.compute.description")
 						.setRequired(false)
 				);
-		}),
+		})
+		/**
+		 * Set on pause
+		 */
+		.addSubcommand((sub) =>
+			sub
+				.setNames("template.pause.name")
+				.setDescriptions("template.pause.description")
+				.addStringOption((opt) =>
+					opt
+						.setNames("template.name")
+						.setDescriptions("template.pause.variable")
+						.setRequired(false)
+						.addChoices(
+							{ name: t("common.date"), value: "date" },
+							{ name: t("count.name"), value: "count" },
+							{ name: t("weather.name"), value: "weather" },
+							{ name: t("common.all"), value: "all" }
+						)
+				)
+		),
 	async execute(interaction: Djs.ChatInputCommandInteraction, client: EClient) {
 		const subcommand = interaction.options.getSubcommand();
 		if (!interaction.guild) return;

@@ -1,7 +1,7 @@
 import type * as Djs from "discord.js";
 import { DateTime, Duration } from "luxon";
-import type { EClient } from "@/client";
 import { type Schedule, TEMPLATES } from "@/interface";
+import type { EClient } from "@/client";
 import * as count from "../commands/template/count";
 import * as date from "../commands/template/date";
 import * as weather from "../commands/template/weather";
