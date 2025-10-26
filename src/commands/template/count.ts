@@ -134,10 +134,11 @@ export function processTemplate(
 	client: EClient,
 	guild: Djs.Guild,
 	text: string,
-	start = false
+	start = false,
+	templatesRegex = TEMPLATES
 ) {
 	const settings = getSettings(client, guild, Djs.Locale.EnglishUS);
-	const template = TEMPLATES.date;
+	const template = templatesRegex.date;
 	const count = settings.templates.count;
 	if (!count || (count.computeAtStart && !start)) return text;
 	if (text.match(template)) {

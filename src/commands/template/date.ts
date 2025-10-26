@@ -164,12 +164,13 @@ export function processTemplate(
 	client: EClient,
 	guild: Djs.Guild,
 	text: string,
-	start = false
+	start = false,
+	templatesRegex = TEMPLATES
 ) {
 	const settings = client.settings.get(guild.id);
 	const dateTemplate = settings?.templates.date;
 	if (!dateTemplate || (dateTemplate.computeAtStart && !start)) return text;
-	const template = TEMPLATES.date;
+	const template = templatesRegex.date;
 	if (text.match(template)) {
 		const dt = DateTime.fromISO(dateTemplate.currentValue, {
 			zone: dateTemplate.timezone,

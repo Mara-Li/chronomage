@@ -45,7 +45,8 @@ async function processTemplate(
 	text: string,
 	client: EClient,
 	guild: Djs.Guild,
-	start = false
+	start = false,
+	templatesRegex = TEMPLATES
 ): Promise<string> {
 	function getAllValues(obj: Record<string, any>): any[] {
 		return Object.values(obj).flatMap((v) =>
@@ -53,22 +54,28 @@ async function processTemplate(
 		);
 	}
 
-	const templates: RegExp[] = getAllValues(TEMPLATES);
+	const templates: RegExp[] = getAllValues(templatesRegex);
 	let result = text;
 	for (const tpl of templates) {
 		switch (tpl) {
-			case TEMPLATES.date:
-				result = date.processTemplate(client, guild, result, start);
+			case templatesRegex.date:
+				result = date.processTemplate(client, guild, result, start, templatesRegex);
 				continue;
 
-			case TEMPLATES.count:
-				result = count.processTemplate(client, guild, result, start);
+			case templatesRegex.count:
+				result = count.processTemplate(client, guild, result, start, templatesRegex);
 				continue;
 
-			case TEMPLATES.weather.emoji:
-			case TEMPLATES.weather.short:
-			case TEMPLATES.weather.long:
-				result = await weather.processTemplate(client, guild, result, start);
+			case templatesRegex.weather.emoji:
+			case templatesRegex.weather.short:
+			case templatesRegex.weather.long:
+				result = await weather.processTemplate(
+					client,
+					guild,
+					result,
+					start,
+					templatesRegex
+				);
 		}
 	}
 

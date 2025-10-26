@@ -30,7 +30,8 @@
     "not_set": "/",
     "start": "heure_début",
     "step": "pas",
-    "success": "Les paramètres ont bien été sauvegardés."
+    "success": "Les paramètres ont bien été sauvegardés.",
+    "type": "type"
   },
   "count": {
     "description": "Nombre d'évènements différents (labels et descriptions)",
@@ -68,6 +69,7 @@
     "invalidScheduleId": "Aucun cyle avec l'id `{{scheduleId}}` trouvé.",
     "invalidStartTime": "Heure \"{{startHHMM}}\" invalide.\nFormat attendu `HH:MM`.",
     "invalid_cron": "Le Cron utilisé n'est pas valide.",
+    "limitReached": "Vous ne pouvez pas avoir plus de 5 channels pour l'auto-renommage.",
     "locationConflict": "Un seul emplacement peut être utilisé à la fois.",
     "noLocation": "Un lieu est obligatoire pour l'événement.",
     "noSchedules": "Aucun cycle configuré",
@@ -188,13 +190,25 @@
     "channels": {
       "channelId": "ID du channel à changer",
       "description": "Renommer ou envoyer des messages liés aux templates aux moments des changements.",
+      "display": {
+        "description": "Affiche la configuration pour les channels (message/renommage)",
+        "name": "afficher",
+        "noTemplates": "Aucun channel configuré.",
+        "rename": "__Channel(s) renommé(s)__ :",
+        "send": "__Message(s) envoyé(s)__ :",
+        "type": "Type que l'on veut afficher"
+      },
       "rename": {
+        "deleteSuccess": "Le channel <#{{channel}}> ne sera plus auto-renommé.",
         "description": "Renommer un channel selon une template",
-        "name": "renommer"
+        "name": "renommer",
+        "success": "Le channel <#{{channel}}> sera bien renommé selon `{{template}}`."
       },
       "send": {
+        "deleteSuccess": "Le channel <#{{channel}}> ne recevra plus de message automatiquement.",
         "description": "Envoyer un message avec des template dans un channel aux changements de valeurs.",
-        "name": "envoyé"
+        "name": "envoyé",
+        "success": "Le channel <#{{channel}}> recevra le message `{{template}}` lorsqu'il y aura un changement de variables."
       },
       "text": {
         "description": "Texte avec les valeurs template à utiliser"

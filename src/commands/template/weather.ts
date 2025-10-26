@@ -120,9 +120,10 @@ export async function processTemplate(
 	client: EClient,
 	guild: Djs.Guild,
 	text: string,
-	start = false
+	start = false,
+	templatesRegex = TEMPLATES
 ): Promise<string> {
-	const weatherTemplate = TEMPLATES.weather;
+	const weatherTemplate = templatesRegex.weather;
 	const weather = client.settings.get(guild.id)?.templates?.weather;
 	if (!weather || (weather.computeAtStart && !start)) return text;
 	const settings = getSettings(client, guild, Djs.Locale.EnglishUS);

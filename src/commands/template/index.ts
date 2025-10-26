@@ -5,6 +5,7 @@ import { cmdLn, t, tFn } from "@/localization";
 import { weather } from "./weather";
 import "@/discord_ext";
 import { getSettings } from "@/utils";
+import { LimitedMap } from "../../interfaces/limitedMap";
 import { count } from "./count";
 import { date } from "./date";
 import { pauseTemplateVariable } from "./pause";
@@ -169,36 +170,63 @@ export const template = {
 					sub
 						.setNames("template.channels.rename.name")
 						.setDescriptions("template.channels.rename.description")
-						.addChannelOption((opt) =>
-							opt
-								.setNames("common.channel")
-								.setDescriptions("template.channels.channelId")
-								.setRequired(true)
-								.addChannelTypes(Djs.ChannelType.GuildText, Djs.ChannelType.GuildCategory)
+						.addChannelOption(
+							(opt) =>
+								opt
+									.setNames("common.channel")
+									.setDescriptions("template.channels.channelId")
+									.setRequired(true)
+							//on autorise tous les channels etc parce que tous les channels ont des noms
 						)
-						.addStringOption((opt) =>
-							opt
-								.setNames("common.message")
-								.setDescriptions("template.channels.text.description")
-								.setRequired(true)
+						.addStringOption(
+							(opt) =>
+								opt
+									.setNames("common.message")
+									.setDescriptions("template.channels.text.description")
+									.setRequired(false) //si non fourni, on supprime le template
 						)
 				)
 				.addSubcommand((sub) =>
 					sub
 						.setNames("template.channels.send.name")
 						.setDescriptions("template.channels.send.description")
-						.addChannelOption((opt) =>
-							opt
-								.setNames("common.channel")
-								.setDescriptions("template.channels.channelId")
-								.setRequired(true)
-								.addChannelTypes(Djs.ChannelType.GuildText)
+						.addChannelOption(
+							(opt) =>
+								opt
+									.setNames("common.channel")
+									.setDescriptions("template.channels.channelId")
+									.setRequired(true)
+									.addChannelTypes(Djs.ChannelType.GuildText) //seulement les channels textuels peuvent recevoir des messages
 						)
+						.addStringOption(
+							(opt) =>
+								opt
+									.setNames("common.message")
+									.setDescriptions("template.channels.text.description")
+									.setRequired(false) //si non fourni, on supprime le template
+						)
+				)
+				.addSubcommand((sub) =>
+					sub
+						.setNames("template.channels.display.name")
+						.setDescriptions("template.channels.display.description")
 						.addStringOption((opt) =>
 							opt
-								.setNames("common.message")
-								.setDescriptions("template.channels.text.description")
-								.setRequired(true)
+								.setNames("common.type")
+								.setDescriptions("template.channels.display.type")
+								.setRequired(false)
+								.addChoices(
+									{
+										name: t("template.channels.rename.name").toTitle(),
+										value: "rename",
+										name_localizations: cmdLn("template.channels.rename.name", true),
+									},
+									{
+										name: t("template.channels.send.name").toTitle(),
+										value: "send",
+										name_localizations: cmdLn("template.channels.send.name", true),
+									}
+								)
 						)
 				)
 		),
@@ -217,8 +245,176 @@ export const template = {
 				return count(client, interaction, ul, settings);
 			case t("template.pause.name"):
 				return await pauseTemplateVariable(client, interaction);
+			case t("template.channels.rename.name"):
+				return await setRenameChannel(interaction, client);
+			case t("template.channels.display.name"):
+				return await displayTemplateChannels(client, interaction);
+			case t("template.channels.send.name"):
+				return await setSendChannel(interaction, client);
 			default:
 				return;
 		}
 	},
 };
+
+async function setRenameChannel(
+	interaction: Djs.ChatInputCommandInteraction,
+	client: EClient
+) {
+	const channel = interaction.options.getChannel(t("common.channel"), true);
+	const message = interaction.options.getString(t("common.message"));
+	if (!interaction.guild) return;
+	const settings = getSettings(client, interaction.guild, interaction.locale);
+	if (!settings.renameChannels) settings.renameChannels = new LimitedMap(5);
+	const { ul } = tFn(interaction.locale, interaction.guild, settings);
+	try {
+		if (message) {
+			settings.renameChannels.set(channel.id, message);
+			client.settings.set(interaction.guild.id, settings);
+			interaction.reply({
+				content: ul("template.channels.rename.success", {
+					channel: channel.id,
+					template: message,
+				}),
+				flags: Djs.MessageFlags.Ephemeral,
+			});
+		} else {
+			settings.renameChannels.delete(channel.id);
+			client.settings.set(interaction.guild.id, settings);
+			interaction.reply({
+				content: ul("template.channels.rename.deleteSuccess", {
+					channel: channel.id,
+				}),
+				flags: Djs.MessageFlags.Ephemeral,
+			});
+		}
+	} catch (e) {
+		if (e instanceof Error && e.name === "ErrorLimitReached") {
+			await interaction.reply({
+				content: ul("error.limitReached"),
+				flags: Djs.MessageFlags.Ephemeral,
+			});
+			return;
+		}
+		console.error(e);
+		await interaction.reply({
+			content: ul("error.unknown", { error: e instanceof Error ? e.message : String(e) }),
+			flags: Djs.MessageFlags.Ephemeral,
+		});
+	}
+}
+
+async function setSendChannel(
+	interaction: Djs.ChatInputCommandInteraction,
+	client: EClient
+) {
+	const channel = interaction.options.getChannel(t("common.channel"), true);
+	const message = interaction.options.getString(t("common.message"));
+	if (!interaction.guild) return;
+	const settings = getSettings(client, interaction.guild, interaction.locale);
+	if (!settings.textChannels) settings.textChannels = new LimitedMap(5);
+	const { ul } = tFn(interaction.locale, interaction.guild, settings);
+	try {
+		if (message) {
+			settings.textChannels.set(channel.id, message);
+			client.settings.set(interaction.guild.id, settings);
+			interaction.reply({
+				content: ul("template.channels.send.success", {
+					channel: channel.id,
+					template: message,
+				}),
+				flags: Djs.MessageFlags.Ephemeral,
+			});
+		} else {
+			settings.textChannels.delete(channel.id);
+			client.settings.set(interaction.guild.id, settings);
+			interaction.reply({
+				content: ul("template.channels.send.deleteSuccess", {
+					channel: channel.id,
+				}),
+				flags: Djs.MessageFlags.Ephemeral,
+			});
+		}
+	} catch (e) {
+		if (e instanceof Error && e.name === "ErrorLimitReached") {
+			await interaction.reply({
+				content: ul("error.limitReached"),
+				flags: Djs.MessageFlags.Ephemeral,
+			});
+			return;
+		}
+		console.error(e);
+		await interaction.reply({
+			content: ul("error.unknown", { error: e instanceof Error ? e.message : String(e) }),
+			flags: Djs.MessageFlags.Ephemeral,
+		});
+	}
+}
+
+async function displayTemplateChannels(
+	client: EClient,
+	interaction: Djs.ChatInputCommandInteraction
+) {
+	if (!interaction.guild) return;
+	const settings = getSettings(client, interaction.guild, interaction.locale);
+	const { ul } = tFn(interaction.locale, interaction.guild, settings);
+
+	const type = interaction.options.getString(t("common.type"));
+	const finalMessage: string[] = [];
+	if (!type) {
+		//on affiche tout
+		if (settings.renameChannels && settings.renameChannels.size > 0) {
+			finalMessage.push(ul("template.channels.display.rename"));
+			for (const [channelId, template] of settings.renameChannels) {
+				finalMessage.push(`- <#${channelId}> : \`${template}\``);
+			}
+		}
+		if (settings.textChannels && settings.textChannels.size > 0) {
+			finalMessage.push(ul("template.channels.display.send"));
+			for (const [channelId, template] of settings.textChannels) {
+				finalMessage.push(`- <#${channelId}> : \`${template}\``);
+			}
+		}
+		await interaction.reply({
+			content:
+				finalMessage.length > 0
+					? finalMessage.join("\n")
+					: ul("template.channels.display.noTemplates"),
+			flags: Djs.MessageFlags.Ephemeral,
+		});
+	} else if (type === "rename") {
+		//on affiche les rename
+		if (settings.renameChannels && settings.renameChannels.size > 0) {
+			finalMessage.push(ul("template.channels.display.rename"));
+			for (const [channelId, template] of settings.renameChannels) {
+				finalMessage.push(`- <#${channelId}> : \`${template}\``);
+			}
+			await interaction.reply({
+				content: finalMessage.join("\n"),
+				flags: Djs.MessageFlags.Ephemeral,
+			});
+		} else {
+			await interaction.reply({
+				content: ul("template.channels.display.noTemplates"),
+				flags: Djs.MessageFlags.Ephemeral,
+			});
+		}
+	} else if (type === "send") {
+		//on affiche les send
+		if (settings.textChannels && settings.textChannels.size > 0) {
+			finalMessage.push(ul("template.channels.display.send"));
+			for (const [channelId, template] of settings.textChannels) {
+				finalMessage.push(`- <#${channelId}> : \`${template}\``);
+			}
+			await interaction.reply({
+				content: finalMessage.join("\n"),
+				flags: Djs.MessageFlags.Ephemeral,
+			});
+		} else {
+			await interaction.reply({
+				content: ul("template.channels.display.noTemplates"),
+				flags: Djs.MessageFlags.Ephemeral,
+			});
+		}
+	}
+}

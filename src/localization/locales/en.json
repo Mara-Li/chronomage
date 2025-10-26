@@ -30,7 +30,8 @@
     "not_set": "/",
     "start": "start_time",
     "step": "step",
-    "success": "The settings was successfully saved."
+    "success": "The settings was successfully saved.",
+    "type": "type"
   },
   "count": {
     "description": "Number of different events (labels and descriptions)",
@@ -68,6 +69,7 @@
     "invalidScheduleId": "No cycle with id `{{scheduleId}}` found.",
     "invalidStartTime": "Invalid time “{{startHHMM}}”. Expected format `HH:MM`.",
     "invalid_cron": "The Cron used is invalid.",
+    "limitReached": "You cannot have more than 5 channels for auto-renaming.",
     "locationConflict": "Only one location can be used at the same time.",
     "noLocation": "A location is mandatory for event.",
     "noSchedules": "No cycle configured",
@@ -188,13 +190,25 @@
     "channels": {
       "channelId": "Channel ID to change",
       "description": "Rename or send messages related to templates at times of changes.",
+      "display": {
+        "description": "Shows configuration for channels (message/renaming)",
+        "name": "display",
+        "noTemplates": "No channels configured.",
+        "rename": "__Renamed channel(s)__:",
+        "send": "__Message(s) sent__:",
+        "type": "Type we want to display"
+      },
       "rename": {
+        "deleteSuccess": "The channel <#{{channel}}> will no longer be renamed automatically.",
         "description": "Rename a channel according to a template",
-        "name": "rename"
+        "name": "rename",
+        "success": "The channel <#{{channel}}> will be renamed according to `{{template}}`."
       },
       "send": {
+        "deleteSuccess": "The channel <#{{channel}}> will no longer receive messages automatically.",
         "description": "Send a message with templates in a channel when values ​​change.",
-        "name": "send"
+        "name": "send",
+        "success": "The channel <#{{channel}}> will receive the message `{{template}}` when there is a change in variables."
       },
       "text": {
         "description": "Text with template values ​​to use"
