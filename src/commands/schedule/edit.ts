@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/suspicious/noExplicitAny: Djs simplification */
 import * as Djs from "discord.js";
 import humanizeDuration from "humanize-duration";
 import { DateTime } from "luxon";

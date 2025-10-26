@@ -4,7 +4,7 @@ import humanizeDuration from "humanize-duration";
 import type { TFunction } from "i18next";
 import { DateTime } from "luxon";
 import type { EClient } from "@/client";
-import type { DateT, EventGuildData, Schedule } from "@/interface";
+import type { DateT, Schedule } from "@/interface";
 import { tFn } from "@/localization";
 
 function listUpcomingEventsForSchedule(
