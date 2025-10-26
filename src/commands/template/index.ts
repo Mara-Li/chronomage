@@ -6,6 +6,7 @@ import "@/discord_ext";
 import { getSettings } from "@/utils";
 import { count } from "./count";
 import { date } from "./date";
+import { pauseTemplateVariable } from "./pause";
 
 export const template = {
 	data: new Djs.SlashCommandBuilder()
@@ -151,6 +152,8 @@ export const template = {
 				return date(client, interaction, ul, settings);
 			case t("count.name"):
 				return count(client, interaction, ul, settings);
+			case t("template.pause.name"):
+				return await pauseTemplateVariable(client, interaction);
 			default:
 				return;
 		}
