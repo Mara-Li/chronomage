@@ -66,7 +66,10 @@ async function set(
 				flags: Djs.MessageFlags.Ephemeral,
 			});
 		}
-	} else if (cron === "/") weather.cron = undefined;
+	} else if (cron === "/") {
+		weather.cron = undefined;
+		weather.currentValue = undefined;
+	}
 
 	//verify if the city exists
 	try {
@@ -79,7 +82,7 @@ async function set(
 		if (cron) setWeather(interaction.guild, client);
 		if (weatherText.current) return interaction.reply(ul("common.success"));
 		return interaction.reply({
-			content: t("weather.locationNotFound", {
+			content: ul("weather.locationNotFound", {
 				location,
 			}),
 			flags: Djs.MessageFlags.Ephemeral,
@@ -87,7 +90,7 @@ async function set(
 	} catch (e) {
 		console.error(e);
 		return interaction.reply({
-			content: t("weather.locationNotFound", {
+			content: ul("weather.locationNotFound", {
 				location,
 			}),
 			flags: Djs.MessageFlags.Ephemeral,
