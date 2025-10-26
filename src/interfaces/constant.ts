@@ -1,5 +1,5 @@
 import type { CronJob } from "cron";
-import type { WizardKey, WizardState } from "./index";
+import type { EventKey, WizardKey, WizardState } from "./index";
 
 export const CountJobs = new Map<string, CronJob>();
 export const DateJobs = new Map<string, CronJob>();
@@ -15,3 +15,7 @@ export const TEMPLATES = {
 	},
 };
 export const Wizard = new Map<WizardKey, WizardState>();
+export const eventKey = (scheduleId: string, startIso: string): EventKey =>
+	`${scheduleId}:${startIso}`;
+export const wizardKey = (guildId: string, userId: string): WizardKey =>
+	`${guildId}:${userId}`;

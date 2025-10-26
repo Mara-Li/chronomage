@@ -1,5 +1,4 @@
 import type * as Djs from "discord.js";
-import type { TEMPLATES } from "./constant";
 
 export interface Templates {
 	date: {
@@ -22,9 +21,9 @@ export interface Templates {
 	weather: { location: string; computeAtStart: boolean; cron?: string };
 }
 
-export type WeatherT = typeof TEMPLATES.weather;
-export type DateT = typeof TEMPLATES.date;
-export type CountT = typeof TEMPLATES.count;
+export type WeatherT = Templates["weather"];
+export type DateT = Templates["date"];
+export type CountT = Templates["count"];
 
 /**
  * Structure for a recurring event
@@ -78,9 +77,6 @@ export type EventGuildData = {
 	templates: Templates;
 };
 
-export const eventKey = (scheduleId: string, startIso: string): EventKey =>
-	`${scheduleId}:${startIso}`;
-
 export type WizardState = {
 	guildId: string;
 	userId: string;
@@ -118,6 +114,3 @@ export type WizardOptions = {
  * key = `${guildId}:${userId}`
  */
 export type WizardKey = `${string}:${string}`;
-
-export const wizardKey = (guildId: string, userId: string): WizardKey =>
-	`${guildId}:${userId}`;

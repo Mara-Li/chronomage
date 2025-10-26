@@ -4,16 +4,10 @@ import { createEvent } from "@/buffer";
 import type { EClient } from "@/client";
 import { createSchedule } from "@/commands/schedule/create";
 import { buildScheduleModal, buttonFollow } from "@/commands/schedule/create/modal";
-import {
-	type BannerSpec,
-	type EventKey,
-	type Schedule,
-	type WizardOptions,
-	wizardKey,
-} from "@/interface";
+import type { BannerSpec, EventKey, Schedule, WizardOptions } from "@/interface";
+import { Wizard, wizardKey } from "@/interface/constant";
 import { tFn } from "@/localization";
 import { getBannerHash, getSettings } from "@/utils";
-import { Wizard } from "../../../interfaces/constant";
 
 export function startWizardFromSlash(
 	interaction: Djs.ChatInputCommandInteraction,
@@ -79,7 +73,7 @@ export async function altWizardCancel(
 	const state = Wizard.get(wizardKey(guildId, userId));
 	if (!state || interaction.user.id !== userId || interaction.guildId !== guildId) {
 		await interaction.reply({
-			content: ul("errors.wizardNotFound"),
+			content: ul("error.wizardNotFound"),
 			flags: Djs.MessageFlags.Ephemeral,
 		});
 		return;
@@ -107,7 +101,7 @@ export async function altScheduleWizard(
 
 		if (interaction.guildId !== guildId || interaction.user.id !== userId) {
 			await interaction.editReply({
-				content: ul("errors.unauthorized"),
+				content: ul("error.unauthorized"),
 			});
 			return;
 		}
@@ -115,7 +109,7 @@ export async function altScheduleWizard(
 		const state = Wizard.get(wizardKey(guildId, userId));
 		if (!state) {
 			await interaction.reply({
-				content: ul("errors.wizardNotFound"),
+				content: ul("eerror.wizardNotFound),,,
 			});
 			return;
 		}
@@ -334,8 +328,8 @@ export async function altWizardNext(interaction: Djs.ButtonInteraction, client: 
 	const state = Wizard.get(wizardKey(guildId, userId));
 	if (!state || interaction.user.id !== userId || interaction.guildId !== guildId) {
 		await interaction.reply({
-			content: ul("errors.wizardNotFound"),
-			flags: Djs.MessageFlags.Ephemeral,
+			content: ul("eerror.wizardNotFound),
+			flags: Djs.MessageFlags.Ephemeral,,,
 		});
 		return;
 	}

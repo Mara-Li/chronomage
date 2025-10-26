@@ -1,12 +1,13 @@
+import { isValidCron } from "cron-validator";
 import * as Djs from "discord.js";
 import type { TFunction } from "i18next";
 import { WeatherDescribe } from "weather-describe";
 import type { EClient } from "@/client";
 import { normalizeLocale } from "@/duration";
-import type { EventGuildData } from "@/interface";
+import type { EventGuildData, WeatherT } from "@/interface";
 import { t } from "@/localization";
 import { defaultTemplate, getSettings } from "@/utils";
-import { TEMPLATES } from "../../interfaces/constant";
+import { TEMPLATES } from "@/interface/constant";
 
 function display(
 	interaction: Djs.ChatInputCommandInteraction,
@@ -26,6 +27,10 @@ function display(
 			{
 				name: ul("template.compute.name").toTitle(),
 				value: `\`${weather?.computeAtStart ? "✅" : "❌"}\``,
+			},
+			{
+				name: ul("common.cron").toTitle(),
+				value: `\`${weather?.cron ?? ul("common.not_set")}\``,
 			}
 		);
 	return interaction.reply({ embeds: [embed] });
@@ -41,14 +46,25 @@ async function set(
 	const options = interaction.options as Djs.CommandInteractionOptionResolver;
 	const location = options.getString(t("weather.location"), true);
 	const computeAtStart = options.getBoolean(t("template.compute.name"));
+	const cron = options.getString(t("common.cron"));
 	const oldSettings = client.settings.get(interaction.guild.id)?.templates?.weather;
 	const temp = defaultTemplate();
 
-	const weather = {
+	const weather: WeatherT = {
 		location: location || oldSettings?.location || temp.weather.location,
 		computeAtStart:
 			computeAtStart || oldSettings?.computeAtStart || temp.weather.computeAtStart,
 	};
+
+	if (cron) {
+		if (isValidCron(cron)) weather.cron = cron;
+		else {
+			return interaction.reply({
+				content: ul("error.invalid_cron"),
+				flags: Djs.MessageFlags.Ephemeral,
+			});
+		}
+	}
 
 	//verify if the city exists
 	try {

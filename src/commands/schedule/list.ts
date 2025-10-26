@@ -3,8 +3,8 @@ import * as Djs from "discord.js";
 import humanizeDuration from "humanize-duration";
 import type { TFunction } from "i18next";
 import { DateTime } from "luxon";
-import type { EventGuildData, Schedule } from "@/interface";
 import type { EClient } from "@/client";
+import type { DateT, EventGuildData, Schedule } from "@/interface";
 import { tFn } from "@/localization";
 
 function listUpcomingEventsForSchedule(
@@ -118,7 +118,7 @@ function formatMessage(
 	locale: string,
 	interaction: Djs.ChatInputCommandInteraction,
 	client: EClient,
-	globalSettings?: EventGuildData["templates"]["date"],
+	globalSettings?: DateT,
 	unique?: boolean
 ) {
 	const formatDate = DateTime.fromISO(s.anchorISO, { zone: s.start.zone }).toFormat(

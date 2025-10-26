@@ -3,7 +3,7 @@ import * as Djs from "discord.js";
 import type { TFunction } from "i18next";
 import type { EClient } from "@/client";
 import { setCount } from "@/cron/count";
-import type { EventGuildData } from "@/interface";
+import type { CountT, EventGuildData } from "@/interface";
 import { t } from "@/localization";
 import { defaultTemplate, getSettings } from "@/utils";
 import { TEMPLATES } from "../../interfaces/constant";
@@ -61,7 +61,7 @@ function display(
 function getOptions(
 	interaction: Djs.ChatInputCommandInteraction,
 	setDefault?: boolean,
-	oldData?: EventGuildData["templates"]["count"]
+	oldData?: CountT
 ) {
 	const defaultTemplateData = setDefault ? defaultTemplate().count : null;
 	const start =

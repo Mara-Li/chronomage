@@ -211,7 +211,7 @@ export async function handleEdit(
 	} catch (err) {
 		console.error(err);
 		return interaction.reply({
-			content: ul("errors.unknown", {
+			content: ul("error.unknown", {
 				error: err instanceof Error ? err.message : String(err),
 			}),
 			flags: Djs.MessageFlags.Ephemeral,

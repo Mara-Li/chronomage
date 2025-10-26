@@ -6,7 +6,7 @@ import { DateTime } from "luxon";
 import type { EClient } from "@/client";
 import { setDate } from "@/cron/date";
 import { parseDurationLocalized } from "@/duration";
-import type { EventGuildData } from "@/interface";
+import type { DateT, EventGuildData } from "@/interface";
 import { t } from "@/localization";
 import { defaultTemplate } from "@/utils";
 import { TEMPLATES } from "../../interfaces/constant";
@@ -84,7 +84,7 @@ function getOptions(
 	interaction: Djs.ChatInputCommandInteraction,
 	locale: Djs.Locale,
 	setDefault?: boolean,
-	oldData?: EventGuildData["templates"]["date"]
+	oldData?: DateT
 ) {
 	const defaultDate = setDefault ? defaultTemplate().date : null;
 	const fallBack = oldData || defaultDate;
@@ -184,7 +184,7 @@ export function anchorIsoDate(
 	ul: TFunction,
 	zone: string,
 	locale: string,
-	date?: EventGuildData["templates"]["date"]
+	date?: DateT
 ) {
 	const rawAnchor =
 		interaction.options.getString(t("anchor.name")) ??
