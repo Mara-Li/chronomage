@@ -3,11 +3,12 @@ import * as Djs from "discord.js";
 import type { TFunction } from "i18next";
 import { WeatherDescribe } from "weather-describe";
 import type { EClient } from "@/client";
+import { setWeather } from "@/cron/weather";
 import { normalizeLocale } from "@/duration";
 import type { EventGuildData, WeatherT } from "@/interface";
+import { TEMPLATES } from "@/interface/constant";
 import { t } from "@/localization";
 import { defaultTemplate, getSettings } from "@/utils";
-import { TEMPLATES } from "@/interface/constant";
 
 function display(
 	interaction: Djs.ChatInputCommandInteraction,
@@ -74,6 +75,7 @@ async function set(
 		});
 		const weatherText = await wyd.byCity(location);
 		client.settings.set(interaction.guild.id, weather, "templates.weather");
+		if (cron) setWeather(interaction.guild, client);
 		if (weatherText.current) return interaction.reply(ul("common.success"));
 		return interaction.reply({
 			content: t("weather.locationNotFound", {
@@ -124,20 +126,38 @@ export async function processTemplate(
 	let locale: string = lang as string;
 	if (lang === Djs.Locale.EnglishUS || lang === Djs.Locale.EnglishGB) locale = "en";
 
-	const wyd = new WeatherDescribe({
-		lang: locale as "fr" | "en",
-		timezone: settings.settings?.zone,
-	});
-	const weatherInfo = await wyd.byCity(weather.location);
+	let weatherInfoText: WeatherT["currentValue"] | undefined;
+	if (weather.currentValue) {
+		weatherInfoText = weather.currentValue;
+	} else {
+		const wyd = new WeatherDescribe({
+			lang: locale as "fr" | "en",
+			timezone: settings.settings?.zone,
+		});
+		const weatherInfo = await wyd.byCity(weather.location);
+		weatherInfoText = {
+			emoji: weatherInfo.emoji,
+			long: weatherInfo.text.long,
+			short: weatherInfo.text.short,
+		};
+	}
 	if (text.match(weatherTemplate.emoji)) {
-		text = text.replace(weatherTemplate.emoji, weatherInfo ? weatherInfo.emoji : "");
+		text = text.replace(
+			weatherTemplate.emoji,
+			weatherInfoText ? weatherInfoText.emoji : ""
+		);
 	}
 	if (text.match(weatherTemplate.short)) {
-		const weatherInfo = await wyd.byCity(weather.location, { short: true });
-		text = text.replace(weatherTemplate.short, weatherInfo ? weatherInfo.text : "");
+		text = text.replace(
+			weatherTemplate.short,
+			weatherInfoText ? weatherInfoText.short : ""
+		);
 	}
 	if (text.match(weatherTemplate.long))
-		text = text.replace(weatherTemplate.long, weatherInfo ? weatherInfo.text : "");
+		text = text.replace(
+			weatherTemplate.long,
+			weatherInfoText ? weatherInfoText.long : ""
+		);
 
 	return text;
 }
