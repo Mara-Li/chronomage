@@ -18,7 +18,16 @@ export interface Templates {
 		currentValue: number;
 		computeAtStart: boolean;
 	};
-	weather: { location: string; computeAtStart: boolean; cron?: string };
+	weather: {
+		location: string;
+		computeAtStart: boolean;
+		cron?: string;
+		currentValue?: {
+			emoji: string;
+			long: string;
+			short: string;
+		};
+	};
 }
 
 export type WeatherT = Templates["weather"];

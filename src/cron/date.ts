@@ -2,20 +2,20 @@ import { CronJob } from "cron";
 import type * as Djs from "discord.js";
 import { DateTime } from "luxon";
 import type { EClient } from "@/client";
-import { DateJobs } from "../interfaces/constant";
+import { DateJobs } from "@/interface/constant";
 export function setDate(guild: Djs.Guild, client: EClient) {
 	//stop any existing job
+	const settings = client.settings.get(guild.id);
+	const counter = settings?.templates.date;
+	if (!counter) return;
+	const cron = counter.cron;
+	if (!cron) return;
 	if (DateJobs.has(guild.id)) {
 		const existingJob = DateJobs.get(guild.id);
 		existingJob?.stop();
 		DateJobs.delete(guild.id);
 	}
-	const settings = client.settings.get(guild.id);
-	const counter = settings?.templates.date;
-	if (!counter) return;
 
-	const cron = counter.cron;
-	if (!cron) return;
 	const stableZone = counter.timezone || settings?.settings?.zone || "utc";
 	const job = new CronJob(
 		cron,

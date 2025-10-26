@@ -7,9 +7,9 @@ import type { EClient } from "@/client";
 import { setDate } from "@/cron/date";
 import { parseDurationLocalized } from "@/duration";
 import type { DateT, EventGuildData } from "@/interface";
+import { TEMPLATES } from "@/interface/constant";
 import { t } from "@/localization";
 import { defaultTemplate } from "@/utils";
-import { TEMPLATES } from "../../interfaces/constant";
 
 function display(
 	interaction: Djs.ChatInputCommandInteraction,

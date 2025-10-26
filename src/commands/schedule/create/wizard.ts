@@ -109,7 +109,7 @@ export async function altScheduleWizard(
 		const state = Wizard.get(wizardKey(guildId, userId));
 		if (!state) {
 			await interaction.reply({
-				content: ul("eerror.wizardNotFound),,,
+				content: ul("error.wizardNotFound"),
 			});
 			return;
 		}
@@ -328,8 +328,8 @@ export async function altWizardNext(interaction: Djs.ButtonInteraction, client: 
 	const state = Wizard.get(wizardKey(guildId, userId));
 	if (!state || interaction.user.id !== userId || interaction.guildId !== guildId) {
 		await interaction.reply({
-			content: ul("eerror.wizardNotFound),
-			flags: Djs.MessageFlags.Ephemeral,,,
+			content: ul("error.wizardNotFound"),
+			flags: Djs.MessageFlags.Ephemeral,
 		});
 		return;
 	}

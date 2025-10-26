@@ -1,7 +1,7 @@
 import { CronJob } from "cron";
 import type * as Djs from "discord.js";
 import type { EClient } from "@/client";
-import { CountJobs } from "../interfaces/constant";
+import { CountJobs } from "@/interface/constant";
 export function setCount(guild: Djs.Guild, client: EClient) {
 	const settings = client.settings.get(guild.id);
 	const counter = settings?.templates.count;

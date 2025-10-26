@@ -4,9 +4,9 @@ import type { TFunction } from "i18next";
 import type { EClient } from "@/client";
 import { setCount } from "@/cron/count";
 import type { CountT, EventGuildData } from "@/interface";
+import { TEMPLATES } from "@/interface/constant";
 import { t } from "@/localization";
 import { defaultTemplate, getSettings } from "@/utils";
-import { TEMPLATES } from "../../interfaces/constant";
 
 function display(
 	interaction: Djs.ChatInputCommandInteraction,
