@@ -10,7 +10,7 @@ export function setWeather(guild: Djs.Guild, client: EClient) {
 	const weather = settings?.templates.weather;
 	if (!weather) return;
 	const cron = weather.cron;
-	if (!cron) return;
+	if (!cron || !weather.stopped) return;
 	if (WeatherJobs.has(guild.id)) {
 		const existingJob = WeatherJobs.get(guild.id);
 		existingJob?.stop();

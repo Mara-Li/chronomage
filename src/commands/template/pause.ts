@@ -1,165 +1,182 @@
 import * as Djs from "discord.js";
-import type { TFunction } from "i18next";
+import type { TFunction, TOptions } from "i18next";
 import type { EClient } from "@/client";
 import { setCount, setDate, setWeather } from "@/cron";
 import { CountJobs, DateJobs, WeatherJobs } from "@/interface/constant";
-import { tFn } from "@/localization";
+import { t, tFn } from "@/localization";
 import { getSettings } from "@/utils";
 
 type Variable = "date" | "count" | "weather" | "all";
 
-export function pauseTemplateVariable(
+export async function pauseTemplateVariable(
 	client: EClient,
 	interaction: Djs.ChatInputCommandInteraction
 ) {
 	const settings = getSettings(client, interaction.guild!, interaction.locale);
 	const { ul } = tFn(interaction.locale, interaction.guild!, settings);
-	const variables = interaction.options.getString("template.name") as Variable | null;
-	if (!variables) return displayStatus(interaction, ul);
+	const variables = interaction.options.getString(t("template.name")) as Variable | null;
+	if (!variables) return displayStatus(interaction, ul, client);
 	switch (variables) {
-		case "date":
-			return pauseDate(client, interaction, ul);
-		case "count":
-			return pauseCount(client, interaction, ul);
-		case "weather":
-			return pauseWeather(client, interaction, ul);
-		case "all":
-			pauseDate(client, interaction, ul);
-			pauseCount(client, interaction, ul);
-			pauseWeather(client, interaction, ul);
-			return;
-		default:
-			return displayStatus(interaction, ul);
-	}
-}
-
-async function pauseDate(
-	client: EClient,
-	interaction: Djs.ChatInputCommandInteraction,
-	ul: TFunction
-) {
-	const job = DateJobs.get(interaction.guild!.id);
-	if (!job) {
-		//start it
-		setDate(interaction.guild!, client);
-		return await interaction.reply({
-			content: ul("template.date.resume"),
-			flags: Djs.MessageFlags.Ephemeral,
-		});
-	}
-	if (job.isActive) {
-		job.stop();
-		return await interaction.reply({
-			content: ul("template.date.pause"),
-			flags: Djs.MessageFlags.Ephemeral,
-		});
-	}
-	job.start();
-	return await interaction.reply({
-		content: ul("template.date.resume"),
-		flags: Djs.MessageFlags.Ephemeral,
-	});
-}
-
-async function pauseCount(
-	client: EClient,
-	interaction: Djs.ChatInputCommandInteraction,
-	ul: TFunction
-) {
-	const job = CountJobs.get(interaction.guild!.id);
-	if (!job) {
-		//start it
-		setCount(interaction.guild!, client);
-		return await interaction.reply({
-			content: ul("template.count.resume"),
-			flags: Djs.MessageFlags.Ephemeral,
-		});
-	}
-	if (job.isActive) {
-		job.stop();
-		return await interaction.reply({
-			content: ul("template.count.pause"),
-			flags: Djs.MessageFlags.Ephemeral,
-		});
-	}
-	job.start();
-	return await interaction.reply({
-		content: ul("template.count.resume"),
-		flags: Djs.MessageFlags.Ephemeral,
-	});
-}
-
-async function pauseWeather(
-	client: EClient,
-	interaction: Djs.ChatInputCommandInteraction,
-	ul: TFunction
-) {
-	const job = WeatherJobs.get(interaction.guild!.id);
-	if (!job) {
-		//doesn't not start if there are no cron set
-		const settings = getSettings(client, interaction.guild!, interaction.locale);
-		if (!settings.templates.weather.cron) {
+		case "date": {
+			const res = pauseDate(client, interaction, ul);
 			return await interaction.reply({
-				content: ul("template.weather.not_set", { variable: ul("weather.name") }),
+				content: res,
 				flags: Djs.MessageFlags.Ephemeral,
 			});
 		}
-		//start it
-		//setWeather function is not defined in this context, assuming it's similar to setDate and setCount
-		setWeather(interaction.guild!, client);
-		return await interaction.reply({
-			content: ul("template.weather.resume"),
-			flags: Djs.MessageFlags.Ephemeral,
-		});
+
+		case "count": {
+			const res = pauseCount(client, interaction, ul);
+			return await interaction.reply({
+				content: res,
+				flags: Djs.MessageFlags.Ephemeral,
+			});
+		}
+		case "weather": {
+			const res = pauseWeather(client, interaction, ul);
+			return await interaction.reply({
+				content: res,
+				flags: Djs.MessageFlags.Ephemeral,
+			});
+		}
+		case "all":
+			return await pauseAll(client, interaction, ul);
+		default:
+			return await displayStatus(interaction, ul, client);
 	}
-	if (job.isActive) {
-		job.stop();
-		return await interaction.reply({
-			content: ul("template.weather.pause"),
-			flags: Djs.MessageFlags.Ephemeral,
-		});
-	}
-	job.start();
+}
+
+async function pauseAll(
+	client: EClient,
+	interaction: Djs.ChatInputCommandInteraction,
+	ul: TFunction
+) {
+	const dateRes = pauseDate(client, interaction, ul);
+	const countRes = pauseCount(client, interaction, ul);
+	const weatherRes = pauseWeather(client, interaction, ul);
+	const finalMessage = `- ${dateRes}\n- ${countRes}\n- ${weatherRes}`;
 	return await interaction.reply({
-		content: ul("template.weather.resume"),
+		content: finalMessage,
 		flags: Djs.MessageFlags.Ephemeral,
 	});
 }
+function pauseDate(
+	client: EClient,
+	interaction: Djs.ChatInputCommandInteraction,
+	ul: TFunction
+): string {
+	const settings = getSettings(client, interaction.guild!, interaction.locale);
+	const dateTemplate = settings.templates.date;
+	if (dateTemplate.stopped) {
+		//start it
+		setDate(interaction.guild!, client);
+		client.settings.set(interaction.guild!.id, false, "templates.date.stopped");
+		return ul("template.date.resume");
+	}
+	const job = DateJobs.get(interaction.guild!.id);
+	if (job?.isActive) job.stop();
+	client.settings.set(interaction.guild!.id, true, "templates.date.stopped");
+	return ul("template.date.pause");
+}
+function pauseCount(
+	client: EClient,
+	interaction: Djs.ChatInputCommandInteraction,
+	ul: TFunction
+): string {
+	const count = getSettings(client, interaction.guild!, interaction.locale).templates
+		.count;
+	if (count.stopped) {
+		//start it
+		setCount(interaction.guild!, client);
+		client.settings.set(interaction.guild!.id, false, "templates.count.stopped");
+		return ul("template.count.resume");
+	}
+	client.settings.set(interaction.guild!.id, true, "templates.count.stopped");
+	const job = CountJobs.get(interaction.guild!.id);
+	if (job?.isActive) job.stop();
+	return ul("template.count.pause");
+}
 
-function displayStatus(interaction: Djs.ChatInputCommandInteraction, ul: TFunction) {
+function pauseWeather(
+	client: EClient,
+	interaction: Djs.ChatInputCommandInteraction,
+	ul: TFunction
+): string {
+	const weather = getSettings(client, interaction.guild!, interaction.locale).templates
+		.weather;
+	const job = WeatherJobs.get(interaction.guild!.id);
+	if (!weather.cron)
+		return ul("template.weather.not_set", { variable: ul("weather.name") });
+	if (weather.stopped) {
+		//doesn't not start if there are no cron set
+		const settings = getSettings(client, interaction.guild!, interaction.locale);
+
+		//start it
+		//setWeather function is not defined in this context, assuming it's similar to setDate and setCount
+		setWeather(interaction.guild!, client);
+		client.settings.set(interaction.guild!.id, false, "templates.weather.stopped");
+		return ul("template.weather.resume");
+	}
+
+	client.settings.set(interaction.guild!.id, true, "templates.weather.stopped");
+	if (job?.isActive) job.stop();
+	return ul("template.weather.pause");
+}
+
+async function displayStatus(
+	interaction: Djs.ChatInputCommandInteraction,
+	ul: TFunction,
+	client: EClient
+) {
 	const dateJob = DateJobs.get(interaction.guild!.id);
 	const countJob = CountJobs.get(interaction.guild!.id);
 	const weatherJob = WeatherJobs.get(interaction.guild!.id);
-	const dateStatus = dateJob
+
+	const settings = getSettings(client, interaction.guild!, interaction.locale);
+	const { date, count, weather } = settings.templates;
+
+	const dateStatus: string = dateJob
 		? dateJob.isActive
 			? ul("template.pause.enabled")
 			: ul("template.pause.disabled")
-		: ul("common.not_set");
-	const countStatus = countJob
+		: ul("template.pause.disabled");
+	const countStatus: string = countJob
 		? countJob.isActive
 			? ul("template.pause.enabled")
 			: ul("template.pause.disabled")
-		: ul("common.not_set");
-	const weatherStatus = weatherJob
+		: ul("template.pause.disabled");
+	const weatherStatus: string = weatherJob
 		? weatherJob.isActive
 			? ul("template.pause.enabled")
 			: ul("template.pause.disabled")
-		: ul("common.not_set");
-	return interaction.reply({
-		content: ul("template.pause.status.overall", {
-			date: {
-				value: dateStatus,
-				cron: dateJob ? dateJob.cronTime.source : ul("common.not_set"),
-			},
-			count: {
-				value: countStatus,
-				cron: countJob ? countJob.cronTime.source : ul("common.not_set"),
-			},
-			weather: {
-				value: weatherStatus,
-				cron: weatherJob ? weatherJob.cronTime.source : ul("common.not_set"),
-			},
-		}),
+		: ul("template.pause.disabled");
+	const cronWeather = weather.cron ? ` (\`${weather.cron}\`)` : "";
+	const vars = {
+		date: {
+			value: dateStatus,
+			cron: date.cron,
+		},
+		count: {
+			value: countStatus,
+			cron: count.cron,
+		},
+		weather: {
+			value: weatherStatus,
+			cron: cronWeather,
+		},
+	};
+	return await interaction.reply({
+		content: ul(
+			"template.pause.status.overall",
+			// TFunction has multiple overloads and TS may pick an overload
+			// that expects a string defaultValue as the second param. Cast
+			// the options object to `any` to satisfy the type system here.
+			{
+				date: vars.date,
+				count: vars.count,
+				weather: vars.weather,
+			} as unknown as TOptions
+		),
 		flags: Djs.MessageFlags.Ephemeral,
 	});
 }

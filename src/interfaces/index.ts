@@ -9,6 +9,7 @@ export interface Templates {
 		timezone: string;
 		currentValue: string;
 		computeAtStart: boolean;
+		stopped?: boolean;
 	};
 	count: {
 		start: number;
@@ -17,6 +18,7 @@ export interface Templates {
 		cron: string;
 		currentValue: number;
 		computeAtStart: boolean;
+		stopped?: boolean;
 	};
 	weather: {
 		location: string;
@@ -27,6 +29,7 @@ export interface Templates {
 			long: string;
 			short: string;
 		};
+		stopped?: boolean;
 	};
 }
 

@@ -7,7 +7,7 @@ export function setCount(guild: Djs.Guild, client: EClient) {
 	const counter = settings?.templates.count;
 	if (!counter) return;
 	const cron = counter.cron;
-	if (!cron) return;
+	if (!cron || counter.stopped) return;
 	//stop any existing job
 	if (CountJobs.has(guild.id)) {
 		const existingJob = CountJobs.get(guild.id);

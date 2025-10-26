@@ -13,7 +13,7 @@ export function ln(userLang: Djs.Locale) {
 	return i18next.getFixedT(localeName?.[1] ?? "en");
 }
 
-export function cmdLn(key: string) {
+export function cmdLn(key: string, toTitle?: boolean) {
 	const localized: Djs.LocalizationMap = {};
 	const allValidLocale = Object.entries(Djs.Locale);
 	const allTranslatedLanguages = Object.keys(resources).filter(
@@ -22,7 +22,8 @@ export function cmdLn(key: string) {
 	for (const [name, Locale] of allValidLocale) {
 		if (allTranslatedLanguages.includes(Locale)) {
 			const ul = ln(name as Djs.Locale);
-			localized[Locale as Djs.Locale] = ul(key);
+			const result = toTitle ? ul(key).toTitle() : ul(key);
+			localized[Locale as Djs.Locale] = result;
 		}
 	}
 	return localized;

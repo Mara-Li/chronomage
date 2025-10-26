@@ -200,21 +200,20 @@
     "name": "variables",
     "pause": {
       "date": {
-        "nojob": ""
       },
       "description": "Pause or restart one (or all) of the variables",
       "disabled": "Disabled",
       "enabled": "Active",
       "name": "pause",
       "status": {
-        "overall": "Variable statuses:\n- __Date__: {{date.value}} (`{{date.cron}}`)\n- __Count__: {{count.value}} (`{{count.cron}}`)\n- __Weather__: {{weather.value}} (`{{weather.cron}}`)"
+        "overall": "Variable statuses:\n- __Date__: {{date.value}} (`{{date.cron}}`)\n- __Count__: {{count.value}} (`{{count.cron}}`)\n- __Weather__: {{weather.value}}{{weather.cron}}"
       },
       "variable": "Variable to pause or restart"
     },
     "weather": {
       "cron": "Set the schedule (cron) for the weather update. Use \"/\" to delete.",
       "description": "Set the weather location",
-      "not_set": "The weather cron is not configured. \nCancelation.",
+      "not_set": "The weather cron is not configured. ",
       "pause": "The weather cron has been paused.",
       "resume": "The weather timer has been restarted."
     }

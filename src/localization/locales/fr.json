@@ -200,21 +200,20 @@
     "name": "variables",
     "pause": {
       "date": {
-        "nojob": "Aucune date n'a été configurée, il n'y a donc pas de compteur actif."
       },
       "description": "Mettre une des variables (ou toute) en pause ou les relancer",
       "disabled": "Désactivé",
       "enabled": "Actif",
       "name": "pause",
       "status": {
-        "overall": "Statuts des variables :\n- __Date__ : {{date.value}} (`{{date.cron}}`)\n- __Compte__ : {{count.value}} (`{{count.cron}}`)\n- __Météo__ : {{weather.value}} (`{{weather.cron}}`)"
+        "overall": "Statuts des variables :\n- __Date__ : {{date.value}} (`{{date.cron}}`)\n- __Compte__ : {{count.value}} (`{{count.cron}}`)\n- __Météo__ : {{weather.value}}{{weather.cron}}"
       },
       "variable": "Variable à mettre en pause ou relancer"
     },
     "weather": {
       "cron": "Définissez le calendrier (cron) pour la mise à jour de la météo. Utilisez \"/\" pour supprimer.",
       "description": "Définir la localisation de la météo",
-      "not_set": "Le cron de la météo n'est pas configuré. Annulation.",
+      "not_set": "Le cron de la météo n'est pas configuré.",
       "pause": "La cron de la météo a été mise en pause.",
       "resume": "Le timer de la météo a été relancé."
     }

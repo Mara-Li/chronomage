@@ -1,6 +1,7 @@
+/** biome-ignore-all lint/style/useNamingConvention: Djs is stupid */
 import * as Djs from "discord.js";
 import type { EClient } from "@/client";
-import { t, tFn } from "@/localization";
+import { cmdLn, t, tFn } from "@/localization";
 import { weather } from "./weather";
 import "@/discord_ext";
 import { getSettings } from "@/utils";
@@ -132,10 +133,26 @@ export const template = {
 						.setDescriptions("template.pause.variable")
 						.setRequired(false)
 						.addChoices(
-							{ name: t("common.date"), value: "date" },
-							{ name: t("count.name"), value: "count" },
-							{ name: t("weather.name"), value: "weather" },
-							{ name: t("common.all"), value: "all" }
+							{
+								name: t("common.date").toTitle(),
+								value: "date",
+								name_localizations: cmdLn("common.date", true),
+							},
+							{
+								name: t("count.name").toTitle(),
+								value: "count",
+								name_localizations: cmdLn("count.name", true),
+							},
+							{
+								name: t("weather.name").toTitle(),
+								value: "weather",
+								name_localizations: cmdLn("weather.name", true),
+							},
+							{
+								name: t("common.all"),
+								value: "all",
+								name_localizations: cmdLn("common.all", true),
+							}
 						)
 				)
 		),

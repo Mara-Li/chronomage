@@ -9,7 +9,7 @@ export function setDate(guild: Djs.Guild, client: EClient) {
 	const counter = settings?.templates.date;
 	if (!counter) return;
 	const cron = counter.cron;
-	if (!cron) return;
+	if (!cron || counter.stopped) return;
 	if (DateJobs.has(guild.id)) {
 		const existingJob = DateJobs.get(guild.id);
 		existingJob?.stop();
