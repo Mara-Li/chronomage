@@ -20,14 +20,10 @@ export async function processTemplateChannels(
 	channelData?: RenameChannel,
 	channelText?: ChannelTextT
 ) {
-	// Nothing to do
 	if (!channelData && !channelText) return;
-
-	// Helper to create a safe iterable when the LimitedMap might be undefined
 	const entriesOrEmpty = <T>(m?: LimitedMap<string, T>) =>
 		m ? Array.from(m.entries()) : ([] as [string, T][]);
 
-	// Build tasks for renaming channels
 	const renameTasks = entriesOrEmpty(channelData).map(async ([channelId, template]) => {
 		try {
 			const text = await processTemplate(template, client, guild, true);
@@ -35,10 +31,10 @@ export async function processTemplateChannels(
 
 			const channel = guild.channels.cache.get(channelId);
 			if (!channel) return { channelId, ok: false, reason: "missing-channel" };
-
 			await channel.setName(text);
 			return { channelId, ok: true };
 		} catch (err) {
+			console.error(`Error renaming channel ${channelId}:`, err);
 			return {
 				channelId,
 				ok: false,
@@ -60,6 +56,7 @@ export async function processTemplateChannels(
 			await channel.send({ content: text });
 			return { channelId, ok: true };
 		} catch (err) {
+			console.error(`Error sending message to channel ${channelId}:`, err);
 			return {
 				channelId,
 				ok: false,

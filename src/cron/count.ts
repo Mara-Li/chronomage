@@ -18,6 +18,7 @@ export function setCount(guild: Djs.Guild, client: EClient) {
 	const job = new CronJob(
 		cron,
 		async () => {
+			console.log("Count cron job triggered");
 			const liveCounter = settings?.templates.count;
 			if (!liveCounter) return;
 
