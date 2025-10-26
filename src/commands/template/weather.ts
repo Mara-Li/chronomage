@@ -45,7 +45,7 @@ async function set(
 ) {
 	if (!interaction.guild) return;
 	const options = interaction.options as Djs.CommandInteractionOptionResolver;
-	const location = options.getString(t("weather.location"), true);
+	const location = options.getString(t("weather.location"));
 	const computeAtStart = options.getBoolean(t("template.compute.name"));
 	const cron = options.getString(t("common.cron"));
 	const oldSettings = client.settings.get(interaction.guild.id)?.templates?.weather;
@@ -77,7 +77,7 @@ async function set(
 			lang: normalizeLocale(locale) as "fr" | "en",
 			timezone: client.settings.get(interaction.guild.id)?.settings?.zone,
 		});
-		const weatherText = await wyd.byCity(location);
+		const weatherText = await wyd.byCity(weather.location);
 		client.settings.set(interaction.guild.id, weather, "templates.weather");
 		if (cron) setWeather(interaction.guild, client);
 		if (weatherText.current) return interaction.reply(ul("common.success"));
