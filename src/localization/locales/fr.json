@@ -29,6 +29,7 @@
     "next": "Suivant",
     "not_set": "/",
     "start": "heure_début",
+    "start_day": "jour_debut",
     "step": "pas",
     "success": "Les paramètres ont bien été sauvegardés.",
     "type": "type"
@@ -38,7 +39,8 @@
     "display": {
       "title": "Configuration - Compte"
     },
-    "name": "compte"
+    "name": "compte",
+    "start": "nombre_départ"
   },
   "date": {
     "display": {

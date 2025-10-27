@@ -6,6 +6,7 @@ import { DateTime } from "luxon";
 import type { EClient } from "@/client";
 import type { DateT, Schedule } from "@/interface";
 import { tFn } from "@/localization";
+import { normalizeLocale } from "../../duration";
 
 function listUpcomingEventsForSchedule(
 	guildId: string,
@@ -124,12 +125,13 @@ function formatMessage(
 	const formatDate = DateTime.fromISO(s.anchorISO, { zone: s.start.zone }).toFormat(
 		globalSettings?.format ?? "f"
 	);
+	const language = normalizeLocale(locale);
 	const part: Part = { label: "", lines: [], upcoming: [] };
 	part.label = unique ? "" : `**${id}** ${s.active ? "✅" : "❌"}`;
 	part.lines.push(
 		`__${ul("list.labels")}__\n     - ${s.labels.map((l) => `\`${l}\``).join("\n     - ")}`,
-		`__${ul("list.block")}__ \`${humanizeDuration(s.blockMs, { language: locale })}\``,
-		`__${ul("list.len")}__ \`${humanizeDuration(s.lenMs, { language: locale })}\``,
+		`__${ul("list.block")}__ \`${humanizeDuration(s.blockMs, { language })}\``,
+		`__${ul("list.len")}__ \`${humanizeDuration(s.lenMs, { language })}\``,
 		`__${ul("list.start")}__ \`${s.start.hhmm} (${s.start.zone})\``,
 		`__${ul("list.anchor")}__ ${formatDate}`,
 		`__${ul("list.location")}__ ${s.locationType === Djs.GuildScheduledEventEntityType.External ? s.location : `<#${s.location}>`}`,

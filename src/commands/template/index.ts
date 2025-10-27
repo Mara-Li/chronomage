@@ -46,7 +46,7 @@ export const template = {
 								.setRequired(false)
 						)
 						.addStringOption((opt) =>
-							opt.setNames("common.start").setDescriptions("description.start.date")
+							opt.setNames("common.start_day").setDescriptions("description.start.date")
 						)
 						.addStringOption((opt) =>
 							opt.setNames("common.step").setDescriptions("template.date.step")
@@ -67,7 +67,7 @@ export const template = {
 						.setDescriptions("template.count.description")
 						.addNumberOption((opt) =>
 							opt
-								.setNames("common.start")
+								.setNames("count.start")
 								.setDescriptions("description.start.number")
 								.setRequired(false)
 								.setMinValue(0)

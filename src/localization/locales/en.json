@@ -29,6 +29,7 @@
     "next": "Next",
     "not_set": "/",
     "start": "start_time",
+    "start_day": "start_day",
     "step": "step",
     "success": "The settings was successfully saved.",
     "type": "type"
@@ -38,7 +39,8 @@
     "display": {
       "title": "Configuration - Count"
     },
-    "name": "count"
+    "name": "count",
+    "start": "start_number"
   },
   "date": {
     "display": {

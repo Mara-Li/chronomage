@@ -24,7 +24,7 @@ function display(
 		.setColor("Blue")
 		.addFields(
 			{
-				name: ul("common.start").toTitle(),
+				name: ul("count.start").toTitle(),
 				value: `\`${count?.start ?? ul("common.not_set")}\``,
 			},
 			{
@@ -65,7 +65,7 @@ function getOptions(
 ) {
 	const defaultTemplateData = setDefault ? defaultTemplate().count : null;
 	const start =
-		interaction.options.getNumber(t("common.start")) ||
+		interaction.options.getNumber(t("count.start")) ||
 		oldData?.start ||
 		defaultTemplateData?.start;
 	const step =
