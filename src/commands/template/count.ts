@@ -24,7 +24,7 @@ function display(
 		.setColor("Blue")
 		.addFields(
 			{
-				name: ul("count.start").toTitle(),
+				name: ul("count.start").toTitle().replace(/_/g, " "),
 				value: `\`${count?.start ?? ul("common.not_set")}\``,
 			},
 			{
@@ -40,7 +40,7 @@ function display(
 				value: `\`${count?.decimal ?? ul("common.not_set")}\``,
 			},
 			{
-				name: ul("template.compute.name").toTitle(),
+				name: ul("template.compute.name").toTitle().replace(/_/g, " "),
 				value: `\`${count?.computeAtStart ? "✅" : "❌"}\``,
 			}
 		);

@@ -39,7 +39,7 @@ function display(
 				value: `\`${date?.format ?? ul("common.not_set")}\``,
 			},
 			{
-				name: ul("common.cron"),
+				name: ul("common.cron").toTitle(),
 				value: `\`${date?.cron ?? ul("common.not_set")}\``,
 			},
 			{
@@ -55,7 +55,7 @@ function display(
 				value: date ? `\`${humanizeStep(date.step)}\`` : ul("common.not_set"),
 			},
 			{
-				name: ul("template.compute.name").toTitle(),
+				name: ul("template.compute.name").toTitle().replace(/_/g, " "),
 				value: `\`${date?.computeAtStart ? "✅" : "❌"}\``,
 			}
 		);

@@ -26,7 +26,7 @@ function display(
 				value: weather?.location ?? ul("common.not_set"),
 			},
 			{
-				name: ul("template.compute.name").toTitle(),
+				name: ul("template.compute.name").toTitle().replace(/_/g, " "),
 				value: `\`${weather?.computeAtStart ? "✅" : "❌"}\``,
 			},
 			{
