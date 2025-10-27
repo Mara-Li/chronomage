@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.1.1](https://github.com/Mara-Li/narrakit/compare/1.1.0...1.1.1) (2025-10-27)
+
+
+### Bug Fixes
+
+* locales in date and options commands ([2275622](https://github.com/Mara-Li/narrakit/commit/22756228894be25aaa868756b68d2bfe7ae29311))
+
 ## 1.1.0 (2025-10-27)
 
 
