@@ -46,7 +46,7 @@ export const template = {
 								.setRequired(false)
 						)
 						.addStringOption((opt) =>
-							opt.setNames("common.start_day").setDescriptions("description.start.date")
+							opt.setNames("anchor.name").setDescriptions("description.start.date")
 						)
 						.addStringOption((opt) =>
 							opt.setNames("common.step").setDescriptions("template.date.step")

@@ -43,7 +43,7 @@ function display(
 				value: `\`${date?.cron ?? ul("common.not_set")}\``,
 			},
 			{
-				name: ul("common.start_day").toTitle(),
+				name: ul("anchor.name").toTitle().replace(/_/g, " "),
 				value: formatDateStart(date?.start, date?.format) ?? ul("common.not_set"),
 			},
 			{
@@ -93,7 +93,7 @@ function getOptions(
 	const format = options.getString(t("common.format")) || fallBack?.format;
 	const timezone = options.getString(t("timezone.name")) || fallBack?.timezone;
 	const cron = options.getString(t("common.cron")) || fallBack?.cron;
-	const start = options.getString(t("common.start_day")) || fallBack?.start;
+	const start = options.getString(t("anchor.name")) || fallBack?.start;
 	const step = convertStep(options.getString(t("common.step")), locale) || fallBack?.step;
 	const compute =
 		interaction.options.getBoolean(t("template.compute.name")) ||
