@@ -29,7 +29,6 @@
     "next": "Next",
     "not_set": "/",
     "start": "start_time",
-    "start_day": "start_day",
     "step": "step",
     "success": "The settings was successfully saved.",
     "type": "type"
@@ -244,8 +243,6 @@
     },
     "name": "variables",
     "pause": {
-      "date": {
-      },
       "description": "Pause or restart one (or all) of the variables",
       "disabled": "Disabled",
       "enabled": "Active",

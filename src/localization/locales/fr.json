@@ -29,7 +29,6 @@
     "next": "Suivant",
     "not_set": "/",
     "start": "heure_début",
-    "start_day": "jour_debut",
     "step": "pas",
     "success": "Les paramètres ont bien été sauvegardés.",
     "type": "type"
@@ -244,8 +243,6 @@
     },
     "name": "variables",
     "pause": {
-      "date": {
-      },
       "description": "Mettre une des variables (ou toute) en pause ou les relancer",
       "disabled": "Désactivé",
       "enabled": "Actif",
