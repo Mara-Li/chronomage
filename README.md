@@ -1,6 +1,6 @@
-# Chronomate — Discord Scheduling Bot (TypeScript)
+# Chronomage — Discord Scheduling Bot (TypeScript)
 
-Chronomate is a Discord bot that helps you plan recurring events, auto-fill event titles/descriptions with dynamic placeholders (date, counters, weather), and manage schedules with a simple slash-command and a guided modal wizard.
+Chronomage is a Discord bot that helps you plan recurring events, auto-fill event titles/descriptions with dynamic placeholders (date, counters, weather), and manage schedules with a simple slash-command and a guided modal wizard.
 
 It is built on discord.js v14, TypeScript, Enmap (SQLite), Cron jobs, and i18next for localization.
 
@@ -9,13 +9,13 @@ It is built on discord.js v14, TypeScript, Enmap (SQLite), Cron jobs, and i18nex
 📚 **[Complete Documentation](docs/README.md)** - All documentation in one place
 
 **For Users:**
-- 📖 [User Guide](docs/USER_GUIDE.md) - Complete guide to using Chronomate
+- 📖 [User Guide](docs/USER_GUIDE.md) - Complete guide to using Chronomage
 - 🔧 [Commands Reference](docs/Commands.md) - Quick reference for all commands
 - 📝 [Templates Guide](docs/Templates.md) - Using placeholders and dynamic content
 
 **Legal:**
-- 🔒 [Privacy Policy](docs/PRIVACY_POLICY.md) - How we handle your data
-- 📜 [Terms of Service](docs/TERMS_OF_SERVICE.md) - Rules and responsibilities
+- 🔒 [Privacy Policy](docs/legals/PRIVACY_POLICY.md) - How we handle your data
+- 📜 [Terms of Service](docs/legals/TERMS_OF_SERVICE.md) - Rules and responsibilities
 
 **For Developers:**
 - Continue reading below for setup and technical information
@@ -45,7 +45,7 @@ It is built on discord.js v14, TypeScript, Enmap (SQLite), Cron jobs, and i18nex
 
 ```cmd
 git clone <your-fork-or-repo-url>
-cd chronomate
+cd chronomage
 pnpm install
 ```
 
@@ -76,7 +76,7 @@ The bot loads commands for all guilds it is in and starts a background job that 
 
 ```cmd
 pnpm build
-pnpm start    REM starts via pm2 as "chronomate"
+pnpm start    REM starts via pm2 as "chronomage"
 ```
 
 Useful pm2 scripts:
@@ -229,7 +229,7 @@ Wizard flow:
 ## Scripts reference
 - pnpm dev: run in watch mode with ts-node-dev
 - pnpm build: type-check and build with esbuild into dist/
-- pnpm start: start the built bot under pm2 (process name: chronomate)
+- pnpm start: start the built bot under pm2 (process name: chronomage)
 - pnpm restart/stop/delete: pm2 lifecycle helpers
 - pnpm dev:prod: like dev but with ENV=production
 

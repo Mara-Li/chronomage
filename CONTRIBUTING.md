@@ -1,6 +1,6 @@
-# Contributing to Chronomate
+# Contributing to Chronomage
 
-Thank you for your interest in contributing to Chronomate! This document provides guidelines for contributing to the project.
+Thank you for your interest in contributing to Chronomage! This document provides guidelines for contributing to the project.
 
 ## Table of Contents
 
@@ -106,7 +106,7 @@ Look for issues labeled:
 **Environment:**
 - Windows 11
 - Node.js 20.10.0
-- Chronomate 1.0.0
+- Chronomage 1.0.0
 
 **Logs:**
 ```
@@ -409,8 +409,8 @@ This creates a schedule with 3 labels.
 
 1. **Fork and clone**
    ```bash
-   git clone https://github.com/your-username/chronomate.git
-   cd chronomate
+   git clone https://github.com/your-username/chronomage.git
+   cd chronomage
    ```
 
 2. **Install dependencies**
@@ -473,7 +473,7 @@ Contributors are recognized in:
 - Release notes
 - Git commit history
 
-Thank you for contributing to Chronomate! 🎉
+Thank you for contributing to Chronomage! 🎉
 
 ---
 

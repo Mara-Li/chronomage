@@ -1,5 +1,5 @@
 {
-	"name": "chronomate",
+	"name": "chronomage",
 	"version": "1.1.0",
 	"private": "true",
 	"description": "",
@@ -14,11 +14,11 @@
 		"prestart": "pnpm run build",
 		"prerelease": "pnpm run build",
 		"release": "commit-and-tag-version",
-		"start": "pm2 start dist/src/index.js --name chronomate --log-date-format=\"YYYY-MM-DD HH:mm Z\"",
-		"stop": "pm2 stop chronomate",
+		"start": "pm2 start dist/src/index.js --name chronomage --log-date-format=\"YYYY-MM-DD HH:mm Z\"",
+		"stop": "pm2 stop chronomage",
 		"prerestart": "pnpm run build",
-		"restart": "pm2 restart chronomate",
-		"delete": "pm2 delete chronomate",
+		"restart": "pm2 restart chronomage",
+		"delete": "pm2 delete chronomage",
 		"dev": "ts-node-dev --respawn -r tsconfig-paths/register -- src/index.ts",
 		"dev:prod": "cross-env ENV=production ts-node-dev --respawn -r tsconfig-paths/register -- src/index.ts"
 	},

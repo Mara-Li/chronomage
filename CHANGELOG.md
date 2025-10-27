@@ -41,7 +41,7 @@ All notable changes to this project will be documented in this file. See [commit
 * **localization:** add count configuration title in English and French ([99eceed](https://github.com/Mara-Li/narrakit/commit/99eceed185db136fa1fe9b92c3068381d616b86d))
 * **localization:** refactor language handling to use tFn for improved consistency ([d30f478](https://github.com/Mara-Li/narrakit/commit/d30f47856cca028dbd9ab2225dccb60689ce9d85))
 * **package:** rename bot from 'my-discord-bot' to 'narrakit' and update related scripts ([3b65803](https://github.com/Mara-Li/narrakit/commit/3b65803afa42817944f2d61f632e05be9e431b4d))
-* rename project from Narrakit to Chronomate and update related configurations ([bad674b](https://github.com/Mara-Li/narrakit/commit/bad674b4b81519d0ccb7e41330dbaecfd26a4f0f))
+* rename project from Narrakit to Chronomage and update related configurations ([bad674b](https://github.com/Mara-Li/narrakit/commit/bad674b4b81519d0ccb7e41330dbaecfd26a4f0f))
 * reset weather cron and current value when cron is set to "/" ([4213b04](https://github.com/Mara-Li/narrakit/commit/4213b0456db050a7e46937cd2c2fbeb201f11e8a))
 * **schedule:** add minimum future blocks configuration for event creation ([ebafddd](https://github.com/Mara-Li/narrakit/commit/ebafddde1a90a185d043b8dc42f0d57bf5bcbc52))
 * **schedule:** add scheduling commands and modal for event management ([2dd447c](https://github.com/Mara-Li/narrakit/commit/2dd447ca58d85454dcf0a6d38609a57be1cdffe4))
