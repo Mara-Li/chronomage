@@ -118,18 +118,25 @@ export function set(
 	);
 	if (cron && !isValidCron(cron)) return interaction.reply(ul("error.cron"));
 
+	const formattedStart =
+		DateTime.fromFormat(start as string, format as string, {
+			zone: timezone as string,
+		}).toISO() ?? undefined;
 	//convert the duration to number
-	const date = {
+	const date: Partial<DateT> = {
 		format,
 		timezone,
 		cron,
-		start: DateTime.fromFormat(start as string, format as string, {
-			zone: timezone as string,
-		}).toISO(),
+		start: formattedStart,
 		step,
 		computeAtStart: compute,
 	};
+
+	const haveSetStart = interaction.options.getString(t("anchor.name"));
+	if (haveSetStart && formattedStart) date.currentValue = formattedStart;
+
 	client.settings.set(interaction.guild.id, date, "templates.date");
+
 	setDate(interaction.guild, client);
 	return interaction.reply(
 		ul("date.set.success", {
