@@ -8,6 +8,7 @@ export const globalSettings = {
 		.setNames("globalSettings.settings")
 		.setDescriptions("globalSettings.description")
 		.setContexts(Djs.InteractionContextType.Guild)
+		.setIntegrationTypes(Djs.ApplicationIntegrationType.GuildInstall)
 		.addSubcommand((sub) =>
 			sub
 				.setNames("timezone.name")

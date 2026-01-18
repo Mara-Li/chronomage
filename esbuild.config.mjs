@@ -23,10 +23,8 @@ await build({
 	target: "node20",
 	format: "cjs",
 	tsconfig: "./tsconfig.json",
-	write: false,
 	sourcemap: !isProd,
-	minify: isProd,
-	drop: isProd ? ["console"] : [],
+	pure: isProd ? ["console.log", "console.debug", "console.info", "console.warn"] : [],
 	define: {
 		"process.env.NODE_ENV": `"${process.env.NODE_ENV || "development"}"`,
 	},
@@ -34,6 +32,10 @@ await build({
 	outbase: "src",
 	sourceRoot: "src",
 	plugins: [fixImportsPlugin(), writeFilePlugin()],
+	write: false,
+	minifySyntax: isProd,
+	minifyWhitespace: false,
+	minifyIdentifiers: false,
 });
 
 // Copier package.json dans dist/

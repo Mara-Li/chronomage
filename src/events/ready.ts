@@ -19,29 +19,31 @@ export default (client: EClient): void => {
 		// Register commands for all guilds concurrently
 		const guilds = Array.from(client.guilds.cache.values());
 		if (guilds.length === 0) {
-			console.info("Aucune guilde détectée, rien à enregistrer.");
+			console.info("No data guilds found to register commands.");
 			return;
 		}
 
-		console.info(`Enregistrement des commandes sur ${guilds.length} guildes...`);
+		console.info(`Registering commands on ${guilds.length} servers...`);
+		if (process.env.NODE_ENV === "production")
+			// Register global commands in production
+			await client.application.commands.set(serializedCommands);
 
 		const guildPromises = guilds.map(async (guild) => {
 			try {
-				console.info(`[${guild.name}] Synchronisation des commandes...`);
-				await guild.commands.set(serializedCommands);
-				console.info(`[${guild.name}] OK (${serializedCommands.length} commandes).`);
+				if (process.env.NODE_ENV !== "production") {
+					console.info(`[${guild.name}] Commands synchronisation...`);
+					await guild.commands.set(serializedCommands);
+					console.info(`[${guild.name}] OK (${serializedCommands.length} commands).`);
+				}
 				initAll(guild, client);
 			} catch (error) {
-				console.error(
-					`[${guild.name}] Échec lors de l'enregistrement des commandes:`,
-					error
-				);
+				console.error(`[${guild.name}] Failure during commands registration:`, error);
 			}
 		});
 
 		// Exécuter toutes les promesses en parallèle
 		await Promise.all(guildPromises);
-		console.info("Toutes les guildes ont été traitées.");
+		console.info("All guilds registered.");
 		//create a cron job that runs every 5 minute to check all guilds
 		new CronJob(
 			"*/5 * * * *",

@@ -18,6 +18,7 @@ export const schedule = {
 		.setNames("schedule.name")
 		.setDescriptions("schedule.description")
 		.setContexts(Djs.InteractionContextType.Guild)
+		.setIntegrationTypes(Djs.ApplicationIntegrationType.GuildInstall)
 		//CREATE SUBCOMMAND
 		.addSubcommand((sub) =>
 			sub

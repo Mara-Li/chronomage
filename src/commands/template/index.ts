@@ -15,6 +15,7 @@ export const template = {
 		.setNames("template.name")
 		.setDescriptions("template.description")
 		.setContexts(Djs.InteractionContextType.Guild)
+		.setIntegrationTypes(Djs.ApplicationIntegrationType.GuildInstall)
 		.setDefaultMemberPermissions(Djs.PermissionsBitField.Flags.ManageEvents)
 		.addSubcommandGroup((group) =>
 			group

@@ -3,7 +3,7 @@ import { processTemplate } from "@/buffer/utils";
 import type { EClient } from "@/client";
 import { setWeather } from "@/cron/weather";
 import type { ChannelTextT, RenameChannel } from "@/interface";
-import type { LimitedMap } from "../interfaces/limitedMap";
+import type { LimitedMap } from "@/interface/limitedMap";
 import { setCount } from "./count";
 import { setDate } from "./date";
 

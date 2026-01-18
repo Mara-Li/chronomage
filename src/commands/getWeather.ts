@@ -9,6 +9,7 @@ import { getSettings } from "@/utils";
 export const getWeather = {
 	data: new Djs.SlashCommandBuilder()
 		.setNames("weather.name")
+		.setIntegrationTypes(Djs.ApplicationIntegrationType.GuildInstall)
 		.setDescriptions("weather.description")
 		.setContexts(Djs.InteractionContextType.Guild)
 		.addStringOption((opt) =>
