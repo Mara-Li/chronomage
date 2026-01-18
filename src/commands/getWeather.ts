@@ -1,4 +1,4 @@
-import "@/discord_ext";
+import "../discord_ext.js";
 import * as Djs from "discord.js";
 import { WeatherDescribe } from "weather-describe";
 import type { EClient } from "@/client";

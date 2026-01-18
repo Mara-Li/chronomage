@@ -66,11 +66,11 @@ declare module "discord.js" {
 }
 
 const SET_NAMES_IMPL = function (this: any, key: string) {
-	return this.setName(t(key).toLowerCase()).setNameLocalizations(cmdLn(key, true));
+	return this.setName(t(key)).setNameLocalizations(cmdLn(key));
 };
 
 const SET_DESCRIPTIONS_IMPL = function (this: any, key: string) {
-	return this.setDescription(t(key)).setDescriptionLocalizations(cmdLn(key));
+	return this.setDescription(t(key)).setDescriptionLocalizations(cmdLn(key, true));
 };
 
 /**

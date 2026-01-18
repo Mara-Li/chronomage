@@ -3,7 +3,7 @@ import * as Djs from "discord.js";
 import dotenv from "dotenv";
 import { EClient } from "@/client";
 import "uniformize";
-import * as pkg from "../package.json";
+import * as pkg from "../package.json" with { type: "json" };
 import { interaction, join, onGuildScheduledEventCreate, onQuit, ready } from "./events";
 import {
 	onChannelCreate,
@@ -11,7 +11,7 @@ import {
 	onChannelUpdate,
 } from "./events/channelUpdate";
 
-dotenv.config({ path: ".env" });
+dotenv.config({ path: ".env", quiet: true });
 
 export const client = new EClient({
 	intents: [

@@ -1,6 +1,6 @@
 import i18next from "i18next";
-import EnglishUS from "./locales/en.json";
-import French from "./locales/fr.json";
+import EnglishUS from "./locales/en.json" with { type: "json" };
+import French from "./locales/fr.json" with { type: "json" };
 
 export const resources = {
 	en: {

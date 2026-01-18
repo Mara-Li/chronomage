@@ -4,7 +4,7 @@ import { WeatherDescribe } from "weather-describe";
 import type { EClient } from "@/client";
 import { normalizeLocale } from "@/duration";
 import { WeatherJobs } from "@/interface/constant";
-import { processTemplateChannels } from ".";
+import { processTemplateChannels } from "./index.js";
 export function setWeather(guild: Djs.Guild, client: EClient) {
 	if (!client.settings.has(guild.id)) return;
 	const settings = client.settings.get(guild.id);

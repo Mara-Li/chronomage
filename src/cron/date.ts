@@ -3,7 +3,7 @@ import type * as Djs from "discord.js";
 import { DateTime } from "luxon";
 import type { EClient } from "@/client";
 import { DateJobs } from "@/interface/constant";
-import { processTemplateChannels } from ".";
+import { processTemplateChannels } from "./index.js";
 export function setDate(guild: Djs.Guild, client: EClient) {
 	//stop any existing job
 	const settings = client.settings.get(guild.id);

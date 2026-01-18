@@ -3,7 +3,7 @@
 	"version": "1.1.2",
 	"private": "true",
 	"description": "",
-	"main": "dist/index.js",
+	"type": "module",
 	"engines": {
 		"node": "20.19.2"
 	},
@@ -19,8 +19,8 @@
 		"prerestart": "pnpm run build",
 		"restart": "pm2 restart chronomage",
 		"delete": "pm2 delete chronomage",
-		"dev": "ts-node-dev --respawn -r tsconfig-paths/register -- src/index.ts",
-		"dev:prod": "cross-env ENV=production ts-node-dev --respawn -r tsconfig-paths/register -- src/index.ts"
+		"dev": "tsx watch --clear-screen=false src/index.ts",
+		"dev:prod": "cross-env ENV=production tsx watch --clear-screen=false src/index.ts"
 	},
 	"commit-and-tag-version": {
 		"t": ""

@@ -7,7 +7,7 @@ import { commandsList } from "@/commands";
 import { initAll } from "@/cron";
 import { VERSION } from "@/root";
 
-dotenv.config({ path: ".env" });
+dotenv.config({ path: ".env", quiet: true });
 
 export default (client: EClient): void => {
 	client.on("clientReady", async () => {

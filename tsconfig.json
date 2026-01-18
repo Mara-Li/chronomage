@@ -1,6 +1,8 @@
 {
 	"ts-node": {
-		"require": ["tsconfig-paths/register"],
+		"require": [
+			"tsconfig-paths/register"
+		],
 		"esm": true,
 		"transpileOnly": true,
 		"experimentalSpecifierResolution": "node"
@@ -10,7 +12,7 @@
 	},
 	"compilerOptions": {
 		"target": "ESNext",
-		"module": "commonjs",
+		"module": "esnext",
 		"rootDir": "./",
 		"outDir": "./dist/",
 		"strict": true,
@@ -23,27 +25,68 @@
 		"resolveJsonModule": true,
 		"forceConsistentCasingInFileNames": true,
 		"removeComments": true,
-		"typeRoots": ["node_modules/@types", "src/@types"],
+		"typeRoots": [
+			"node_modules/@types",
+			"src/@types"
+		],
 		"sourceMap": false,
 		"baseUrl": "./",
 		"paths": {
-			"@/root": ["src/index"],
-			"@/client": ["src/client"],
-			"@/interface": ["src/interfaces/index"],
-			"@/interface/*": ["src/interfaces/*"],
-			"@/localization": ["src/localization/index"],
-			"@/discord_ext": ["src/discord_ext"],
-			"@/utils": ["src/utils"],
-			"@/cron/*": ["src/cron/*"],
-			"@/duration": ["src/duration"],
-			"@/buffer/*": ["src/buffer/*"],
-			"@/buffer": ["src/buffer/index"],
-			"@/commands/*": ["src/commands/*"],
-			"@/commands": ["src/commands/index"],
-			"@/cron": ["src/cron/index"]
+			"@/root": [
+				"src/index.js"
+			],
+			"@/client": [
+				"src/client"
+			],
+			"@/interface": [
+				"src/interfaces/index.js"
+			],
+			"@/interface/*": [
+				"src/interfaces/*"
+			],
+			"@/localization": [
+				"src/localization/index.js"
+			],
+			"@/discord_ext": [
+				"src/discord_ext.js"
+			],
+			"@/utils": [
+				"src/utils.js"
+			],
+			"@/cron/*": [
+				"src/cron/*"
+			],
+			"@/duration": [
+				"src/duration.js"
+			],
+			"@/buffer/*": [
+				"src/buffer/*"
+			],
+			"@/buffer": [
+				"src/buffer/index.js"
+			],
+			"@/commands/*": [
+				"src/commands/*"
+			],
+			"@/commands": [
+				"src/commands/index.js"
+			],
+			"@/cron": [
+				"src/cron/index.js"
+			]
 		}
 	},
-	"files": ["src/index.ts", "src/@types/parse-duration.d.ts"],
-	"include": ["./**/*.ts", "./**/*.json", "./**/*.d.ts"],
-	"exclude": ["node_modules", "dist"]
+	"files": [
+		"src/index.ts",
+		"src/@types/parse-duration.d.ts"
+	],
+	"include": [
+		"./**/*.ts",
+		"./**/*.json",
+		"./**/*.d.ts"
+	],
+	"exclude": [
+		"node_modules",
+		"dist"
+	]
 }

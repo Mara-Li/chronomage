@@ -3,7 +3,7 @@ import * as Djs from "discord.js";
 import type { EClient } from "@/client";
 import { cmdLn, t, tFn } from "@/localization";
 import { weather } from "./weather";
-import "@/discord_ext";
+import "../../discord_ext.js";
 import { getSettings } from "@/utils";
 import { LimitedMap } from "../../interfaces/limitedMap";
 import { count } from "./count";
