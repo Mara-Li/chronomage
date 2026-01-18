@@ -114,14 +114,14 @@ export async function altScheduleWizard(
 			return;
 		}
 
-		// 1. récupérer ce que l'utilisateur vient d'envoyer dans ce modal
+		// 1. retrieve what the user just submitted in this modal
 		const label = interaction.fields.getTextInputValue("label").trim();
 		const description = interaction.fields.fields.get("description")
 			? interaction.fields.getTextInputValue("description").trim()
 			: "";
-		const att = getBannerHash(interaction); // si t'as une bannière
+		const att = getBannerHash(interaction); // if you have a banner
 
-		// 2. maj du wizard state
+		// 2. update the wizard state
 		// Use current-1 as index (current is 1-based)
 		const currentIndex = state.current - 1;
 		const oldLabel = state.labels[currentIndex]; // Get the old label before replacing
@@ -153,7 +153,7 @@ export async function altScheduleWizard(
 		console.log(`  Description: "${description}"`);
 		console.log("  Current descriptions:", JSON.stringify(state.descriptions, null, 2));
 
-		Wizard.set(wizardKey(guildId, userId), state); // 3. S'il reste des étapes => on s'arrête là, on renvoie le bouton "Suivant"
+		Wizard.set(wizardKey(guildId, userId), state); // 3. If there are steps left => stop here and return the 'Next' button
 		if (state.current <= state.total) {
 			return await interaction.reply({
 				content: ul("modals.scheduleEvent.nextPrompt", {
@@ -165,7 +165,7 @@ export async function altScheduleWizard(
 			});
 		}
 
-		// 4. Sinon on est à la dernière étape : on enregistre le schedule en base
+		// 4. Otherwise we're at the last step: save the schedule to the DB
 		const { blocMs, startHHMM, lenMs, anchorISO, zone } = state.base;
 		const labels = state.labels;
 
@@ -286,10 +286,10 @@ export async function altScheduleWizard(
 
 		client.settings.set(guildId, g);
 
-		// 5. on clôture le wizard ici
+		// 5. close the wizard here
 		Wizard.delete(wizardKey(guildId, userId));
 
-		// 6. on répond direct à l'utilisateur, sans lancer ensureBufferForGuild maintenant
+		// 6. respond directly to the user without launching ensureBufferForGuild now
 		const isEditing = !!state.editingScheduleId;
 		await interaction.reply({
 			content: isEditing
@@ -297,7 +297,7 @@ export async function altScheduleWizard(
 				: ul("modals.scheduleEvent.completedQuick", { scheduleId }),
 		});
 
-		// fin. pas d'appel lourd ici.
+		// end. no heavy calls here.
 		await createEvent(guildId, scheduleId, client, interaction, ul);
 	} catch (err) {
 		console.error("[altScheduleWizard] error at final step:", err);
@@ -305,7 +305,7 @@ export async function altScheduleWizard(
 		if (!interaction.replied && !interaction.deferred) {
 			try {
 				await interaction.reply({
-					content: "Une erreur est survenue, l'événement n'a pas été planifié.",
+					content: "An error occurred, the event was not scheduled.",
 					flags: Djs.MessageFlags.Ephemeral,
 				});
 			} catch {

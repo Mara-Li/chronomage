@@ -2,7 +2,6 @@
 import * as Djs from "discord.js";
 import { cmdLn, t } from "@/localization";
 
-// Déclarations TypeScript
 declare module "discord.js" {
 	interface SlashCommandBuilder {
 		setNames(key: string): this;
@@ -14,6 +13,7 @@ declare module "discord.js" {
 		setDescriptions(key: string): this;
 	}
 
+	// noinspection JSClassNamingConvention
 	interface SlashCommandSubcommandGroupBuilder {
 		setNames(key: string): this;
 		setDescriptions(key: string): this;
@@ -44,6 +44,11 @@ declare module "discord.js" {
 		setDescriptions(key: string): this;
 	}
 
+	interface SlashCommandIntegerOption {
+		setNames(key: string): this;
+		setDescriptions(key: string): this;
+	}
+
 	interface SlashCommandMentionableOption {
 		setNames(key: string): this;
 		setDescriptions(key: string): this;
@@ -58,78 +63,47 @@ declare module "discord.js" {
 		setNames(key: string): this;
 		setDescriptions(key: string): this;
 	}
-
-	interface SlashCommandAttachmentOption {
-		setNames(key: string): this;
-		setDescriptions(key: string): this;
-	}
-
-	interface SlashCommandIntegerOption {
-		setNames(key: string): this;
-		setDescriptions(key: string): this;
-	}
 }
 
-// Implémentations avec typage explicite
-const setNamesImpl = function (this: any, key: string) {
-	return this.setName(t(key)).setNameLocalizations(cmdLn(key));
+const SET_NAMES_IMPL = function (this: any, key: string) {
+	return this.setName(t(key).toLowerCase()).setNameLocalizations(cmdLn(key, true));
 };
 
-const setDescriptionsImpl = function (this: any, key: string) {
+const SET_DESCRIPTIONS_IMPL = function (this: any, key: string) {
 	return this.setDescription(t(key)).setDescriptionLocalizations(cmdLn(key));
 };
 
-// Extension des prototypes
-Object.defineProperty(Djs.SlashCommandBuilder.prototype, "setNames", {
-	value: setNamesImpl,
-});
+/**
+ * Generic helper to apply setNames and setDescriptions methods to multiple prototypes.
+ * Reduces duplication and ensures consistency across all builder types.
+ *
+ * @param prototypes - Array of constructor prototypes to extend
+ */
+function applyLocalizationMethods(prototypes: (object | undefined)[]) {
+	for (const prototype of prototypes) {
+		if (prototype) {
+			Object.defineProperty(prototype, "setNames", { value: SET_NAMES_IMPL });
+			Object.defineProperty(prototype, "setDescriptions", {
+				value: SET_DESCRIPTIONS_IMPL,
+			});
+		}
+	}
+}
 
-Object.defineProperty(Djs.SlashCommandBuilder.prototype, "setDescriptions", {
-	value: setDescriptionsImpl,
-});
-
-Object.defineProperty(Djs.SlashCommandSubcommandBuilder.prototype, "setNames", {
-	value: setNamesImpl,
-});
-
-Object.defineProperty(Djs.SlashCommandSubcommandBuilder.prototype, "setDescriptions", {
-	value: setDescriptionsImpl,
-});
-
-// Ajout du support pour les groupes de sous-commandes
-Object.defineProperty(Djs.SlashCommandSubcommandGroupBuilder.prototype, "setNames", {
-	value: setNamesImpl,
-});
-
-Object.defineProperty(
+// Apply localization methods to all Discord.js builders and options
+applyLocalizationMethods([
+	// Command builders
+	Djs.SlashCommandBuilder.prototype,
+	Djs.SlashCommandSubcommandBuilder.prototype,
 	Djs.SlashCommandSubcommandGroupBuilder.prototype,
-	"setDescriptions",
-	{
-		value: setDescriptionsImpl,
-	}
-);
-
-// Extension des options avec accès sécurisé
-const optionTypes = [
-	{ name: "String", class: Djs.SlashCommandStringOption },
-	{ name: "Boolean", class: Djs.SlashCommandBooleanOption },
-	{ name: "Channel", class: Djs.SlashCommandChannelOption },
-	{ name: "Role", class: Djs.SlashCommandRoleOption },
-	{ name: "Number", class: Djs.SlashCommandNumberOption },
-	{ name: "Mentionable", class: Djs.SlashCommandMentionableOption },
-	{ name: "User", class: Djs.SlashCommandUserOption },
-	{ name: "Attachment", class: Djs.SlashCommandAttachmentOption },
-	{
-		name: "Integer",
-		class: Djs.SlashCommandIntegerOption,
-	},
-];
-
-optionTypes.forEach(({ class: optionClass }) => {
-	if (optionClass?.prototype) {
-		Object.defineProperty(optionClass.prototype, "setNames", { value: setNamesImpl });
-		Object.defineProperty(optionClass.prototype, "setDescriptions", {
-			value: setDescriptionsImpl,
-		});
-	}
-});
+	// Option types
+	Djs.SlashCommandStringOption.prototype,
+	Djs.SlashCommandBooleanOption.prototype,
+	Djs.SlashCommandChannelOption.prototype,
+	Djs.SlashCommandRoleOption.prototype,
+	Djs.SlashCommandNumberOption.prototype,
+	Djs.SlashCommandIntegerOption.prototype,
+	Djs.SlashCommandMentionableOption.prototype,
+	Djs.SlashCommandUserOption.prototype,
+	Djs.SlashCommandAttachmentOption.prototype,
+]);

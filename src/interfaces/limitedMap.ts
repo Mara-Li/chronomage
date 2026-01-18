@@ -1,6 +1,6 @@
 export class ErrorLimitReached extends Error {
 	constructor(maxSize: number) {
-		super(`Limite de ${maxSize} entrées atteinte`);
+		super(`Limit of ${maxSize} entries reached`);
 		this.name = "ErrorLimitReached";
 	}
 }

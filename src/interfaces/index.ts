@@ -69,7 +69,7 @@ export type Schedule = {
 	blockMs: number; // parse-duration
 	start: StartSpec; // { hhmm:"21:00", zone:"Europe/Paris" }
 	lenMs: number; // parse-duration
-	anchorISO: string; // YYYY-MM-DD (début de journée locale)
+	anchorISO: string; // YYYY-MM-DD (start of local day)
 	nextBlockIndex: number;
 	active: boolean;
 	createdBy: string;
@@ -116,7 +116,7 @@ export type WizardState = {
 	guildId: string;
 	userId: string;
 	total: number;
-	current: number; // index en cours (1-based)
+	current: number; // current index (1-based)
 	base: {
 		blocMs: number;
 		startHHMM: string;

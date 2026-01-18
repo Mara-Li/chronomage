@@ -198,7 +198,7 @@ export function anchorIsoDate(
 		interaction.options.getString(t("anchor.name")) ??
 		DateTime.now().setZone(zone).plus({ minutes: 30 }).toISO();
 
-	// 2. on essaie deux parse possibles : format custom et ISO
+	// 2. try two parses: custom format and ISO
 	const parsedFromFormat =
 		date && rawAnchor
 			? DateTime.fromFormat(rawAnchor, date.format, { zone, locale })
@@ -206,7 +206,7 @@ export function anchorIsoDate(
 
 	const parsedFromISO = rawAnchor ? DateTime.fromISO(rawAnchor, { zone }) : null;
 
-	// 3. choisir la première date valide
+	// 3. pick the first valid date
 	const parsed = parsedFromFormat?.isValid
 		? parsedFromFormat
 		: parsedFromISO?.isValid
@@ -224,10 +224,10 @@ export function anchorIsoDate(
 		return;
 	}
 
-	// 4. normaliser en YYYY-MM-DD (=> ton "anchor" final)
+	// 4. normalize to YYYY-MM-DD (this is the final anchor)
 	const anchor = parsed.toISODate()!;
 
-	// 5. vérifier que c'est pas dans le passé dans ce fuseau
+	// 5. ensure it's not in the past in this timezone
 	const nowInZone = DateTime.now().setZone(zone);
 	if (parsed < nowInZone) {
 		interaction.reply({

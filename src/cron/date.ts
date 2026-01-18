@@ -24,10 +24,10 @@ export function setDate(guild: Djs.Guild, client: EClient) {
 			const liveSettings = client.settings.get(guild.id);
 			const liveCounter = liveSettings?.templates?.date;
 
-			// currentValue actuel en base, sinon fallback
+			// currentValue in DB, otherwise fallback
 			let currentValue = liveCounter?.currentValue;
 			if (!currentValue) {
-				// init de départ : start > sinon now
+				// initial value: start > otherwise now
 				currentValue =
 					(counter.start &&
 						(DateTime.fromISO(counter.start, { zone: stableZone }).toISO() ||
@@ -39,8 +39,8 @@ export function setDate(guild: Djs.Guild, client: EClient) {
 			// Parse + avance
 			const date = DateTime.fromISO(currentValue, { zone: stableZone });
 
-			// NOTE: counter.step est censé être un Duration-like (ms)
-			// Si c'est bien un objet { days: 4 } etc., ajuste ici.
+			// NOTE: counter.step is expected to be a Duration-like (ms)
+			// If it's an object like { days: 4 }, adjust here.
 			const newCurrent = date.plus(counter.step).toISO();
 
 			// Persiste la nouvelle valeur

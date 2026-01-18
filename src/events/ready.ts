@@ -41,7 +41,7 @@ export default (client: EClient): void => {
 			}
 		});
 
-		// Exécuter toutes les promesses en parallèle
+		// Execute all promises in parallel
 		await Promise.all(guildPromises);
 		console.info("All guilds registered.");
 		//create a cron job that runs every 5 minute to check all guilds

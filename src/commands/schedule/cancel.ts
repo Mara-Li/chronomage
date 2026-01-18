@@ -16,21 +16,21 @@ export async function deleteSchedule(
 	for (const k of Object.keys(g.events)) {
 		const key = k as keyof typeof g.events;
 		const event = g.events[key];
-		// Ne toucher qu'aux événements qui appartiennent au scheduleId ciblé
+		// Only touch events that belong to the targeted scheduleId
 		if (event.scheduleId !== scheduleId) continue;
 
-		// Si l'événement a été créé sur Discord, supprimer uniquement celui-ci
+		// If the event was created on Discord, delete only that one
 		if (event.discordEventId) {
 			try {
-				// fetch() pour s'assurer d'obtenir l'événement même s'il n'est pas en cache
+				// fetch() to ensure we get the event even if it's not cached
 				const ev = await guild.scheduledEvents.fetch(event.discordEventId);
 				await ev?.delete();
 			} catch (err) {
-				//pass
+				// ignore
 			}
 		}
 
-		// Supprimer l'event des données locales
+		// Remove the event from local data
 		delete g.events[key];
 	}
 

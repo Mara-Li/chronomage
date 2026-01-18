@@ -24,7 +24,7 @@ export function setWeather(guild: Djs.Guild, client: EClient) {
 		cron,
 		async () => {
 			const liveSettings = client.settings.get(guild.id);
-			// Ici, on pourrait appeler une fonction pour mettre à jour la météo
+			// Here we could call a function to update the weather
 			const liveCounter = liveSettings?.templates.weather;
 			if (!liveCounter) return;
 			let locale = liveSettings?.settings?.language || "en-US";
@@ -60,7 +60,7 @@ export function setWeather(guild: Djs.Guild, client: EClient) {
 		},
 		null,
 		true,
-		stableZone // <- timezone utilisée par le CronJob lui-même
+		stableZone // <- timezone used by the CronJob itself
 	);
 	WeatherJobs.set(guild.id, job);
 }

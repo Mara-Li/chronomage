@@ -23,11 +23,11 @@ export function parseDurationLocalized(input: string, discordLocale?: string): n
 	parse.unit = LOCALES[localeKey]; // active la locale
 
 	try {
-		// Optionnel : tu peux passer une unité de sortie, ex. 'm' pour minutes
-		const ms = parse(input); // → number en millisecondes
-		if (ms == null) throw new Error(`Durée invalide: "${input}"`);
+		// Optional: you can pass an output unit, e.g. 'm' for minutes
+		const ms = parse(input); // → number in milliseconds
+		if (ms == null) throw new Error(`Invalid duration: "${input}"`);
 		return ms;
 	} finally {
-		parse.unit = prevUnit; // restaure pour ne pas polluer d’autres appels
+		parse.unit = prevUnit; // restore to avoid affecting other calls
 	}
 }

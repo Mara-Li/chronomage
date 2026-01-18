@@ -6,7 +6,7 @@ import type { BannerSpec } from "@/interface";
 import { eventKey } from "../interfaces/constant";
 import { blockStartAt, labelAt, processTemplate } from "./utils";
 
-const FUTURE_MIN_BLOCKS = 2; // nombre d'événements futurs qu'on veut toujours visibles
+const FUTURE_MIN_BLOCKS = 2; // number of future events we always want visible
 
 export async function ensureBufferForGuild(client: EClient, guildId: string) {
 	const g = client.settings.get(guildId);
@@ -20,7 +20,7 @@ export async function ensureBufferForGuild(client: EClient, guildId: string) {
 		const zone = s.start.zone;
 		const now = DateTime.now().setZone(zone);
 
-		// 1️⃣ calcule une seule fois combien d'events futurs existent déjà
+		// 1️⃣ compute once how many future events already exist
 		let futureCount = Object.values(g.events ?? {}).filter((ev) => {
 			if (ev.scheduleId !== scheduleId) return false;
 			if (ev.status !== "created") return false;
@@ -31,11 +31,11 @@ export async function ensureBufferForGuild(client: EClient, guildId: string) {
 		let k = s.nextBlockIndex;
 		let changed = false;
 
-		// 2️⃣ tant qu'on n'a pas atteint le quota, on essaie d'ajouter des blocs
+		// 2️⃣ while we haven't reached the quota, attempt to add blocks
 		while (futureCount < FutureMinBlocks) {
-			const start = blockStartAt(s, k); // début théorique du bloc k
+			const start = blockStartAt(s, k); // theoretical start of block k
 
-			// si ce bloc est déjà passé ou en cours → on le compte comme "consommé"
+			// if this block is already past or ongoing → count it as "consumed"
 			if (start <= now) {
 				k++;
 				continue;
@@ -44,24 +44,24 @@ export async function ensureBufferForGuild(client: EClient, guildId: string) {
 			const startIso = start.toISO()!;
 			const key = eventKey(scheduleId, startIso);
 
-			// si on l'a déjà dans g.events (même s'il vient d'une exécution précédente), on ne le recrée pas
+			// if it's already in g.events (even if from a previous run), do not recreate it
 			if (g.events[key]) {
-				// il existe déjà => donc c'est un bloc futur valide => on considère qu'il fait partie du futur visible
+				// it already exists => so it's a valid future block => consider it part of visible future
 				futureCount++;
 				k++;
 				continue;
 			}
 
-			// sinon, faut le créer maintenant
+			// otherwise, create it now
 			const guild = client.guilds.cache.get(guildId);
-			if (!guild) break; // plus de guilde dispo → on arrête ici proprement
+			if (!guild) break; // no guild available anymore → stop here cleanly
 
 			const end = start.plus({ milliseconds: s.lenMs });
 			const label = labelAt(s, k);
 
 			const rawDescription = s.description?.[label];
 
-			// prépare les champs liés au type d'event discord
+			// prepare fields related to the type of discord event
 			const entityType = Number(s.locationType) as Djs.GuildScheduledEventEntityType;
 			const needsChannel =
 				entityType === Djs.GuildScheduledEventEntityType.Voice ||
@@ -88,7 +88,7 @@ export async function ensureBufferForGuild(client: EClient, guildId: string) {
 					: undefined,
 			});
 
-			// Sauvegarde dans la DB interne
+			// Save to internal DB
 			g.events[key] = {
 				scheduleId,
 				discordEventId: ev.id,
@@ -103,17 +103,17 @@ export async function ensureBufferForGuild(client: EClient, guildId: string) {
 			};
 
 			changed = true;
-			futureCount++; // on vient d'ajouter un futur event
-			k++; // on avance sur le bloc suivant
+			futureCount++; // we just added a future event
+			k++; // move to the next block
 		}
 
-		// 3️⃣ Mettre à jour le pointeur du schedule si besoin
+		// 3️⃣ Update the schedule pointer if needed
 		if (k !== s.nextBlockIndex) {
 			s.nextBlockIndex = k;
 			changed = true;
 		}
 
-		// 4️⃣ Persister dans les settings seulement si y'a eu un changement
+		// 4️⃣ Persist into settings only if there was a change
 		if (changed) {
 			g.schedules[scheduleId] = s;
 			client.settings.set(guildId, g);
@@ -123,7 +123,7 @@ export async function ensureBufferForGuild(client: EClient, guildId: string) {
 
 async function bufferBanner(banner?: BannerSpec) {
 	if (banner) {
-		// download depuis CDN Discord
+		// download from Discord CDN
 		const res = await fetch(banner.url);
 		const arr = await res.arrayBuffer();
 		return Buffer.from(arr);
