@@ -1,12 +1,12 @@
 // esbuild.config.mjs
 import { copyFileSync, mkdirSync, rmSync } from "node:fs";
 import * as path from "node:path";
-import dotenv from "dotenv";
+import { loadEnvFile } from "node:process";
 import { build } from "esbuild";
 import { fixImportsPlugin, writeFilePlugin } from "esbuild-fix-imports-plugin";
 import { glob } from "glob";
 
-dotenv.config({ quiet: true });
+loadEnvFile(".env");
 
 rmSync("./dist", { force: true, recursive: true });
 

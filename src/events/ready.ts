@@ -1,13 +1,12 @@
-import process from "node:process";
+import process, { loadEnvFile } from "node:process";
 import { CronJob } from "cron";
-import dotenv from "dotenv";
 import { ensureBufferForGuild } from "@/buffer";
 import type { EClient } from "@/client";
 import { commandsList } from "@/commands";
 import { initAll } from "@/cron";
 import { VERSION } from "@/root";
 
-dotenv.config({ path: ".env", quiet: true });
+loadEnvFile(".env");
 
 export default (client: EClient): void => {
 	client.on("clientReady", async () => {
