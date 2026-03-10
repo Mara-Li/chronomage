@@ -1,6 +1,6 @@
 import * as process from "node:process";
+import { loadEnvFile } from "node:process";
 import * as Djs from "discord.js";
-import dotenv from "dotenv";
 import { EClient } from "@/client";
 import "uniformize";
 import * as pkg from "../package.json" with { type: "json" };
@@ -11,7 +11,7 @@ import {
 	onChannelUpdate,
 } from "./events/channelUpdate";
 
-dotenv.config({ path: ".env", quiet: true });
+loadEnvFile(".env");
 
 export const client = new EClient({
 	intents: [

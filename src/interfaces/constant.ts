@@ -16,12 +16,12 @@ export const TEMPLATES = {
 };
 
 export const CHANNEL_TEMPLATES = {
-	date: /«{2}date»{2}/gi,
-	count: /«{2}count»{2}/gi,
+	date: /§date§/gi,
+	count: /§count§/gi,
 	weather: {
-		short: /«{2}weather-(short)»{2}/gi,
-		emoji: /«{2}weather-(emoji)»{2}/gi,
-		long: /«{2}weather-(long)»{2}/gi,
+		short: /§weather-(short)§/gi,
+		emoji: /§weather-(emoji)§/gi,
+		long: /§weather-(long)§/gi,
 	},
 };
 
