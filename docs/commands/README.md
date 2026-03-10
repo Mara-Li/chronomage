@@ -1,10 +1,10 @@
-# Commands
+# Commands Reference
 
-Short, practical reference for all slash commands. This folder contains one file per command for easier navigation.
+Practical reference for all slash commands. Each command requires the **Manage Events** permission except `/weather`.
 
-- [Schedule](/commands/schedule.md)
-- [Settings](/commands/settings.md)
-- [Variables](/commands/variables.md)
-- [Weather](/commands/weather.md)
+- [/schedule](schedule.md) — create and manage recurring event cycles
+- [/variables](variables.md) — configure templates for placeholders
+- [/settings](settings.md) — configure bot behavior
+- [/weather](weather.md) — get current weather
 
 See individual pages for detailed options and examples.

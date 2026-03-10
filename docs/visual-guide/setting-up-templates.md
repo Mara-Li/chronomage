@@ -1,73 +1,54 @@
 ## Setting Up Templates
 
-### Date Template
+### Date template
 
-Command:
-```
-/variables date
-```
+[SCREENSHOT]
 
-Without options:
-- Shows current date template settings
-- Format, timezone, step, cron, etc.
-- Shows example output
-
-With options (to configure):
 ```
-/variables date format:yyyy-LL-dd timezone:America/New_York step:1d
+/variables config date
 ```
 
-Response:
-- Success message
-- Confirmation of new settings
-- Example of how `{{date}}` will appear
+Without options: shows current settings (format, timezone, step, cron, current value).
 
-### Count Template
-
-Command:
+To configure:
 ```
-/variables count
+/variables config date format:yyyy-LL-dd timezone:America/New_York step:1d
 ```
 
-Configuration example:
-```
-/variables count start:1 step:1 decimal:0
-```
+The bot replies with a confirmation and an example of how `{{date}}` will render.
 
-Response:
-- Success message
-- Current counter value
-- How it will increment
+### Count template
 
-### Weather Template
+[SCREENSHOT]
 
-Command:
 ```
-/variables weather
+/variables config count
 ```
 
-Configuration example:
+To configure:
 ```
-/variables weather location:London compute_at_start:true
+/variables config count start_number:1 step:1 decimal:0
 ```
 
-Response:
-- Success message
-- Confirmation of location
-- Note about compute_at_start setting
+### Weather template
 
-### Testing Weather
+[SCREENSHOT]
 
-Command:
+```
+/variables config weather
+```
+
+To configure:
+```
+/variables config weather location:London compute_at_start:true
+```
+
+### Testing weather
+
 ```
 /weather location:London
 ```
 
-Response:
-- Current weather description for the city
-- Temperature and conditions
-- Similar to what `{{weather:long}}` will show
+Returns current weather — similar to what `{{weather:long}}` will show.
 
-If location not found:
-- Error message: "Location not found"
-- Suggestion to try different spelling
+If the location is not found, the bot replies with an ephemeral error. Try adding the country (`London, UK`) or a different spelling.

@@ -1,23 +1,40 @@
 # Core Concepts
 
-## Schedules
+## Schedules and cycles
 
-A schedule is a repeating pattern for events. Define:
-- Frequency (e.g., every 2 days)
-- Daily start time (e.g., 21:00)
-- Duration (e.g., 2 hours)
-- Labels/descriptions (cycle)
-- Location (channel or external)
+A **schedule** is a repeating pattern that defines:
+- **Bloc** — interval between successive events (e.g., every 2 days)
+- **Start time** — daily HH:MM when each event begins (e.g., `21:00`)
+- **Duration** — length of each event (e.g., `2h`)
+- **Labels** — a list of event titles that cycle in order (e.g., [A, B, C] → block 0=A, 1=B, 2=C, 3=A, …)
+- **Location** — a Discord Voice/Stage channel or a plain text location
 
-## Cycles
-
-A schedule can contain a cycle of labels. The bot rotates through them each occurrence.
+The schedule repeats indefinitely. The bot uses a background job (running every 5 minutes) to maintain the configured number of future events.
 
 ## Buffer
 
-The buffer is how many future events Chronomage keeps created at all times (configurable).
+The **buffer** is how many future events Chronomage keeps created in Discord at all times. Controlled by `/settings future_min_blocks` (default: 2). When an event passes, the bot creates a new one to refill the buffer.
 
-## Templates and Placeholders
+## Templates and placeholders
 
-Use placeholders to insert dynamic content into event names/descriptions:
-- `{{date}}`, `{{count}}`, `{{weather:emoji}}`, `{{weather:short}}`, `{{weather:long}}`
+Use placeholders in event labels and descriptions:
+
+| Placeholder | Description |
+|---|---|
+| `{{date}}` | Current value from the date template |
+| `{{count}}` | Current value from the count template |
+| `{{weather:emoji}}` | Weather icon |
+| `{{weather:short}}` | Short weather description |
+| `{{weather:long}}` | Full weather description |
+
+Templates are configured with `/variables config date|count|weather`.
+
+Each template has a cron schedule that advances its value. Template values can be computed either at event creation time or when the event starts (`compute_at_start`).
+
+## Channel templates
+
+In addition to event placeholders, you can configure channels to be auto-renamed or receive a message whenever a template value changes. Channel templates use `««double guillemets»»` delimiters:
+
+`Session ««count»» — ««date»»`
+
+Configure with `/variables channel rename` and `/variables channel send`.

@@ -1,46 +1,50 @@
 ## Managing Schedules
 
-### Pausing a Schedule
+### Pausing a schedule
 
-Command:
+[SCREENSHOT]
+
 ```
 /schedule pause id:your-schedule-id
 ```
 
 Steps:
-1. Get schedule ID from `/schedule list`
-2. Copy the ID
-3. Use in pause command
-4. Bot confirms schedule is paused
+1. Get the schedule ID from `/schedule list`
+2. Run the pause command with that ID
 
-What happens:
-- Schedule stops creating new events
-- Existing events remain
-- No new events until you delete and recreate the schedule
+After pausing:
+- The cycle stops creating new events
+- Existing events remain in Discord until they occur
+- To restart: cancel and recreate the schedule (there is no resume)
 
-### Canceling a Schedule
+### Canceling a schedule
 
-Command (single):
 ```
 /schedule cancel id:your-schedule-id
-```
-
-Command (all):
-```
 /schedule cancel id:all
 ```
 
-Warning prompt:
-- Bot asks for confirmation
-- Shows what will be deleted
-- Requires confirmation click
-
 After confirmation:
-- Schedule is permanently deleted
+- The cycle is permanently deleted
 - Future events are removed from Discord
 - Past events remain in Discord history
-- Success message appears
 
-Cannot undo:
-- This action is permanent
-- You'll need to recreate the schedule if needed
+### Editing a schedule
+
+**Edit timing and location:**
+```
+/schedule edit config id:your-schedule-id
+```
+
+[SCREENSHOT]
+
+Provide only the options you want to change (`bloc`, `len`, `start_time`, `timezone`, `location_elsewhere`, `location_channel`).
+
+**Edit labels, descriptions, and banners:**
+```
+/schedule edit blocs id:your-schedule-id
+```
+
+[SCREENSHOT]
+
+The wizard reopens so you can update each event's label, description, and banner image.

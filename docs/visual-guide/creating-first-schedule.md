@@ -1,31 +1,32 @@
 ## Creating Your First Schedule
 
-### Step 1: Start the Create Command
+### Step 1: Run the create command
 
-Command:
 ```
 /schedule create
 ```
 
-You'll see these options appear:
+[SCREENSHOT]
 
-Required (red asterisk):
-- `count` - Number of different event labels
-- `bloc` - Time between events (e.g., "2d", "1w")
-- `start_time` - Daily start time (HH:MM format)
-- `len` - Event duration (e.g., "2h")
+Options that appear:
 
-Location (choose one):
-- `location_elsewhere` - For external events (text)
-- `location_channel` - For Voice/Stage channels
+**Required:**
+- `count` — number of different event labels (1–20)
+- `bloc` — time between events (e.g., `2d`, `1w`)
+- `start_time` — daily start time in HH:MM format
+- `len` — event duration (e.g., `2h`)
 
-Optional:
-- `start_date` - When to start (defaults to today)
-- `timezone` - Override server timezone
+**Location (choose one):**
+- `location_elsewhere` — plain text for external events
+- `location_channel` — Voice or Stage channel
 
-### Step 2: Fill in the Options
+**Optional:**
+- `start_date` — when to start (defaults to today)
+- `timezone` — override server timezone
 
-Example for weekly game night:
+### Step 2: Fill in the options
+
+Example for a weekly game night:
 ```
 /schedule create
   count: 3
@@ -36,14 +37,17 @@ Example for weekly game night:
   timezone: America/New_York
 ```
 
-Tips:
-- Click on each option to fill it in
-- Required fields must be completed
-- You can press Tab to move between fields
+### Step 3: Submit and use the wizard
 
-### Step 3: Submit the Command
+After pressing Enter, a wizard message appears. Click **Next** to begin entering labels.
 
-What happens:
-1. Press Enter to submit
-2. Bot processes your request
-3. A wizard button message appears
+[SCREENSHOT]
+
+For each label (1 through count), a modal appears with three fields:
+1. **Label** (required) — event title; placeholders like `{{date}}` are supported
+2. **Description** (optional) — appears when users click the event
+3. **Banner** (optional) — public image URL
+
+[SCREENSHOT]
+
+Submit each modal. After the last one, the bot confirms the cycle was created.

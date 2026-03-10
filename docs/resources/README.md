@@ -1,320 +1,181 @@
-# Frequently Asked Questions (FAQ)
+# Frequently Asked Questions
 
-Common questions and answers about using Chronomage.
-
-## General Questions
+## General
 
 ### What is Chronomage?
 
-Chronomage is a Discord bot that automatically creates and manages recurring scheduled events. Instead of manually creating the same events repeatedly, you define a pattern once, and the bot handles the rest.
+Chronomage is a Discord bot that automatically creates and manages recurring scheduled events. Define a pattern once, and the bot maintains future events automatically.
 
 ### Is Chronomage free to use?
 
-Yes, Chronomage is completely free to use. There are no premium features or paid tiers.
-And there will be never. The bot is self-host on a Raspberry Pi, so the bot is completely free on my side… At last at the cost of my electricity. 
+Yes, completely free with no premium features or paid tiers.
 
 ### What permissions does the bot need?
 
-The bot requires:
-- **Manage Events** permission (required)
-- **Manage channels** permission (*not required*), for autochannel renaming.
+- **Manage Events** (required for all schedule and template commands)
+- **Manage Channels** (optional, only needed for auto-channel renaming)
 - Channel permissions for Voice/Stage events (if applicable)
 
 ### Which languages are supported?
 
-Chronomage currently supports:
 - English
-- French (Français)
+- Français (French)
 
-You can set your preferred language using `/settings language`.
+Set your preference with `/settings language`.
 
-### How do I invite the bot to my server?
+### How do I invite the bot?
 
-Contact the bot administrator or developer for an invite link. The bot owner must generate an OAuth2 invite link with the appropriate permissions.
+Contact the bot administrator or developer for an invite link. The invite must include the `bot` and `applications.commands` scopes with the **Manage Events** permission.
 
 ---
 
-## Schedule Questions
+## Schedules
 
 ### Can I create events that start in the past?
 
-No, Chronomage only creates future events. If your `start_date` is in the past, the bot will start from the next occurrence based on your `bloc` interval.
+No. If `start_date` is in the past, the bot starts from the next occurrence based on the `bloc` interval.
 
-### What's the maximum number of labels I can have in a cycle?
+### What is the maximum number of labels in a cycle?
 
-There's no hard technical limit, but very large cycles (50+ labels) may slow down the wizard process. We recommend keeping cycles reasonable (typically 3-10 labels).
+Up to 20 labels (enforced by the `count` option). The wizard handles them one at a time.
 
 ### Can I edit a schedule after creating it?
 
-Direct editing is not currently supported. To modify a schedule:
-1. Note your current settings
-2. Cancel the schedule using `/schedule cancel`
-3. Create a new schedule with updated settings
+Yes:
+- `/schedule edit config` — change timing, duration, location, or time zone
+- `/schedule edit blocs` — update labels, descriptions, and banners via the wizard
 
-Future versions may add edit functionality.
+### What happens if I delete a bot-created event manually?
 
-### What happens if I manually delete a bot-created event?
+The bot will recreate it to maintain the configured buffer. To permanently stop a cycle, use `/schedule cancel`.
 
-The bot will recreate the event to maintain the configured buffer. To permanently remove events, you must cancel the schedule using `/schedule cancel`.
+### Can I have multiple schedules?
 
-### Can I have multiple schedules running at once?
-
-Yes! You can create as many schedules as you need. Each operates independently with its own timing, cycle, and templates.
+Yes. Each schedule operates independently with its own timing, labels, and templates.
 
 ### Why aren't my events being created?
 
-Common reasons:
-- Discord has reached its maximum events limit (100 per server)
-- The bot lacks proper permissions
-- The schedule is paused
-- The start date is too far in the future
-- There's a connectivity issue with Discord
-
-Use `/schedule list` to check if your schedule is active.
+Common causes:
+- Discord's 100 scheduled events per server limit has been reached (delete old events)
+- The bot lacks Manage Events permission
+- The schedule is paused (`/schedule list` to check status)
+- The start date is in the future
+- Connectivity issue with Discord
 
 ### Can I pause a schedule and resume it later?
 
-You can pause a schedule using `/schedule pause`, but there's currently no unpause feature. Paused schedules stop creating new events, but existing events remain.
+You can pause with `/schedule pause`. There is no resume command — to restart, cancel and recreate the schedule.
 
 ---
 
-## Template Questions
+## Templates and placeholders
 
 ### What are placeholders?
 
-Placeholders are special codes like `{{date}}`, `{{count}}`, or `{{weather:short}}` that get replaced with dynamic content when events are created or started.
+Special codes like `{{date}}`, `{{count}}`, or `{{weather:short}}` that get replaced with dynamic content when events are created or started.
 
-### How do I use placeholders in my events?
+### How do I use placeholders?
 
-1. Configure the relevant template using `/variables` commands
-2. Include the placeholder in your event label or description
+1. Configure the template with `/variables config date` (or `count`/`weather`)
+2. Include the placeholder in your event label or description when creating the schedule
 3. The bot replaces it automatically
 
-Example: "Weekly Meeting - {{date}}" becomes "Weekly Meeting - 2025-10-25"
+### What is compute_at_start?
 
-### What's the difference between compute_at_start true and false?
+- **`false` (default)**: placeholder is resolved when the event is *created*
+- **`true`**: placeholder stays literal until the event *starts*
 
-- **False** (default): The placeholder is replaced when the event is *created*
-- **True**: The placeholder stays as `{{...}}` until the event actually *starts*
-
-Use `true` for:
-- Weather (to get current conditions)
-- Time-sensitive information
-
-Use `false` for:
-- Fixed counters
-- Dates that should reflect creation time
+Use `true` for weather (current conditions at event time) and `false` for counters or dates that should reflect the creation time.
 
 ### Can I use multiple placeholders in one event?
 
-Yes! You can use any combination of placeholders:
-```
-"Episode {{count}}: {{date}} - {{weather:emoji}}"
-```
+Yes: `Episode {{count}}: {{date}} — {{weather:emoji}}`
 
 ### Why are my placeholders not working?
 
-Common issues:
-- Template not configured - run `/variables <type>` without options to check
-- Typo in placeholder syntax - ensure correct format like `{{date}}`
-- Wrong placeholder name - use exact names like `{{weather:short}}`, not `{{weather:description}}`
+- Template not configured — run `/variables config date` (no options) to check
+- Typo in placeholder — must be exact: `{{date}}`, not `{date}` or `{{ date }}`
+- `compute_at_start:true` is set — the placeholder stays literal until the event starts (this is expected)
 
 ### How do I format dates?
 
-Use the `format` option in `/variables date`. Common formats:
-- `f` - Short format: "10/25/2025, 9:00 PM"
-- `FF` - Full format: "Saturday, October 25, 2025, 9:00 PM EDT"
-- `yyyy-LL-dd` - ISO format: "2025-10-25"
-- `yyyy-LL-dd HH:mm` - ISO with time: "2025-10-25 21:00"
+Use Luxon format tokens via `/variables config date format:...`. Common values:
+- `f` — `10/25/2025, 9:00 PM`
+- `FF` — `Saturday, October 25, 2025, 9:00 PM EDT`
+- `yyyy-LL-dd` — `2025-10-25`
 
-See [Luxon documentation](https://moment.github.io/luxon/#/formatting) for all format tokens.
+See [Luxon documentation](https://moment.github.io/luxon/#/formatting) for all tokens.
 
 ### Can I use templates in manually created events?
 
-Yes, if you enable `compute_at_start:true` on your templates! Create an event manually (through Discord) and include placeholders like `{{date}}` - they'll be updated when the event starts.
+Yes, with `compute_at_start:true`. Create the event in Discord, include placeholders in the title/description, and they will be resolved when the event starts.
 
 ---
 
-## Weather Questions
+## Weather
 
-### How accurate is the weather information?
+### How accurate is weather data?
 
-Weather data comes from third-party services and is generally accurate, but:
-- It's a forecast, not guaranteed
-- Data may be delayed by a few minutes
-- Some locations may not be available
-
-Don't rely on bot weather for critical decisions.
+Enable `compute_at_start:true` so weather is fetched when the event starts, not when it was scheduled days in advance.
 
 ### Why can't the bot find my city?
 
-Try:
-- Using the English name of the city
-- Adding the country (e.g., "London, UK")
-- Trying a nearby larger city
-- Checking spelling
+- Add the country: `London, UK` instead of `London`
+- Use the English name
+- Try a nearby larger city
+- Check for typos
 
-### When is weather data fetched?
+### Can I use different locations for different events?
 
-Depends on your `compute_at_start` setting:
-- **False**: When the event is created (could be days or weeks before)
-- **True**: When the event actually starts (most accurate)
-
-We recommend `compute_at_start:true` for weather.
-
-### Can I use different weather locations for different events?
-
-Currently, there's one global weather template per server. All weather placeholders use the same configured city.
+Currently there is one global weather template per guild. All weather placeholders use the same configured city.
 
 ---
 
-## Configuration Questions
+## Configuration
 
-### What's a "buffer" and how should I set it?
+### What is the buffer and how should I set it?
 
-The buffer is how many future events the bot keeps created at all times. 
+The buffer is how many future events the bot keeps created at all times (`/settings future_min_blocks`). Recommendations:
+- Weekly events: 2–3
+- Daily events: 5–7
+- Multiple events per day: 10+
 
-Recommendations:
-- **Weekly events**: 2-3 buffer
-- **Daily events**: 5-7 buffer
-- **Multiple times per day**: 10+ buffer
+### What time zone format should I use?
 
-Setting: `/settings future_min_blocks:5`
+IANA names: `America/New_York`, `Europe/London`, `Asia/Tokyo`, etc.
+[Full list](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
 
-### What timezone should I use?
+### Can different schedules use different time zones?
 
-Use [IANA timezone names](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) like:
-- "America/New_York"
-- "Europe/London"
-- "Asia/Tokyo"
-- "Pacific/Auckland"
-
-Set server default with: `/settings timezone:America/New_York`
-
-### Can different schedules use different timezones?
-
-Yes! Each schedule can have its own timezone specified during creation. If not specified, it uses the server default.
-
-### How do I change the bot's language?
-
-Use `/settings language` and choose English or Français. This affects:
-- Bot response messages
-- Command descriptions (where Discord supports it)
+Yes — specify `timezone` when running `/schedule create`. Each schedule uses its own zone. If omitted, the server default is used.
 
 ---
 
-## Technical Questions
+## Technical
 
 ### Where is my data stored?
 
-Data is stored locally in a SQLite database on the server hosting the bot. See our [Privacy Policy](legals/PRIVACY_POLICY.md) for details.
+In a local SQLite database (`data/enmap.sqlite`) on the server hosting the bot. See [Privacy Policy](../legals/PRIVACY_POLICY.md).
 
-### Can I export my schedules?
+### What happens if the bot goes offline?
 
-Currently, there's no export feature. You can view schedules with `/schedule list` and manually record the information.
+Existing Discord events remain. When the bot comes back online it catches up and recreates any missing future events.
 
-### What happens to my data if I remove the bot?
+### Can the bot read my messages?
 
-When the bot is removed from your server:
-- Your data may be retained for up to 30 days
-- Events remain on Discord (subject to Discord's policies)
-- After 30 days, your data is permanently deleted
-
-### Is my data secure?
-
-We implement standard security practices:
-- Restricted database access
-- No data sharing with third parties (except Discord API and weather services)
-- Regular backups
-- See [Privacy Policy](legals/PRIVACY_POLICY.md) for complete details
-
-### Can the bot see my server's messages?
-
-No. The bot only receives:
-- Slash commands you send to it
-- Events related to scheduled events
-- Basic server information (ID, name)
-
-It cannot read your conversations.
+No. The bot only receives slash command interactions, scheduled event status changes, and basic server info (ID, name).
 
 ---
 
-## Error Messages
+## Error messages
 
-### "Missing permissions"
-
-The bot needs "Manage Events" permission. Check:
-1. Server Settings → Roles → Bot Role → Permissions
-2. Channel Settings → Permissions → Bot Role (for Voice/Stage)
-
-### "Location not found" (weather)
-
-Try:
-- Different spelling
-- Add country name
-- Use a nearby larger city
-- Check for typos
-
-### "Invalid duration"
-
-Durations should be like:
-- "2h" or "2 hours"
-- "1d" or "1 day"
-- "30m" or "30 minutes"
-- Combined: "2h30m"
-
-### "Invalid time format"
-
-Time should be in HH:MM format (24-hour):
-- Correct: "21:00", "09:30", "14:15"
-- Incorrect: "9pm", "9:30pm", "25:00"
-
-### "Maximum events reached"
-
-Discord limits servers to 100 scheduled events. To fix:
-- Delete old/past events from Discord
-- Reduce your buffer size
-- Cancel unused schedules
-
----
-
-## Best Practices
-
-### For Events
-
-- **Test first**: Create a test schedule with short intervals to verify everything works
-- **Clear labels**: Make event names descriptive and easy to understand
-- **Use descriptions**: Add details about what to expect
-- **Set appropriate buffer**: Balance between readiness and not creating too far ahead
-
-### For Templates
-
-- **Weather at start**: Always use `compute_at_start:true` for weather
-- **Date formats**: Choose formats your audience understands
-- **Counter placement**: Put counters at the start of titles for easy scanning
-- **Test placeholders**: Create a test event to verify rendering
-
-### For Server Management
-
-- **Document schedules**: Keep notes on what each schedule is for
-- **Regular reviews**: Periodically check and clean up unused schedules
-- **Coordinate changes**: Inform members before major schedule changes
-- **Backup settings**: Note your configurations in case you need to recreate them
-
----
-
-## Still Need Help?
-
-If your question isn't answered here:
-
-1. Check the [User Guide](USER_GUIDE.md) for detailed information
-2. Review the [Commands Reference](commands/README.md) for syntax
-3. Read the [Templates Guide](Templates.md) for placeholder details
-4. Contact your server administrator
-5. Report issues to the bot developer
-
----
-
-**Last Updated**: October 25, 2025
-
-For the latest FAQ updates, check the documentation regularly.
+| Message | Meaning | Fix |
+|---------|---------|-----|
+| "Missing permissions" | Bot lacks Manage Events | Grant Manage Events in server/channel settings |
+| "Location not found" | City not recognized | Try `London, UK` or a different spelling |
+| "Invalid duration" | Bad format | Use `2h`, `1d`, `30m`, `2h30m` |
+| "Invalid time format" | Not HH:MM | Use 24-hour format: `21:00` |
+| "Maximum events reached" | Discord 100-event limit | Delete old events or reduce buffer |
+| "Schedule not found" | Bad ID | Check with `/schedule list` |
+| "Invalid timezone" | Unrecognized zone | Use IANA names like `America/New_York` |
+| "Invalid cron expression" | Bad cron syntax | Verify cron format (e.g., `0 0 * * *`) |

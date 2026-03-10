@@ -1,22 +1,30 @@
 # /settings
-Configure global bot settings for the guild.
+
+Configure global bot settings for this guild.
+
+Requires: **Manage Events** permission.
 
 ## Subcommands
-- `language`: set bot language
-	- Choices: English, Français
-- `timezone`: set a default IANA time zone (e.g., Europe/Paris)
-- `future_min_blocks`: how many future events the bot should always keep created.
-- `autorename_channel`: Allow to automatically rename the channel if you use template
+
+- `language` — set the bot language
+  - Choices: `English`, `Français`
+- `timezone` — set the default IANA time zone (e.g., `Europe/Paris`)
+- `future_min_blocks` — how many future events the bot should always keep created ahead of time (minimum 1, default 2)
+- `autorename_channel` — enable or disable automatic channel renaming when template values change
 
 > [!NOTE]
-> - These settings affect how templates render and how many future events are buffered.
-> - Language affects bot messages and command localizations where available.
+> - Language affects bot responses and command descriptions where Discord supports it.
+> - `future_min_blocks` controls the buffer size. Higher values mean more events created in advance.
+> - `autorename_channel` must be enabled for `/variables channel rename` to take effect.
 
 > [!TIP]
-> - `/settings language: English`
-> - `/settings timezone: Europe/Paris`
-> - `/settings future_min_blocks: 3`
-> - `/settings autorename_channel: true`
+> ```
+> /settings language:English
+> /settings timezone:Europe/Paris
+> /settings future_min_blocks:3
+> /settings autorename_channel:true
+> ```
 
 > [!IMPORTANT]
-> In channel, if you want to use the auto-rename settings, you need to use `««weather-emoji»»`, `««weather-long»»`, `««weather-short»»`, `««date»»` and `««count»»`.
+> Channel auto-rename templates use `««double guillemets»»` delimiters.
+> See [`/variables channel`](variables.md#channel) for configuration.

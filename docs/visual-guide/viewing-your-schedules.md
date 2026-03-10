@@ -1,35 +1,35 @@
 ## Viewing Your Schedules
 
-### Command: `/schedule list`
+```
+/schedule list
+```
 
-What you'll see:
+[SCREENSHOT]
 
-If you have schedules:
-- List of all your active schedules
-- For each schedule:
-  - Schedule ID (unique identifier)
-  - Bloc duration (e.g., "2 days")
-  - Start time (e.g., "21:00")
-  - Duration (e.g., "2 hours")
-  - Location (channel or external)
-  - Number of labels in cycle
-  - List of upcoming events (next 3-5)
+The bot replies with a list of all active cycles. For each cycle you'll see:
 
-Example display:
+- **Schedule ID** — used with pause/cancel/edit commands
+- **Labels** — the event titles in this cycle
+- **Bloc duration** — interval between events
+- **Event duration**
+- **Start time** and time zone
+- **Start date** (anchor)
+- **Location** — channel or external text
+- **Upcoming events** — next scheduled occurrences
+
+Example output:
 ```
 - **fiery-breads-like** ✅
    - __Label(s):__
-     - `{{weather:emoji}} {{date}} (Jour)`
-     - `{{weather:emoji}} {{date}} (Nuit)`
+     - `{{weather:emoji}} {{date}} (Day)`
+     - `{{weather:emoji}} {{date}} (Night)`
    - __Bloc duration:__ `2 days`
-   - __Event's duration:__ `2 days`
+   - __Event's duration:__ `2 hours`
    - __Bloc start time :__ `21:45 (Europe/Paris)`
-   - __Start date :__ 25-10-2025
-   - __Location:__ RP
-   - __Created by:__ @User
-   - __Description(s):__
-     - `{{weather:emoji}} {{date}} (Jour)`: `{{weather:long}}`
-     - `{{weather:emoji}} {{date}} (Nuit)`: `{{weather:long}}`
+   - __Start date :__ 2025-10-25
+   - __Location:__ Online
    - __Upcoming events :__
-     -   `{{weather:emoji}} {{date}} (Jour)` - 28 octobre 2025 21:45
+     - `{{weather:emoji}} {{date}} (Day)` — 28 October 2025 21:45
 ```
+
+Note: placeholders like `{{weather:emoji}}` appear literally in the list; they are resolved when events are created or started.

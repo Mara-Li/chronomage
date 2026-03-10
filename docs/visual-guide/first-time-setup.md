@@ -1,45 +1,37 @@
 ## First-Time Setup
 
-### Step 1: Verify Bot is Online
+### Step 1: Verify the bot is online
 
-What to look for:
-- Bot appears in your server's member list (right sidebar)
-- Status shows as "Online" (green dot)
+[SCREENSHOT]
+
+- The bot appears in your server's member list (right sidebar)
+- Status shows as Online (green dot)
 - If offline, contact the bot administrator
 
-### Step 2: Check Slash Commands
+### Step 2: Check slash commands
 
-How to access:
 1. Type `/` in any channel
-2. Look for Chronomage's commands in the popup menu
-3. You should see commands like:
+2. Look for Chronomage commands in the popup:
    - `/schedule`
    - `/settings`
    - `/variables`
    - `/weather`
 
+[SCREENSHOT]
+
 If commands don't appear:
-- Wait 5-10 minutes after bot joins
+- Wait 5–10 minutes after the bot joins
 - Refresh Discord (Ctrl+R or Cmd+R)
-- Check bot was invited with `applications.commands` scope
+- Check the bot was invited with the `applications.commands` scope
 
-### Step 3: Configure Server Settings
+### Step 3: Configure server settings
 
-Command to use:
 ```
-/settings
-```
-
-You'll see three options:
-1. **language** - Choose "English" or "Français"
-2. **timezone** - Enter IANA timezone (e.g., "America/New_York")
-3. **future_min_blocks** - Enter number (e.g., "5")
-
-Example:
-```
-/settings language:English timezone:America/New_York future_min_blocks:5
+/settings language:English
+/settings timezone:America/New_York
+/settings future_min_blocks:3
 ```
 
-Bot response:
-- Success message confirming your settings
-- Message will be in the language you selected
+[SCREENSHOT]
+
+The bot replies with a confirmation message in the selected language.

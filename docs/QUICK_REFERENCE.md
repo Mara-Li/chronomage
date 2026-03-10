@@ -1,60 +1,67 @@
-# Quick Reference Card
+# Quick Reference
 
 Essential Chronomage commands and syntax at a glance.
 
 ---
 
-## Essential Commands
+## Schedules
 
-### Create a Schedule
 ```
 /schedule create count:3 bloc:2d start_time:21:00 len:2h location_elsewhere:Online
-```
-
-### View Schedules
-```
 /schedule list
-```
-
-### Delete a Schedule
-```
+/schedule pause id:your-schedule-id
 /schedule cancel id:your-schedule-id
+/schedule cancel id:all
+/schedule edit config id:your-schedule-id start_time:20:00
+/schedule edit blocs id:your-schedule-id count:3
 ```
 
-Note: schedule IDs are generated automatically when you create a schedule (the wizard replies with the `scheduleId`). Use that id for `/schedule pause` or `/schedule cancel`.
+Note: schedule IDs are generated automatically (the wizard replies with the `scheduleId`). Use them with `/schedule pause`, `/schedule cancel`, and `/schedule edit`.
 
-### Configure Server
+---
+
+## Server settings
+
 ```
-/settings language:English timezone:America/New_York future_min_blocks:5
+/settings language:English
+/settings timezone:America/New_York
+/settings future_min_blocks:5
+/settings autorename_channel:true
 ```
 
 ---
 
-## Templates Quick Setup
+## Templates
 
-### Date Template
+### Date
 ```
-/variables date format:yyyy-LL-dd timezone:America/New_York step:1d
+/variables config date format:yyyy-LL-dd timezone:America/New_York step:1d
 ```
 Use in events: `{{date}}`
 
-Tip: You can also configure channel templates so crons rename channels or send messages automatically when variables change. Use `/template channels rename` and `/template channels send`. Channel-name templates should use ««double guillemets»» delimiters for date/count/weather placeholders (example name: `««date»» - Next`).
-
-### Counter Template
+### Counter
 ```
-/variables count start:1 step:1 decimal:0
+/variables config count start_number:1 step:1 decimal:0
 ```
 Use in events: `{{count}}`
 
-### Weather Template
+### Weather
 ```
-/variables weather location:London compute_at_start:true
+/variables config weather location:London compute_at_start:true
 ```
 Use in events: `{{weather:emoji}}` `{{weather:short}}` `{{weather:long}}`
 
+### Channel templates
+```
+/variables channel rename channel:#my-channel text:Session ««count»» — ««date»»
+/variables channel send channel:#announcements text:Weather update: ««weather-long»»
+/variables channel display
+```
+Channel templates use `««double guillemets»»` instead of `{{}}`.
+
 ---
 
-## Duration Formats
+## Duration formats
 
 | Format | Meaning |
 |--------|---------|
@@ -65,23 +72,23 @@ Use in events: `{{weather:emoji}}` `{{weather:short}}` `{{weather:long}}`
 | `2h30m` | 2 hours 30 minutes |
 | `1d12h` | 1 day 12 hours |
 
+Localized durations are supported (e.g., `2 heures`, `2 hours`).
+
 ---
 
-## Time Format
+## Time format
 
-Always use 24-hour format:
+Always use 24-hour HH:MM:
 - ✅ `21:00` (9 PM)
 - ✅ `09:30` (9:30 AM)
-- ✅ `14:15` (2:15 PM)
-- ❌ `9pm` (incorrect)
-- ❌ `9:30pm` (incorrect)
+- ❌ `9pm`
 
 ---
 
-## Common Timezones
+## Common time zones
 
-| Region | Timezone |
-|--------|----------|
+| Region | Time zone |
+|--------|-----------|
 | US East | `America/New_York` |
 | US West | `America/Los_Angeles` |
 | US Central | `America/Chicago` |
@@ -94,98 +101,94 @@ Always use 24-hour format:
 
 ---
 
-## Date Format Tokens
+## Date format tokens (Luxon)
 
-| Token | Example | Description |
-|-------|---------|-------------|
-| `f` | 10/25/2025, 9:00 PM | Short |
-| `FF` | Saturday, October 25, 2025, 9:00 PM EDT | Full |
-| `yyyy-LL-dd` | 2025-10-25 | ISO date |
-| `yyyy-LL-dd HH:mm` | 2025-10-25 21:00 | ISO with time |
-| `DDD` | October 25, 2025 | Long date |
-| `D` | 10/25/2025 | Short date |
+| Token | Example output |
+|-------|----------------|
+| `f` | 10/25/2025, 9:00 PM |
+| `FF` | Saturday, October 25, 2025, 9:00 PM EDT |
+| `yyyy-LL-dd` | 2025-10-25 |
+| `yyyy-LL-dd HH:mm` | 2025-10-25 21:00 |
+| `DDD` | October 25, 2025 |
+| `D` | 10/25/2025 |
 
-[Full list →](https://moment.github.io/luxon/#/formatting)
+[Full Luxon reference →](https://moment.github.io/luxon/#/formatting)
 
 ---
 
 ## Placeholders
 
-| Placeholder | Description | Example |
-|-------------|-------------|---------|
-| `{{date}}` | Formatted date | 2025-10-25 |
-| `{{count}}` | Counter | 1, 2, 3... |
-| `{{weather:emoji}}` | Weather emoji | ☀️ 🌧️ |
-| `{{weather:short}}` | Short weather | Sunny, 25°C |
-| `{{weather:long}}` | Full weather | Sunny with high of 25°C |
+| Placeholder | Description |
+|-------------|-------------|
+| `{{date}}` | Formatted date from the date template |
+| `{{count}}` | Numeric counter from the count template |
+| `{{weather:emoji}}` | Weather icon |
+| `{{weather:short}}` | Short weather description |
+| `{{weather:long}}` | Full weather description |
+
+Channel templates use `««date»»`, `««count»»`, `««weather-emoji»»`, `««weather-short»»`, `««weather-long»»`.
 
 ---
 
-## Schedule Parameters
+## Schedule parameters
 
 | Parameter | Required | Type | Example |
 |-----------|----------|------|---------|
-| `count` | ✅ Yes | Number | `3` |
-| `bloc` | ✅ Yes | Duration | `2d` |
-| `start_time` | ✅ Yes | HH:MM | `21:00` |
-| `len` | ✅ Yes | Duration | `2h` |
+| `count` | ✅ | Number (1–20) | `3` |
+| `bloc` | ✅ | Duration | `2d` |
+| `start_time` | ✅ | HH:MM | `21:00` |
+| `len` | ✅ | Duration | `2h` |
 | `location_elsewhere` | One of these | Text | `Online` |
-| `location_channel` | One of these | Channel | #voice |
-| `start_date` | ❌ No | Date | `2025-10-25` |
-| `timezone` | ❌ No | IANA | `Europe/Paris` |
+| `location_channel` | One of these | Channel | `#stage` |
+| `start_date` | ❌ | Date | `2025-10-25` |
+| `timezone` | ❌ | IANA | `Europe/Paris` |
 
 ---
 
-## Quick Troubleshooting
+## Quick troubleshooting
 
-| Problem | Quick Fix |
+| Problem | Quick fix |
 |---------|-----------|
-| Bot not responding | Check permissions: "Manage Events" |
+| Bot not responding | Check "Manage Events" permission |
 | Events not created | Check buffer: `/settings future_min_blocks:5` |
-| Placeholder not working | Configure template: `/variables date` |
-| Weather not found | Try: "London, UK" instead of "London" |
+| Placeholder not working | Configure template: `/variables config date` |
+| Weather not found | Try `London, UK` instead of `London` |
 | Wrong time | Set timezone: `/settings timezone:America/New_York` |
-| Can't use command | Need "Manage Events" permission |
 
 ---
 
 ## Examples
 
-### Weekly Game Night
+### Weekly game night
 ```
 /schedule create count:3 bloc:1w start_time:20:00 len:3h location_elsewhere:Discord timezone:America/New_York
 ```
 Labels:
-1. "🎮 Game Night - Mario Kart"
-2. "🎮 Game Night - Among Us"
-3. "🎮 Game Night - Minecraft"
+1. `🎮 Game Night - Mario Kart`
+2. `�� Game Night - Among Us`
+3. `🎮 Game Night - Minecraft`
 
-### Daily Show with Episode Counter
+### Daily show with episode counter
 ```
-/variables count start:1 step:1
+/variables config count start_number:1 step:1
 /schedule create count:1 bloc:1d start_time:21:00 len:1h location_elsewhere:Twitch
 ```
-Label: "Daily Show - Episode {{count}}"
+Label: `Daily Show - Episode {{count}}`
 
-### Weekly Meeting with Date
+### Weekly meeting with date
 ```
-/variables date format:yyyy-LL-dd timezone:America/New_York
+/variables config date format:yyyy-LL-dd timezone:America/New_York
 /schedule create count:1 bloc:1w start_time:14:00 len:1h location_channel:#meetings
 ```
-Label: "Weekly Team Meeting - {{date}}"
+Label: `Weekly Team Meeting - {{date}}`
 
-### Weather-Based Event
+### Weather-based event
 ```
-/variables weather location:London compute_at_start:true
+/variables config weather location:London compute_at_start:true
 /schedule create count:1 bloc:1d start_time:08:00 len:30m location_elsewhere:Park
 ```
-Description: "Morning walk! Today's weather: {{weather:long}}"
+Description: `Morning walk! Today's weather: {{weather:long}}`
 
 ---
 
-## Getting Help
-
-📖 [User Guide](./user-guide/README.md) - Complete documentation  
-🔧 [Commands](commands/README.md) - Full command reference  
-❓ [FAQ](resources/README.md) - Common questions  
-🔍 [Troubleshooting](resources/TROUBLESHOOTING.md) - Problem solving  
+📖 [User Guide](./user-guide/README.md) · 🔧 [Commands](commands/README.md) · ❓ [FAQ](resources/README.md) · 🔍 [Troubleshooting](resources/TROUBLESHOOTING.md)
