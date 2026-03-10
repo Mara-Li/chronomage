@@ -33,9 +33,9 @@ Each template has a cron schedule that advances its value. Template values can b
 
 ## Channel templates
 
-In addition to event placeholders, you can configure channels to be auto-renamed or receive a message whenever a template value changes. Channel templates use `««double guillemets»»` delimiters:
+In addition to event placeholders, you can configure channels to be auto-renamed or receive a message whenever a template value changes. Channel templates use `§` delimiters:
 
-`Session ««count»» — ««date»»`
+`Session §count§ — §date§`
 
 Configure with `/variables channel rename` and `/variables channel send`.
 
