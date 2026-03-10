@@ -6,12 +6,21 @@ See [Templates](../Templates.md) for the full placeholder reference.
 
 ## Date template
 
-Configure with:
+[SCREENSHOT]
+
+View current settings (no options needed):
+```
+/variables config date
+```
+
+Configure:
 ```
 /variables config date format:yyyy-LL-dd timezone:Europe/Paris step:1d
 ```
 
 Use `{{date}}` in event labels or descriptions.
+
+The bot replies with a confirmation and an example of how `{{date}}` will render.
 
 Common format tokens (Luxon):
 
@@ -26,7 +35,14 @@ Common format tokens (Luxon):
 
 ## Count template
 
-Configure with:
+[SCREENSHOT]
+
+View current settings:
+```
+/variables config count
+```
+
+Configure:
 ```
 /variables config count start_number:1 step:1 decimal:0 cron:0 0 * * *
 ```
@@ -37,7 +53,14 @@ The counter advances on each cron tick. A negative `step` counts down.
 
 ## Weather template
 
-Configure with:
+[SCREENSHOT]
+
+View current settings:
+```
+/variables config weather
+```
+
+Configure:
 ```
 /variables config weather location:London compute_at_start:true
 ```
@@ -47,18 +70,21 @@ Three variants:
 - `{{weather:short}}` — short description
 - `{{weather:long}}` — full description
 
+Test the location:
+```
+/weather location:London
+```
+
+Returns current weather — similar to what `{{weather:long}}` will show. If the location is not found, try adding the country (`London, UK`).
+
 ## compute_at_start
 
-When `compute_at_start:true` is set on a template, the placeholder stays literal in the event until the event becomes Active. This is recommended for weather so the data is current when the event starts.
+When `compute_at_start:true` is set on a template, the placeholder stays literal in the event until the event becomes Active. At that moment the bot resolves it and updates the event.
 
-## Viewing current settings
+- Use `true` for weather — fetches current conditions when the event starts
+- Use `false` (default) for dates and counters that should reflect creation time
 
-Run the subcommand with no options:
-```
-/variables config date
-/variables config count
-/variables config weather
-```
+With `compute_at_start:true`, you can also create Discord events manually and include placeholders — they will be resolved when the event starts.
 
 ## Pausing and resuming templates
 
@@ -66,3 +92,5 @@ Run the subcommand with no options:
 /variables switch variables:date
 /variables switch variables:all
 ```
+
+This pauses or resumes the cron job that advances the template value.

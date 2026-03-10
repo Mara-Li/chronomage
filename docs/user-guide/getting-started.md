@@ -2,7 +2,7 @@
 
 ## What is Chronomage?
 
-Chronomage is a Discord bot that automatically creates and manages recurring Discord Scheduled Events. Define a pattern once and Chronomage generates future events automatically, rotating through labels you define.
+Chronomage is a Discord bot that automatically creates and manages recurring Discord Scheduled Events. Define a pattern once and the bot generates future events automatically, rotating through labels you define.
 
 ## Key features
 
@@ -17,7 +17,7 @@ Chronomage is a Discord bot that automatically creates and manages recurring Dis
 
 The bot requires **Manage Events** to use all schedule and template commands. **Manage Channels** is optional and only needed for auto-channel renaming.
 
-For events in Voice or Stage channels, ensure the bot also has the appropriate channel-level permissions.
+For events in Voice or Stage channels, the bot also needs the appropriate channel-level permissions.
 
 ## Inviting the bot
 
@@ -25,11 +25,34 @@ Contact the bot administrator for an invite link. The invite must include:
 - Scopes: `bot`, `applications.commands`
 - Permission: **Manage Events**
 
+## Verifying the bot is online
+
+[SCREENSHOT]
+
+After the bot joins, check:
+1. It appears in your server's member list (right sidebar) with an Online (green dot) status
+2. Type `/` in any channel — you should see these commands:
+   - `/schedule`
+   - `/settings`
+   - `/variables`
+   - `/weather`
+
+If commands don't appear: wait 5–10 minutes, refresh Discord (Ctrl+R), and verify the bot was invited with the `applications.commands` scope.
+
 ## First steps
 
-1. Configure your server: `/settings language:English timezone:America/New_York`
-2. Create a schedule: `/schedule create count:2 bloc:1w start_time:20:00 len:2h location_elsewhere:Online`
-3. Follow the wizard to enter event labels
-4. Check results: `/schedule list`
+Configure your server then create your first schedule:
 
-See the [User Guide](README.md) for detailed instructions on each feature.
+```
+/settings language:English
+/settings timezone:America/New_York
+/settings future_min_blocks:3
+```
+
+```
+/schedule create count:2 bloc:1w start_time:20:00 len:2h location_elsewhere:Online
+```
+
+Follow the wizard to enter event labels, then check results with `/schedule list`.
+
+See [Creating Your First Schedule](creating-your-first-schedule.md) for a detailed walkthrough.

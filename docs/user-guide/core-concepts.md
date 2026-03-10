@@ -9,7 +9,7 @@ A **schedule** is a repeating pattern that defines:
 - **Labels** — a list of event titles that cycle in order (e.g., [A, B, C] → block 0=A, 1=B, 2=C, 3=A, …)
 - **Location** — a Discord Voice/Stage channel or a plain text location
 
-The schedule repeats indefinitely. The bot uses a background job (running every 5 minutes) to maintain the configured number of future events.
+The schedule repeats indefinitely. A background job (running every 5 minutes) maintains the configured number of future events.
 
 ## Buffer
 
@@ -38,3 +38,11 @@ In addition to event placeholders, you can configure channels to be auto-renamed
 `Session ««count»» — ««date»»`
 
 Configure with `/variables channel rename` and `/variables channel send`.
+
+## Expected behavior
+
+**After creating a schedule**, within a minute events start appearing in Discord's Events section (Server name → Events). The bot creates events until the buffer is full and may do so gradually to avoid rate limits.
+
+**As events occur**, they are marked "In Progress" when they start and "Completed" when they end. The bot automatically creates new events to refill the buffer.
+
+**If the bot goes offline**, existing Discord events remain. When the bot comes back online it catches up and recreates any missing future events.

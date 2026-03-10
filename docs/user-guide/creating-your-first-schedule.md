@@ -23,14 +23,28 @@ Optional: `start_date` (defaults to today), `timezone` (defaults to server setti
 
 ## Complete the wizard
 
-For each label (1 through count), a modal appears with:
-- **Label** (required) — the event title; supports placeholders like `{{date}}` and `{{count}}`
-- **Description** (optional) — event details; supports placeholders
-- **Banner** (optional) — URL of a banner image
+After submitting the command, a wizard message appears. Click **Next** to begin.
 
 [SCREENSHOT]
 
-Submit each modal. After the last one, the bot confirms and begins creating future events.
+For each label (1 through count), a modal appears with:
+- **Label** (required) — the event title; supports placeholders like `{{date}}` and `{{count}}`
+- **Description** (optional) — event details; supports placeholders
+- **Banner** (optional) — public image URL (JPEG/PNG/GIF, minimum 800×320 px recommended)
+
+Example entries:
+```
+Label: 🎮 Game Night - Mario Kart Tournament
+Description: Join us for an exciting Mario Kart competition!
+Banner: https://example.com/mario-kart-banner.png
+```
+
+[SCREENSHOT]
+
+For each modal: fill it in and click **Submit**. The next modal appears automatically. After the last one, the bot confirms the cycle was created and begins generating future events.
+
+> [!TIP]
+> If you use the `«Skip»` button on a label, that slot will use an empty label. Prepare your labels in advance.
 
 ## Verify
 
@@ -38,6 +52,6 @@ Submit each modal. After the last one, the bot confirms and begins creating futu
 /schedule list
 ```
 
-Within a minute, events should appear in Discord's Events section.
+Within a minute, events appear in Discord's Events section (Server name → Events).
 
 [SCREENSHOT]

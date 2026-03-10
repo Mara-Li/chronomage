@@ -5,10 +5,13 @@ Welcome to the Chronomage documentation. Chronomage is a Discord bot that automa
 ## For users
 
 📖 **[User Guide](./user-guide/README.md)** — Complete guide for using Chronomage
-
-🚀 **[Welcome & Quick Start](WELCOME.md)** — Get started in 5 minutes
-
-👁️ **[Visual Guide](./visual-guide/README.md)** — Step-by-step Discord UI descriptions with screenshot markers
+- [Getting Started](user-guide/getting-started.md)
+- [Core Concepts](user-guide/core-concepts.md)
+- [Creating Your First Schedule](user-guide/creating-your-first-schedule.md)
+- [Using Templates and Placeholders](user-guide/using-templates-and-placeholders.md)
+- [Managing Your Schedules](user-guide/managing-your-schedules.md)
+- [Configuration](user-guide/configuration.md)
+- [Best Practices](user-guide/best-practices.md)
 
 ⚡ **[Quick Reference](QUICK_REFERENCE.md)** — Essential commands at a glance
 

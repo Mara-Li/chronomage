@@ -115,7 +115,7 @@ By using Chronomage, you acknowledge and consent to:
 - Storage of schedule configurations and event content you create
 - Processing of data necessary to provide the Service
 
-For complete details, see our [Privacy Policy](legals/PRIVACY_POLICY.md).
+For complete details, see our [Privacy Policy](PRIVACY_POLICY.md).
 
 ### 7.2 Data Usage
 
