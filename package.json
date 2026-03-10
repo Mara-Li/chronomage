@@ -5,7 +5,7 @@
 	"description": "",
 	"type": "module",
 	"engines": {
-		"node": "20.19.2"
+		"node": "24.14.0"
 	},
 	"repository": "",
 	"scripts": {
@@ -14,7 +14,7 @@
 		"prestart": "pnpm run build",
 		"prerelease": "pnpm run build",
 		"release": "commit-and-tag-version",
-		"start": "pm2 start dist/src/index.js --name chronomage --log-date-format=\"YYYY-MM-DD HH:mm Z\"",
+		"start": "pm2 start ecosystem.config.js",
 		"stop": "pm2 stop chronomage",
 		"prerestart": "pnpm run build",
 		"restart": "pm2 restart chronomage",
