@@ -16,24 +16,24 @@ Use these in event labels and descriptions created via `/schedule create` (or `/
 
 ## Channel placeholders
 
-Channel rename and send-message templates use `««double guillemets»»` delimiters instead of `{{}}`.
+Channel rename and send-message templates use `§` delimiter instead of `{{}}`.
 
-| Placeholder         | Description               |
-| ------------------- | ------------------------- |
-| `««date§`           | Current date value        |
-| `««count»»`         | Current count value       |
-| `««weather-emoji»»` | Weather icon              |
-| `««weather-short»»` | Short weather description |
-| `««weather-long»»`  | Full weather description  |
+| Placeholder       | Description               |
+| ----------------- | ------------------------- |
+| `§date§`          | Current date value        |
+| `§count§`         | Current count value       |
+| `§weather-emoji§` | Weather icon              |
+| `§weather-short§` | Short weather description |
+| `§weather-long§`  | Full weather description  |
 
-Example channel name template: `Session ««count»» — ««date»»`
+Example channel name template: `Session §count§ — §date§`
 
 ## compute_at_start
 
 Each template has a `compute_at_start` option.
 
 - **`false` (default)**: the placeholder is resolved when the event is created in the buffer. The stored value is a snapshot taken at creation time.
-- **`true`**: the placeholder remains literal (e.g., `{{weather:long}}`) in the event until the event becomes Active. At that moment the bot fetches the current value and updates the event.
+- **`true`**: the placeholder remains literal (e.g., `{{weather:long}}`) in the event until the event becomes active. At that moment, the bot will fetches the current value and updates the event.
 
 Use `compute_at_start:true` for weather (to get conditions at event time) and for any value that should reflect the moment the event starts rather than when it was scheduled.
 
