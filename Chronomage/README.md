@@ -1,6 +1,6 @@
 # Chronomage Documentation
 
-Welcome to the Chronomage documentation. Chronomage is a Discord bot that automates recurring scheduled events with dynamic placeholders (dates, counters, weather).
+Chronomage is a Discord bot that automates recurring scheduled events with dynamic placeholders (dates, counters and weather).
 
 ## For users
 
