@@ -2,9 +2,6 @@
 ## Viewing schedules
 > [!note] `/schedule list`
 
-
-[SCREENSHOT]
-
 The bot replies with a list of all active cycles. For each cycle you'll see:
 
 - **Schedule ID** — used with pause/cancel/edit commands
@@ -18,19 +15,7 @@ The bot replies with a list of all active cycles. For each cycle you'll see:
 
 Example output:
 
-```
-- **fiery-breads-like** ✅
-   - __Label(s):__
-     - `{{weather:emoji}} {{date}} (Day)`
-     - `{{weather:emoji}} {{date}} (Night)`
-   - __Bloc duration:__ `2 days`
-   - __Event's duration:__ `2 hours`
-   - __Bloc start time :__ `21:45 (Europe/Paris)`
-   - __Start date :__ 2025-10-25
-   - __Location:__ Online
-   - __Upcoming events :__
-     - `{{weather:emoji}} {{date}} (Day)` — 28 October 2025 21:45
-```
+![](../_attachments/managing-your-schedules/Pasted%20image%2020260311220154.png)
 
 <u>Note</u>: placeholders appear literally in the list; they are resolved when events are created or started.
 
