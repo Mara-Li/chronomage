@@ -3,7 +3,7 @@ import { loadEnvFile } from "node:process";
 import * as Djs from "discord.js";
 import { EClient } from "@/client";
 import "uniformize";
-import * as pkg from "../package.json" with { type: "json" };
+import pkg from "../package.json" with { type: "json" };
 import { interaction, join, onGuildScheduledEventCreate, onQuit, ready } from "./events";
 import {
 	onChannelCreate,
