@@ -9,13 +9,13 @@
 	- [Managing Your Schedules](user-guide/managing-your-schedules.md)
 	- [Configuration](user-guide/configuration.md)
 	- [Best Practices](user-guide/best-practices.md)
-	- [Quick Reference](QUICK_REFERENCE.md)
+	- [Quick Reference](./user-guide/QUICK_REFERENCE.md)
 - **[Commands & Templates](commands/README.md)**
 	- [Schedule](commands/schedule.md)
 	- [Settings](commands/settings.md)
 	- [Variables](commands/variables.md)
 	- [Weather](commands/weather.md)
-	- [Templates](Templates.md)
+	- [Templates](./commands/Templates.md)
 - [**Self-hosting**](SELF_HOSTING.md)
 - **Legal**
 	- [Privacy Policy](legals/PRIVACY_POLICY.md)

@@ -12,7 +12,6 @@
 - A Discord account with server administrator access
 - A Discord application and bot token ([Developer Portal](https://discord.com/developers/applications))
 
-
 ---
 
 ## Configure environment variables
@@ -23,7 +22,7 @@ DISCORD_TOKEN=your_bot_token_here
 CLIENT_ID=your_application_id_here
 ```
 
-> ⚠️ Never commit `.env` to version control.
+> [!important] ⚠️ Never commit `.env` to version control.
 
 ## Database management
 Data is stored in `data/enmap.sqlite`.

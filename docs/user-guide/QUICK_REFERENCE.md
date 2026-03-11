@@ -1,11 +1,9 @@
 # Quick Reference
-
 Essential Chronomage commands and syntax at a glance.
 
 ---
 
 ## Schedules
-
 ```
 /schedule create count:3 bloc:2d start_time:21:00 len:2h location_elsewhere:Online
 /schedule list
@@ -21,7 +19,6 @@ Note: schedule IDs are generated automatically (the wizard replies with the `sch
 ---
 
 ## Server settings
-
 ```
 /settings language:English
 /settings timezone:America/New_York
@@ -32,37 +29,44 @@ Note: schedule IDs are generated automatically (the wizard replies with the `sch
 ---
 
 ## Templates
-
 ### Date
-```
-/variables config date format:yyyy-LL-dd timezone:America/New_York step:1d
-```
+> [!note] `/variables config date format:yyyy-LL-dd timezone:America/New_York step:1d`
+
+
 Use in events: `{{date}}`
 
 ### Counter
 ```
+
 /variables config count start_number:1 step:1 decimal:0
+
 ```
+
 Use in events: `{{count}}`
 
 ### Weather
 ```
+
 /variables config weather location:London compute_at_start:true
+
 ```
+
 Use in events: `{{weather:emoji}}` `{{weather:short}}` `{{weather:long}}`
 
 ### Channel templates
 ```
+
 /variables channel rename channel:#my-channel text:Session ««count»» — ««date»»
 /variables channel send channel:#announcements text:Weather update: ««weather-long»»
 /variables channel display
+
 ```
+
 Channel templates use `««double guillemets»»` instead of `{{}}`.
 
 ---
 
 ## Duration formats
-
 | Format | Meaning |
 |--------|---------|
 | `2h` | 2 hours |
@@ -77,7 +81,6 @@ Localized durations are supported (e.g., `2 heures`, `2 hours`).
 ---
 
 ## Time format
-
 Always use 24-hour HH:MM:
 - ✅ `21:00` (9 PM)
 - ✅ `09:30` (9:30 AM)
@@ -86,7 +89,6 @@ Always use 24-hour HH:MM:
 ---
 
 ## Common time zones
-
 | Region | Time zone |
 |--------|-----------|
 | US East | `America/New_York` |
@@ -102,7 +104,6 @@ Always use 24-hour HH:MM:
 ---
 
 ## Date format tokens (Luxon)
-
 | Token | Example output |
 |-------|----------------|
 | `f` | 10/25/2025, 9:00 PM |
@@ -117,7 +118,6 @@ Always use 24-hour HH:MM:
 ---
 
 ## Placeholders
-
 | Placeholder | Description |
 |-------------|-------------|
 | `{{date}}` | Formatted date from the date template |
@@ -131,7 +131,6 @@ Channel templates use `««date»»`, `««count»»`, `««weather-emoji»»`, 
 ---
 
 ## Schedule parameters
-
 | Parameter | Required | Type | Example |
 |-----------|----------|------|---------|
 | `count` | ✅ | Number (1–20) | `3` |
@@ -146,7 +145,6 @@ Channel templates use `««date»»`, `««count»»`, `««weather-emoji»»`, 
 ---
 
 ## Quick troubleshooting
-
 | Problem | Quick fix |
 |---------|-----------|
 | Bot not responding | Check "Manage Events" permission |
@@ -158,11 +156,13 @@ Channel templates use `««date»»`, `««count»»`, `««weather-emoji»»`, 
 ---
 
 ## Examples
-
 ### Weekly game night
 ```
+
 /schedule create count:3 bloc:1w start_time:20:00 len:3h location_elsewhere:Discord timezone:America/New_York
+
 ```
+
 Labels:
 1. `🎮 Game Night - Mario Kart`
 2. `�� Game Night - Among Us`
@@ -170,25 +170,34 @@ Labels:
 
 ### Daily show with episode counter
 ```
+
 /variables config count start_number:1 step:1
 /schedule create count:1 bloc:1d start_time:21:00 len:1h location_elsewhere:Twitch
+
 ```
+
 Label: `Daily Show - Episode {{count}}`
 
 ### Weekly meeting with date
 ```
+
 /variables config date format:yyyy-LL-dd timezone:America/New_York
 /schedule create count:1 bloc:1w start_time:14:00 len:1h location_channel:#meetings
+
 ```
+
 Label: `Weekly Team Meeting - {{date}}`
 
 ### Weather-based event
 ```
+
 /variables config weather location:London compute_at_start:true
 /schedule create count:1 bloc:1d start_time:08:00 len:30m location_elsewhere:Park
+
 ```
+
 Description: `Morning walk! Today's weather: {{weather:long}}`
 
 ---
 
-📖 [User Guide](./user-guide/README.md) · 🔧 [Commands](commands/README.md) · ❓ [FAQ](resources/README.md) · 🔍 [Troubleshooting](resources/TROUBLESHOOTING.md)
+📖 [User Guide](user-guide/README.md) · 🔧 [Commands](commands/README.md) · ❓ [FAQ](resources/README.md) · 🔍 [Troubleshooting](resources/TROUBLESHOOTING.md)

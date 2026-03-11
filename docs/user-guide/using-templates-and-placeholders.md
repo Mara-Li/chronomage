@@ -1,26 +1,14 @@
 # Using Templates and Placeholders
 Templates allow you to embed dynamic content in event titles and descriptions.
 
-See [Templates](../Templates.md) for the full placeholder reference.
+See [Templates](../commands/Templates.md) for the full placeholder reference.
 
 ## Date template
-> [!note] Usage
+> [!note]
 > - <u>View Current settings :</u> `/variables config date`
-> - <u>Configuration :</u> `/variables config date format:yyyy-LL-dd timezone:Europe/Paris step:1d`
+> - <u>Configuration :</u> `/variables config date [format] [timezone] [step]`
 
 [SCREENSHOT]
-
-View current settings (no options needed):
-
-```
-/variables config date
-```
-
-Configure:
-
-```
-/variables config date format:yyyy-LL-dd timezone:Europe/Paris step:1d
-```
 
 Use `{{date}}` in event labels or descriptions.
 
@@ -40,17 +28,9 @@ Common format tokens (Luxon):
 ## Count template
 [SCREENSHOT]
 
-View current settings:
-
-```
-/variables config count
-```
-
-Configure:
-
-```
-/variables config count start_number:1 step:1 decimal:0 cron:0 0 * * *
-```
+> [!note]
+> - <u>View configuration :</u> `/variables config count`
+> - <u>Configuration :</u>`/variables config count [start_number] [step] [decimal] [cron]`
 
 Use `{{count}}` in event labels or descriptions.
 
@@ -59,28 +39,16 @@ The counter advances on each cron tick. A negative `step` counts down.
 ## Weather template
 [SCREENSHOT]
 
-View current settings:
-
-```
-/variables config weather
-```
-
-Configure:
-
-```
-/variables config weather location:London compute_at_start:true
-```
+> [!note]
+> - <u>View configuration:</u> `/variables config weather`
+> - <u>Usage:</u> `/variables config weather [location] [compute_at_start]`
 
 Three variants:
 - `{{weather:emoji}}` — icon only
 - `{{weather:short}}` — short description
 - `{{weather:long}}` — full description
 
-Test the location:
-
-```
-/weather location:London
-```
+> [!tip] Test the location: `/weather [location]`
 
 Returns current weather — similar to what `{{weather:long}}` will show. If the location is not found, try adding the country (`London, UK`).
 
@@ -93,9 +61,7 @@ When `compute_at_start:true` is set on a template, the placeholder stays literal
 With `compute_at_start:true`, you can also create Discord events manually and include placeholders — they will be resolved when the event starts.
 
 ## Pausing and resuming templates
-```
-/variables switch variables:date
-/variables switch variables:all
-```
+> [!note]
+- `/variables switch variables:[date|all|weather|count]`
 
 This pauses or resumes the cron job that advances the template value.
