@@ -15,7 +15,7 @@ The bot replies with a list of all active cycles. For each cycle you'll see:
 
 Example output:
 
-![](../_attachments/managing-your-schedules/Pasted%20image%2020260311220154.png)
+![](../_attachments/managing-your-schedules/example_display.png)
 
 <u>Note</u>: placeholders appear literally in the list; they are resolved when events are created or started.
 
