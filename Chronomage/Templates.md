@@ -18,13 +18,13 @@ Use these in event labels and descriptions created via `/schedule create` (or `/
 
 Channel rename and send-message templates use `««double guillemets»»` delimiters instead of `{{}}`.
 
-| Placeholder | Description |
-|---|---|
-| `««date»»` | Current date value |
-| `««count»»` | Current count value |
-| `««weather-emoji»»` | Weather icon |
+| Placeholder         | Description               |
+| ------------------- | ------------------------- |
+| `««date§`           | Current date value        |
+| `««count»»`         | Current count value       |
+| `««weather-emoji»»` | Weather icon              |
 | `««weather-short»»` | Short weather description |
-| `««weather-long»»` | Full weather description |
+| `««weather-long»»`  | Full weather description  |
 
 Example channel name template: `Session ««count»» — ««date»»`
 
