@@ -1,11 +1,8 @@
 # Getting Started
-
 ## What is Chronomage?
-
 Chronomage is a Discord bot that automatically creates and manages recurring Discord Scheduled Events. Define a pattern once and the bot generates future events automatically, rotating through labels you define.
 
 ## Key features
-
 - Recurring event automation with configurable block intervals
 - Smart buffer: always keeps a configurable number of future events created
 - Dynamic placeholders: `{{date}}`, `{{count}}`, `{{weather:*}}`
@@ -14,42 +11,25 @@ Chronomage is a Discord bot that automatically creates and manages recurring Dis
 - Guided creation wizard
 
 ## Required permissions
-
 The bot requires **Manage Events** to use all schedule and template commands. **Manage Channels** is optional and only needed for auto-channel renaming.
 
 For events in Voice or Stage channels, the bot also needs the appropriate channel-level permissions.
 
 ## Inviting the bot
-
 Contact the bot administrator for an invite link. The invite must include:
 - Scopes: `bot`, `applications.commands`
 - Permission: **Manage Events**
 
-## Verifying the bot is online
-
-[SCREENSHOT]
-
-After the bot joins, check:
-1. It appears in your server's member list (right sidebar) with an Online (green dot) status
-2. Type `/` in any channel — you should see these commands:
-   - `/schedule`
-   - `/settings`
-   - `/variables`
-   - `/weather`
-
-If commands don't appear: wait 5–10 minutes, refresh Discord (Ctrl+R), and verify the bot was invited with the `applications.commands` scope.
-
 ## First steps
-
 Configure your server then create your first schedule:
 
-```
+```md
 /settings language:English
 /settings timezone:America/New_York
 /settings future_min_blocks:3
 ```
 
-```
+```md
 /schedule create count:2 bloc:1w start_time:20:00 len:2h location_elsewhere:Online
 ```
 

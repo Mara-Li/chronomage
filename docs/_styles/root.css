@@ -1,0 +1,14 @@
+@media (prefers-color-scheme: dark) {
+	body {
+		--codeBackgroundColor: #1e293b59;
+		--highlightColor: #cdd5e2;
+	}
+}
+
+body {
+	--codeFontFamily: 'Ubuntu Mono';
+}
+
+.markdown-section pre>code {
+	font-family: var(--codeFontFamily);
+}
