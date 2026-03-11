@@ -11,4 +11,5 @@ body {
 
 .markdown-section pre>code {
 	font-family: var(--codeFontFamily);
+	font-size: 0.9em;
 }
