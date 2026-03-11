@@ -1,15 +1,12 @@
-# Developpement guide 
-Host your own instance of Chronomage.
-
+# Development guide
 ## Prerequisites
 ### Required software
-- **Node.js** v24.14.0 or higher ([Download](https://nodejs.org/))
-- **pnpm** package manager ([Install](https://pnpm.io/installation))
-- **Git** ([Download](https://git-scm.com/downloads))
+- **[Node.js](https://nodejs.org/)** v24.14.0 or higher
+- **[pnpm](https://pnpm.io/installation)** package manager
+- **[Git](https://git-scm.com/downloads)**
 
 ### Optional
 - [fnm](https://github.com/Schniz/fnm)
-- 
 
 ### Discord setup
 - A Discord account with server administrator access

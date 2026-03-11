@@ -31,7 +31,7 @@ Chronomage is a Discord bot that automates recurring scheduled events with dynam
 
 💻 **[Main README](../README.md)** — Installation, build, and technical details
 
-🖥️ **[Self-Hosting Guide](resources/SELF_HOSTING.md)** — Host your own instance
+🖥️ **[Self-Hosting Guide](SELF_HOSTING.md)** — Host your own instance
 
 ## Legal
 

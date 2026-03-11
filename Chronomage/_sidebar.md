@@ -23,7 +23,7 @@
 - **Resources**
 - [FAQ](resources/README.md)
 - [Troubleshooting](resources/TROUBLESHOOTING.md)
-- [Self-hosting](resources/SELF_HOSTING.md)
+- [Self-hosting](SELF_HOSTING.md)
 
 - **Legal**
 - [Privacy Policy](legals/PRIVACY_POLICY.md)
