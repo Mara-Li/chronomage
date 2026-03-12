@@ -1,4 +1,8 @@
 # Getting Started
+
+> [!usage]
+> test
+
 ## What is Chronomage?
 Chronomage is a Discord bot that automatically creates and manages recurring Discord Scheduled Events. Define a pattern once and the bot generates future events automatically, rotating through labels you define.
 

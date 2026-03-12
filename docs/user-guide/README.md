@@ -10,5 +10,4 @@
 
 ---
 
-Need help? Check the [FAQ](../resources/README.md) or [Troubleshooting Guide](../resources/TROUBLESHOOTING.md).  
 Report bugs via [GitHub Issues](https://github.com/Mara-Li/chronomage/issues).
