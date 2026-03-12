@@ -1,17 +1,3 @@
-@media (prefers-color-scheme: dark) {
-	body {
-		--codeBackgroundColor: #1e293b59;
-		--highlightColor: #cdd5e2;
-	}
-}
-
-@media (prefers-color-scheme: light) {
-	body {
-		--codeBackgroundColor: #b6babf60;
-		--highlightColor: #031e49;
-	}
-}
-
 body {
 	--codeFontFamily: 'Ubuntu Mono';
 }
@@ -24,4 +10,19 @@ body {
 .markdown-section code {
 	border-radius: 5px;
 	padding: 0.4em 0.5em;
+}
+
+.example-alert code {
+	background-color: #7a987f8d;
+	color: #1e291f;
+}
+
+.alert.flat.example-alert {
+	background-color: #7a987f8d;
+	color: #1e291f;
+	border-color: #2c422f;
+}
+
+.alert.flat.usage-alert code {
+	color: #1e291f;
 }
