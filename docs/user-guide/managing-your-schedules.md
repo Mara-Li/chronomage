@@ -1,6 +1,6 @@
 # Managing Your Schedules
 ## Viewing schedules
-> [!note] `/schedule list`
+> [!usage] `/schedule list`
 
 The bot replies with a list of all active cycles. For each cycle you'll see:
 

@@ -4,43 +4,43 @@ Essential Chronomage commands and syntax at a glance.
 ---
 
 ## Schedules
-```
-/schedule create count:3 bloc:2d start_time:21:00 len:2h location_elsewhere:Online
-/schedule list
-/schedule pause id:your-schedule-id
-/schedule cancel id:your-schedule-id
-/schedule cancel id:all
-/schedule edit config id:your-schedule-id start_time:20:00
-/schedule edit blocs id:your-schedule-id count:3
-```
+> [!example]
+> - `/schedule create count:3 bloc:2d start_time:21:00 len:2h location_elsewhere:Online`
+> - `/schedule list`
+> - `/schedule pause id:your-schedule-id`
+> - `/schedule cancel id:your-schedule-id`
+> - `/schedule cancel id:all`
+> - `/schedule edit config id:your-schedule-id start_time:20:00`
+> - `/schedule edit blocs id:your-schedule-id count:3`
+
 
 Note: schedule IDs are generated automatically (the wizard replies with the `scheduleId`). Use them with `/schedule pause`, `/schedule cancel`, and `/schedule edit`.
 
 ---
 
 ## Server settings
-```
-/settings language:English
-/settings timezone:America/New_York
-/settings future_min_blocks:5
-/settings autorename_channel:true
-```
+> [!example]
+> - `/settings language:English`
+> - `/settings timezone:America/New_York`
+> - `/settings future_min_blocks:5`
+> - `/settings autorename_channel:true`
+
 
 ---
 
 ## Templates
 ### Date
-> [!note] `/variables config date format:yyyy-LL-dd timezone:America/New_York step:1d`
+> [!usage] `/variables config date [format] [timezone] [step]`
+> - **`format`** : Luxon format
+> - **`timezone`** : IANA
+> - **`step`** : Number
 
 
 Use in events: `{{date}}`
 
 ### Counter
-```
+> [!usage] **`/variables config count [start_number] [step] [decimal]`**
 
-/variables config count start_number:1 step:1 decimal:0
-
-```
 
 Use in events: `{{count}}`
 
