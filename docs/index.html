@@ -41,6 +41,8 @@
   <link rel="stylesheet" href="./_styles/coverpage.css" type="text/css" />
   <link rel="stylesheet" href="./_styles/sidebar.css" type="text/css" />
   <link rel="stylesheet" href="./_styles/root.css" type="text/css" />
+  <link rel="stylesheet" href="./_styles/callout.css" type="text/css" />
+  <link rel="stylesheet" href="./_styles/tailwind.css" type="text/css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
 
   <!-- Google Fonts -->
@@ -103,6 +105,82 @@
   </script>
   <script src="https://cdn.jsdelivr.net/npm/docsify-breadcrumb@latest/dist/index.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/docsify-sidebar-collapse.min.js"></script>
+  <script>
+    (function () {
+      const root = document.documentElement;
+      const darkMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+      const normalizeScheme = (value) => {
+        const normalized = (value || '').toLowerCase().trim();
+        if (normalized.startsWith('dark')) {
+          return 'dark';
+        }
+
+        if (normalized.startsWith('light')) {
+          return 'light';
+        }
+
+        return null;
+      };
+
+      const getThemeFromDom = () => {
+        const htmlTheme = (root.getAttribute('data-theme') || '').toLowerCase();
+        const bodyTheme = (document.body?.getAttribute('data-theme') || '').toLowerCase();
+        const normalizedAttr = `${htmlTheme} ${bodyTheme}`;
+
+        if (normalizedAttr.includes('dark')) {
+          return 'dark';
+        }
+
+        if (normalizedAttr.includes('light')) {
+          return 'light';
+        }
+
+        const inlineScheme = normalizeScheme(root.style?.colorScheme);
+        if (inlineScheme) {
+          return inlineScheme;
+        }
+
+        const computedScheme = normalizeScheme(window.getComputedStyle(root).colorScheme);
+        if (computedScheme) {
+          return computedScheme;
+        }
+
+        return darkMediaQuery.matches ? 'dark' : 'light';
+      };
+
+      const syncThemeClass = () => {
+        const theme = getThemeFromDom();
+        const shouldBeDark = theme === 'dark';
+        const hasDark = root.classList.contains('theme-dark');
+        const hasLight = root.classList.contains('theme-light');
+
+        if ((shouldBeDark && hasDark && !hasLight) || (!shouldBeDark && hasLight && !hasDark)) {
+          return;
+        }
+
+        root.classList.toggle('theme-dark', shouldBeDark);
+        root.classList.toggle('theme-light', !shouldBeDark);
+      };
+
+      syncThemeClass();
+
+      const observer = new MutationObserver(syncThemeClass);
+      observer.observe(root, { attributes: true, attributeFilter: ['data-theme', 'style'] });
+
+      if (document.body) {
+        observer.observe(document.body, { attributes: true, attributeFilter: ['data-theme', 'style'] });
+      }
+
+      if (typeof darkMediaQuery.addEventListener === 'function') {
+        darkMediaQuery.addEventListener('change', syncThemeClass);
+      } else if (typeof darkMediaQuery.addListener === 'function') {
+        darkMediaQuery.addListener(syncThemeClass);
+      }
+
+      window.addEventListener('DOMContentLoaded', syncThemeClass);
+    })();
+  </script>
 
 </body>
 

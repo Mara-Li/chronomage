@@ -4,7 +4,7 @@ body {
 
 .markdown-section pre>code {
 	font-family: var(--codeFontFamily);
-	font-size: 0.9em;
+	font-size: 1em;
 }
 
 .markdown-section code {
@@ -12,17 +12,8 @@ body {
 	padding: 0.4em 0.5em;
 }
 
-.example-alert code {
-	background-color: #7a987f8d;
-	color: #1e291f;
-}
-
-.alert.flat.example-alert {
-	background-color: #7a987f8d;
-	color: #1e291f;
-	border-color: #7a987f;
-}
-
-.alert.flat.usage-alert code {
-	color: #1e291f;
+@media (prefers-color-scheme: light) {
+  html {
+    background-color: yellow;
+  }
 }

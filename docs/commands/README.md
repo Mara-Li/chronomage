@@ -1,4 +1,4 @@
-# Commands Reference
+m# Commands Reference
 
 Practical reference for all slash commands. Each command requires the **Manage Events** permission except `/weather`.
 

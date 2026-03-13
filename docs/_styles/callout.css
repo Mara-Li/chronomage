@@ -1,0 +1,25 @@
+.example-alert code {
+	background-color: #7a987f8d;
+	color: #1e291f;
+}
+
+.alert.flat.example-alert {
+	background-color: #7a987f8d;
+	color: #1e291f;
+	border-color: #7a987f;
+}
+
+.alert.flat.usage-alert code {
+	color: #1e291f;
+}
+
+.example-alert pre {
+	background-color: transparent;
+}
+
+.example-alert pre>code {
+	background-color: #7a987f8d;
+	border-radius: 5px;
+	margin: 0;
+	padding: 0 0.5em;
+}

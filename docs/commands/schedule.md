@@ -22,7 +22,7 @@ Requires: **Manage Events** permission (and channel permissions for Stage/Voice 
 > - `start_date` (*optional*): first day for the cycle (defaults to today in the chosen time zone)
 > - `timezone` (*optional*): IANA time zone name (e.g., `Europe/Paris`)
 
-> [!NOTE]
+> [!TIP]
 > - Provide either `location_elsewhere` or `location_channel` — not both.
 > - `timezone` defaults to the date template's zone or guild settings if omitted.
 > - Durations support localized input (e.g., `2h`, `2 hours`, `2 heures`).
@@ -89,3 +89,12 @@ Re-enter labels, descriptions, and banners for a cycle via the wizard.
 > /schedule edit config id:my-cycle-123 start_time:20:00
 > /schedule edit blocs id:my-cycle-123 count:3
 > ```
+
+
+
+
+
+
+
+
+
