@@ -1,9 +1,7 @@
 # Quick Reference
 Essential Chronomage commands and syntax at a glance.
 
----
-
-## Schedules
+## [Schedule](../commands/schedule.md)
 > [!example]
 > - `/schedule create count:3 bloc:2d start_time:21:00 len:2h location_elsewhere:Online`
 > - `/schedule list`
@@ -13,12 +11,9 @@ Essential Chronomage commands and syntax at a glance.
 > - `/schedule edit config id:your-schedule-id start_time:20:00`
 > - `/schedule edit blocs id:your-schedule-id count:3`
 
-
-Note: schedule IDs are generated automatically (the wizard replies with the `scheduleId`). Use them with `/schedule pause`, `/schedule cancel`, and `/schedule edit`.
-
 ---
 
-## Server settings
+## [Settings](../commands/settings.md)
 > [!example]
 > - `/settings language:English`
 > - `/settings timezone:America/New_York`
@@ -28,41 +23,32 @@ Note: schedule IDs are generated automatically (the wizard replies with the `sch
 
 ---
 
-## Templates
+## [Templates](../commands/Templates.md)
 ### Date
-> [!usage] `/variables config date [format] [timezone] [step]`
-> - **`format`** : Luxon format
-> - **`timezone`** : IANA
-> - **`step`** : Number
-
+> [!example]
+> `/variables config date format:yyyy-LL-dd timezone:America/New_York step:1d`
 
 Use in events: `{{date}}`
 
 ### Counter
-> [!usage] **`/variables config count [start_number] [step] [decimal]`**
-
+> [!example]
+> `/variables config count start_number:1 step:1 decimal:0`
 
 Use in events: `{{count}}`
 
 ### Weather
-```
-
-/variables config weather location:London compute_at_start:true
-
-```
+> [!example]
+> `/variables config weather location:London compute_at_start:true`
 
 Use in events: `{{weather:emoji}}` `{{weather:short}}` `{{weather:long}}`
 
-### Channel templates
-```
+### Channel
+> [!example]
+> `/variables channel rename channel:#my-channel text:Session §count§ — §date§`
+> `/variables channel send channel:#announcements text:Weather update: §weather-long§`
+> `/variables channel display`
 
-/variables channel rename channel:#my-channel text:Session ««count»» — ««date»»
-/variables channel send channel:#announcements text:Weather update: ««weather-long»»
-/variables channel display
-
-```
-
-Channel templates use `««double guillemets»»` instead of `{{}}`.
+Channel templates use `§` instead of `{{}}`.
 
 ---
 
@@ -99,7 +85,7 @@ Always use 24-hour HH:MM:
 | Japan | `Asia/Tokyo` |
 | Australia | `Australia/Sydney` |
 
-[Full list →](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
+[Full list](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
 
 ---
 
@@ -113,20 +99,20 @@ Always use 24-hour HH:MM:
 | `DDD` | October 25, 2025 |
 | `D` | 10/25/2025 |
 
-[Full Luxon reference →](https://moment.github.io/luxon/#/formatting)
+[Full Luxon reference](https://moment.github.io/luxon/#/formatting)
 
 ---
 
 ## Placeholders
-| Placeholder | Description |
-|-------------|-------------|
-| `{{date}}` | Formatted date from the date template |
-| `{{count}}` | Numeric counter from the count template |
-| `{{weather:emoji}}` | Weather icon |
-| `{{weather:short}}` | Short weather description |
-| `{{weather:long}}` | Full weather description |
+| Placeholder         | Description                             |
+| ------------------- | --------------------------------------- |
+| `{{date}}`          | Formatted date from the date template   |
+| `{{count}}`         | Numeric counter from the count template |
+| `{{weather:emoji}}` | Weather icon                            |
+| `{{weather:short}}` | Short weather description               |
+| `{{weather:long}}`  | Full weather description                |
 
-Channel templates use `««date»»`, `««count»»`, `««weather-emoji»»`, `««weather-short»»`, `««weather-long»»`.
+Channel templates use `§date§`, `§count§`, `§weather-emoji§`, `§weather-short§`, `§weather-long§`.
 
 ---
 
@@ -200,4 +186,3 @@ Description: `Morning walk! Today's weather: {{weather:long}}`
 
 ---
 
-📖 [User Guide](user-guide/README.md) · 🔧 [Commands](commands/README.md) · ❓ [FAQ](resources/README.md) · 🔍 [Troubleshooting](resources/TROUBLESHOOTING.md)

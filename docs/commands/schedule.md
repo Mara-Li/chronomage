@@ -12,7 +12,7 @@ Requires: **Manage Events** permission (and channel permissions for Stage/Voice 
 
 ## create
 > [!usage]
-> **`/schedule create`**
+> **`/schedule create [count] [bloc] [start_time] [len] (location_elsewhere) (location_channel) (start_date) (timezone)`**
 > - `count` (**required**): number of different labels/descriptions you will provide (1–20)
 > - `bloc` (**required**): interval between starts (e.g., `2d`, `48h`)
 > - `start_time` (**required**): daily time in HH:MM format at which each event starts (e.g., `21:00`)
@@ -61,7 +61,7 @@ Options:
 Edit a cycle's timing and location. Future events are recreated automatically if the block interval, start time, or time zone changes.
 
 > [!usage]
-> **`/schedule edit config [id]`**
+> **`/schedule edit config [id] (bloc) (len) (start_time) (timezone) (location_elsewhere) (location_channel)`**
 > - `id` (**required**, autocomplete): ID of the cycle to edit
 > - `bloc` (*optional*): new block interval
 > - `len` (*optional*): new event duration
@@ -89,12 +89,3 @@ Re-enter labels, descriptions, and banners for a cycle via the wizard.
 > /schedule edit config id:my-cycle-123 start_time:20:00
 > /schedule edit blocs id:my-cycle-123 count:3
 > ```
-
-
-
-
-
-
-
-
-
