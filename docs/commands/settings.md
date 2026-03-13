@@ -4,13 +4,32 @@ Configure global bot settings for this guild.
 Requires: **Manage Events** permission.
 
 ## Subcommands
-- **`language`** — set the bot language
-	- Choices: `English`, `Français`
-- **`timezone`** — set the default IANA time zone (e.g., `Europe/Paris`)
-- **`future_min_blocks`** — how many future events the bot should always keep created ahead of time (minimum 1, default 2)
-- **`autorename_channel`** — enable or disable automatic channel renaming when template values change
+### Server language
+> [!usage] `/settings [language]`
+> - **`language`** — English ; Français
 
-> [!NOTE]
+### Default timezone
+> [!usage]
+> `/settings [timezone]`
+> - **`timezone`** — IANA time zone names (e.g., `America/New_York`, `Asia/Tokyo`).
+
+### Future events buffer
+> [!usage]
+> `/settings [future_min_blocks]`
+> - **`[future_min_blocks]`** : Frequency of the future events the boot keeps created ahead of time.
+
+Increase this for high-frequency schedules.
+
+### Autorename channels
+> [!usage]
+> `/settings [autorename_channel]`
+> - **`autorename_channel`** : Boolean to enable/disable
+
+Enables automatic renaming of channels configured via `/variables channel rename`.
+
+---
+
+> [!TIP]
 > - Language affects bot responses and command descriptions where Discord supports it.
 > - `future_min_blocks` controls the buffer size. Higher values mean more events created in advance.
 > - `autorename_channel` must be enabled for `/variables channel rename` to take effect.
@@ -25,5 +44,7 @@ Requires: **Manage Events** permission.
 > ```
 
 > [!IMPORTANT]
-> Channel auto-rename templates use `§` delimiters.  
+> Channel auto-rename templates use `§` delimiters.
 > See [`/variables channel`](variables.md#channel) for configuration.
+
+To configure template-specific settings (date format, weather city, counter start, etc.), see [Using Templates and Placeholders](using-templates-and-placeholders.md).

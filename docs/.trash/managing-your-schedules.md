@@ -1,5 +1,5 @@
-# Managing Your Schedules
-## Viewing schedules
+# Managing your schedules
+## Viewing
 > [!usage] `/schedule list`
 
 The bot replies with a list of all active cycles. For each cycle you'll see:
@@ -13,11 +13,11 @@ The bot replies with a list of all active cycles. For each cycle you'll see:
 - **Location** — channel or external text
 - **Upcoming events** — next scheduled occurrences
 
-![example_display](../_media/screenshots/example_display.png)
+
 
 <u>Note</u>: placeholders appear literally in the list; they are resolved when events are created or started.
 
-## Pausing a schedule
+## Pausing
 > [!usage]
 > `/schedule pause [id]`
 > - **`id`** : ID of the schedule.
@@ -26,15 +26,15 @@ The bot replies with a list of all active cycles. For each cycle you'll see:
 
 Stops new events from being created. Existing events remain in Discord. There is no resume command; to restart a paused cycle, cancel and recreate it.
 
-## Canceling a schedule
+## Canceling
 > [!usage]
 > - <u>Specific ID:</u>`/schedule cancel [id]`
 > - <u>To delete all schedules at once:</u> `/schedule cancel id:all`
 
 This permanently removes the cycle and purges future events. Past events remain in Discord history.
 
-## Editing a schedule
-### Edit timing and location
+## Editing
+### Timing and location
 > [!usage] `/schedule edit config [id] (bloc) (len) (start_time) (timezone) (location_elsewhere) (location_channel)`
 > - **`bloc`** — new block interval
 > - **`len`** — new event duration
@@ -47,7 +47,7 @@ This permanently removes the cycle and purges future events. Past events remain 
 
 When `start_time`, `timezone`, or `bloc` changes, all future events are automatically deleted and recreated.
 
-### Edit labels, descriptions, and banners
+### Labels, descriptions, and banners
 > [!usage] `/schedule edit blocs [id] (count)`
 > - **`id`** : Id to edit
 > - **`count`** : Change the number of labels

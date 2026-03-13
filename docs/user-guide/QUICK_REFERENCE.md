@@ -23,7 +23,7 @@ Essential Chronomage commands and syntax at a glance.
 
 ---
 
-## [Templates](../commands/Templates.md)
+## [Templates](Templates.md)
 ### Date
 > [!example]
 > `/variables config date format:yyyy-LL-dd timezone:America/New_York step:1d`

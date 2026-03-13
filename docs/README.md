@@ -13,7 +13,7 @@ Chronomage is a Discord bot that automates recurring scheduled events with dynam
 - [Configuration](user-guide/configuration.md)
 - [Best Practices](user-guide/best-practices.md)
 
-⚡ **[Quick Reference](QUICK_REFERENCE.md)** — Essential commands at a glance
+⚡ **[Quick Reference](user-guide/QUICK_REFERENCE.md)** — Essential commands at a glance
 
 🔧 **[Commands Reference](./commands/README.md)** — All slash commands
 - [`/schedule`](./commands/schedule.md) — Create and manage recurring events
@@ -21,7 +21,7 @@ Chronomage is a Discord bot that automates recurring scheduled events with dynam
 - [`/settings`](./commands/settings.md) — Configure bot behavior
 - [`/weather`](./commands/weather.md) — Get weather information
 
-📝 **[Templates](Templates.md)** — Placeholder reference (`{{date}}`, `{{count}}`, `{{weather:*}}`, channel templates)
+📝 **[Templates](user-guide/Templates.md)** — Placeholder reference (`{{date}}`, `{{count}}`, `{{weather:*}}`, channel templates)
 
 ❓ **[FAQ](resources/README.md)** — Frequently asked questions
 
