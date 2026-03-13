@@ -4,7 +4,7 @@ Templates allow you to embed dynamic content in event titles and descriptions.
 See [Templates](../commands/Templates.md) for the full placeholder reference.
 
 ## Date template
-> [!note]
+> [!usage]
 > - <u>View Current settings :</u> `/variables config date`
 > - <u>Configuration :</u> `/variables config date [format] [timezone] [step]`
 
@@ -28,7 +28,7 @@ Common format tokens (Luxon):
 ## Count template
 [SCREENSHOT]
 
-> [!note]
+> [!usage]
 > - <u>View configuration :</u> `/variables config count`
 > - <u>Configuration :</u>`/variables config count [start_number] [step] [decimal] [cron]`
 
@@ -39,7 +39,7 @@ The counter advances on each cron tick. A negative `step` counts down.
 ## Weather template
 [SCREENSHOT]
 
-> [!note]
+> [!usage]
 > - <u>View configuration:</u> `/variables config weather`
 > - <u>Usage:</u> `/variables config weather [location] [compute_at_start]`
 
@@ -61,7 +61,7 @@ When `compute_at_start:true` is set on a template, the placeholder stays literal
 With `compute_at_start:true`, you can also create Discord events manually and include placeholders — they will be resolved when the event starts.
 
 ## Pausing and resuming templates
-> [!note]
-- `/variables switch variables:[date|all|weather|count]`
+> [!usage]
+> - `/variables switch variables:[date|all|weather|count]`
 
 This pauses or resumes the cron job that advances the template value.

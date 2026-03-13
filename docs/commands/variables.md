@@ -2,15 +2,15 @@
 Manage placeholder templates used in event names and descriptions.
 Requires: **Manage Events** permission.
 
-## config
+## Configure
 Configure a template. Run a subcommand with no options to display current settings; pass one or more options to update the template.
 
-### config date
+### Date
 Configure the `{{date}}` placeholder.
 
 
 > [!usage]
-> `/config date (format) (timezone) (cron) (start_date) (step) (compute_at_start)`
+> `/variables config date (format) (timezone) (cron) (start_date) (step) (compute_at_start)`
 > - `format` (*optional*): Luxon format token (e.g., `f`, `FF`, `yyyy-LL-dd HH:mm`). See [Luxon format tokens](https://moment.github.io/luxon/#/formatting?id=table-of-tokens)
 > - `timezone` (*optional*): IANA time zone (e.g., `Europe/Paris`)
 > - `cron` (*optional*): cron expression controlling when the date value advances
@@ -18,7 +18,7 @@ Configure the `{{date}}` placeholder.
 > - `step` (*optional*): duration to add on each cron tick (e.g., `1d`, `2h30m`)
 > - `compute_at_start` (*optional*): if `true`, the placeholder is evaluated when the event starts rather than when it is created
 
-### config count
+### Count
 Configure the `{{count}}` placeholder.
 
 > [!usage]
@@ -29,7 +29,7 @@ Configure the `{{count}}` placeholder.
 > - `cron` (*optional*): cron expression controlling when the counter advances
 > - `compute_at_start` (*optional*): if `true`, the placeholder is evaluated when the event starts
 
-### config weather
+### Weather
 Configure the `{{weather:*}}` placeholders.
 
 > [!usage]
@@ -60,7 +60,7 @@ This also means you can create Discord events manually and include placeholders 
 Pause or resume one or all template cron jobs.
 
 > [!usage]
-> `/switch (variable)`
+> `/vswitch (variable)`
 > - `variables` (*optional*): which template to toggle — `date`, `count`, `weather`, or `all`
 
 ## channel
