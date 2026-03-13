@@ -1,24 +1,125 @@
-.example-alert code {
-	background-color: #7a987f8d;
-	color: #1e291f;
+.theme-dark {
+	--note-bg: color-mix(in oklch, var(--color-sky-500) 24%, transparent);
+	--note-color: var(--color-sky-100);
+	--note-border: var(--color-sky-400);
+	--tip-bg: color-mix(in oklch, var(--color-green-500) 24%, transparent);
+	--tip-color: var(--color-green-100);
+	--tip-border: var(--color-green-400);
+	--warning-bg: color-mix(in oklch, var(--color-amber-500) 24%, transparent);
+	--warning-color: var(--color-amber-100);
+	--warning-border: var(--color-amber-400);
+	--important-bg: color-mix(in oklch, var(--color-violet-500) 24%, transparent);
+	--important-color: var(--color-violet-100);
+	--important-border: var(--color-violet-400);
+	--attention-bg: color-mix(in oklch, var(--color-rose-500) 24%, transparent);
+	--attention-color: var(--color-rose-100);
+	--attention-border: var(--color-rose-400);
+	--example-bg: color-mix(in oklch, var(--color-emerald-500) 24%, transparent);
+	--example-color: var(--color-emerald-100);
+	--example-border: var(--color-emerald-400);
+	--usage-bg: color-mix(in oklch, var(--color-zinc-700) 50%, transparent);
+	--usage-color: var(--color-zinc-400);
+	--usage-border: var(--color-zinc-800);
+}
+
+.theme-light {
+	--note-bg: var(--color-sky-100);
+	--note-color: var(--color-sky-900);
+	--note-border: var(--color-sky-400);
+	--tip-bg: var(--color-green-100);
+	--tip-color: var(--color-green-900);
+	--tip-border: var(--color-green-400);
+	--warning-bg: var(--color-amber-100);
+	--warning-color: var(--color-amber-900);
+	--warning-border: var(--color-amber-400);
+	--important-bg: var(--color-violet-100);
+	--important-color: var(--color-violet-900);
+	--important-border: var(--color-violet-400);
+	--attention-bg: var(--color-rose-100);
+	--attention-color: var(--color-rose-900);
+	--attention-border: var(--color-rose-400);
+	--example-bg: var(--color-emerald-100);
+	--example-color: var(--color-emerald-900);
+	--example-border: var(--color-emerald-400);
+	--usage-bg: var(--color-zinc-200);
+	--usage-color: var(--color-zinc-600);
+	--usage-border: var(--color-zinc-400);
+}
+
+.alert.flat.note {
+	background-color: var(--note-bg);
+	color: var(--note-color);
+	border-color: var(--note-border);
+	--callout-bg: var(--note-bg);
+	--callout-fg: var(--note-color);
+	--callout-border: var(--note-border);
+}
+
+.alert.flat.tip {
+	background-color: var(--tip-bg);
+	color: var(--tip-color);
+	border-color: var(--tip-border);
+	--callout-bg: var(--tip-bg);
+	--callout-fg: var(--tip-color);
+	--callout-border: var(--tip-border);
+}
+
+.alert.flat.warning {
+	background-color: var(--warning-bg);
+	color: var(--warning-color);
+	border-color: var(--warning-border);
+	--callout-bg: var(--warning-bg);
+	--callout-fg: var(--warning-color);
+	--callout-border: var(--warning-border);
+}
+
+.alert.flat.important {
+	background-color: var(--important-bg);
+	color: var(--important-color);
+	border-color: var(--important-border);
+	--callout-bg: var(--important-bg);
+	--callout-fg: var(--important-color);
+	--callout-border: var(--important-border);
+}
+
+.alert.flat.attention {
+	background-color: var(--attention-bg);
+	color: var(--attention-color);
+	border-color: var(--attention-border);
+	--callout-bg: var(--attention-bg);
+	--callout-fg: var(--attention-color);
+	--callout-border: var(--attention-border);
 }
 
 .alert.flat.example-alert {
-	background-color: #7a987f8d;
-	color: #1e291f;
-	border-color: #7a987f;
+	background-color: var(--example-bg);
+	color: var(--example-color);
+	border-color: var(--example-border);
+	--callout-bg: var(--example-bg);
+	--callout-fg: var(--example-color);
+	--callout-border: var(--example-border);
 }
 
-.alert.flat.usage-alert code {
-	color: #1e291f;
+.alert.flat.usage-alert {
+	background-color: var(--usage-bg);
+	color: var(--usage-color);
+	border-color: var(--usage-border);
+	--callout-bg: var(--usage-bg);
+	--callout-fg: var(--usage-color);
+	--callout-border: var(--usage-border);
 }
 
-.example-alert pre {
+.usage-alert .title {
+	color: var(--usage-color);
+}
+
+.alert.flat pre {
 	background-color: transparent;
+	border: 0;
+	box-shadow: none;
 }
 
-.example-alert pre>code {
-	background-color: #7a987f8d;
+.alert.flat pre>code {
 	border-radius: 5px;
 	margin: 0;
 	padding: 0 0.5em;
