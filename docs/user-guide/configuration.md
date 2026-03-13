@@ -1,27 +1,26 @@
 # Configuration
-
 ## Server language
-```
-/settings language:English
-```
-Choices: `English`, `Français`
+> [!usage]
+> `/settings [language]`
+> - **`language`**: `English`, `Français`
 
 ## Default time zone
-```
-/settings timezone:Europe/Paris
-```
-Use IANA time zone names (e.g., `America/New_York`, `Asia/Tokyo`).
+> [!usage]
+> `/settings [timezone]`
+> - **`timezone`** : IANA time zone names (e.g., `America/New_York`, `Asia/Tokyo`).
 
 ## Future events buffer
-```
-/settings future_min_blocks:5
-```
-How many future events the bot keeps created ahead of time. Increase this for high-frequency schedules.
+> [!usage]
+> `/settings [future_min_blocks]`
+> - **`[future_min_blocks]`** : Frequency of the future events the boot keeps created ahead of time.
+
+Increase this for high-frequency schedules.
 
 ## Auto-rename channels
-```
-/settings autorename_channel:true
-```
+> [!usage]
+> `/settings [autorename_channel]`
+> - **`autorename_channel`** : Boolean to enable/disable
+
 Enables automatic renaming of channels configured via `/variables channel rename`.
 
 ---

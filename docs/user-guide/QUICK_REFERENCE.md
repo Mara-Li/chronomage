@@ -143,46 +143,31 @@ Channel templates use `§date§`, `§count§`, `§weather-emoji§`, `§weather-s
 
 ## Examples
 ### Weekly game night
-```
-
-/schedule create count:3 bloc:1w start_time:20:00 len:3h location_elsewhere:Discord timezone:America/New_York
-
-```
+> [!example]
+> `/schedule create count:3 bloc:1w start_time:20:00 len:3h location_elsewhere:Discord timezone:America/New_York`
 
 Labels:
 1. `🎮 Game Night - Mario Kart`
-2. `�� Game Night - Among Us`
+2. `🎮 Game Night - Among Us`
 3. `🎮 Game Night - Minecraft`
 
 ### Daily show with episode counter
-```
-
-/variables config count start_number:1 step:1
-/schedule create count:1 bloc:1d start_time:21:00 len:1h location_elsewhere:Twitch
-
-```
+> [!example]
+> `/variables config count start_number:1 step:1`
+> `/schedule create count:1 bloc:1d start_time:21:00 len:1h location_elsewhere:Twitch`
 
 Label: `Daily Show - Episode {{count}}`
 
 ### Weekly meeting with date
-```
-
-/variables config date format:yyyy-LL-dd timezone:America/New_York
-/schedule create count:1 bloc:1w start_time:14:00 len:1h location_channel:#meetings
-
-```
+> [!example]
+> `/variables config date format:yyyy-LL-dd timezone:America/New_York`
+> `/schedule create count:1 bloc:1w start_time:14:00 len:1h location_channel:#meetings`
 
 Label: `Weekly Team Meeting - {{date}}`
 
 ### Weather-based event
-```
-
-/variables config weather location:London compute_at_start:true
-/schedule create count:1 bloc:1d start_time:08:00 len:30m location_elsewhere:Park
-
-```
+> [!example]
+> `/variables config weather location:London compute_at_start:true`
+> `/schedule create count:1 bloc:1d start_time:08:00 len:30m location_elsewhere:Park`
 
 Description: `Morning walk! Today's weather: {{weather:long}}`
-
----
-
