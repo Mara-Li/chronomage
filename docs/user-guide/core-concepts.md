@@ -1,7 +1,5 @@
 # Core Concepts
-
 ## Schedules and cycles
-
 A **schedule** is a repeating pattern that defines:
 - **Bloc** — interval between successive events (e.g., every 2 days)
 - **Start time** — daily HH:MM when each event begins (e.g., `21:00`)
@@ -12,11 +10,9 @@ A **schedule** is a repeating pattern that defines:
 The schedule repeats indefinitely. A background job (running every 5 minutes) maintains the configured number of future events.
 
 ## Buffer
-
 The **buffer** is how many future events Chronomage keeps created in Discord at all times. Controlled by `/settings future_min_blocks` (default: 2). When an event passes, the bot creates a new one to refill the buffer.
 
 ## Templates and placeholders
-
 Use placeholders in event labels and descriptions:
 
 | Placeholder | Description |
@@ -27,20 +23,18 @@ Use placeholders in event labels and descriptions:
 | `{{weather:short}}` | Short weather description |
 | `{{weather:long}}` | Full weather description |
 
-Templates are configured with `/variables config date|count|weather`.
+Templates are configured with `/variables config date|count|weather`, see [templates](Templates.md) for more informations.
 
 Each template has a cron schedule that advances its value. Template values can be computed either at event creation time or when the event starts (`compute_at_start`).
 
 ## Channel templates
-
 In addition to event placeholders, you can configure channels to be auto-renamed or receive a message whenever a template value changes. Channel templates use `§` delimiters:
 
 `Session §count§ — §date§`
 
-Configure with `/variables channel rename` and `/variables channel send`.
+Configure with `/variables channel rename` and `/variables channel send` (see [variables](../commands/variables.md))
 
 ## Expected behavior
-
 **After creating a schedule**, within a minute events start appearing in Discord's Events section (Server name → Events). The bot creates events until the buffer is full and may do so gradually to avoid rate limits.
 
 **As events occur**, they are marked "In Progress" when they start and "Completed" when they end. The bot automatically creates new events to refill the buffer.
