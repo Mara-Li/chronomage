@@ -10,7 +10,7 @@ A **schedule** is a repeating pattern that defines:
 The schedule repeats indefinitely. A background job (running every 5 minutes) maintains the configured number of future events.
 
 ## Buffer
-The **buffer** is how many future events Chronomage keeps created in Discord at all times. Controlled by `/settings future_min_blocks` (default: 2). When an event passes, the bot creates a new one to refill the buffer.
+The **buffer** is how many future events Chronomage keeps created in Discord at all times. Controlled by `/settings buffer_size` (default: 2). When an event passes, the bot creates a new one to refill the buffer.
 
 ## Templates and placeholders
 Use placeholders in event labels and descriptions:

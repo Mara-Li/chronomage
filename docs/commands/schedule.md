@@ -1,8 +1,6 @@
 # /schedule
 Create and manage recurring cycles of Discord Scheduled Events.
 
-Requires: **Manage Events** permission (and channel permissions for Stage/Voice events).
-
 ## Subcommands
 - **create** — define a cycle; opens a wizard to enter labels, optional descriptions, and optional banner images
 - **list** — show active cycles and a few upcoming events

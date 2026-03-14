@@ -1,6 +1,5 @@
 
 Manage placeholder templates used in event names and descriptions.
-Requires: **Manage Events** permission.
 
 # Config
 Configure a template. Run a subcommand with no options to display current settings; pass one or more options to update the template.

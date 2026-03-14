@@ -1,8 +1,6 @@
 # /settings
 Configure global bot settings for this guild.
 
-Requires: **Manage Events** permission.
-
 ## Subcommands
 ### Server language
 > [!usage] `/settings language [language]`
@@ -17,7 +15,7 @@ Requires: **Manage Events** permission.
 Number of future events we always want visible.
 It controls the buffer size : Higher values mean more events created in advance.
 > [!usage]
-> `/settings upcoming_events_count [value]`
+> `/settings buffer_size [value]`
 > - **`[value]`** — Frequency of the future events the boot keeps created ahead of time.
 
 Increase this for high-frequency schedules.
