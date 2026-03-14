@@ -9,7 +9,10 @@ Practical reference for all slash commands. Each command requires the **Manage E
 See individual pages for detailed options and examples.
 
 ### Syntax references
-Each options will use the following syntax:
+Each command parameters will use the following syntax:
 - `[options]` : Mandatory value.
 - `(option)` : Optional
-- 
+- `?option` : Boolean (`true` or `false`)
+- `*option` : Autocompleted (a list appear above the chat and a search can be done while taping the start of the text)
+- `%option` : Number 
+- ``
