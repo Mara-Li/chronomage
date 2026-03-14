@@ -11,7 +11,7 @@ Decide:
 > [!example]
 > `/schedule create count:3 bloc:2d start_time:21:00 len:2h timezone:Europe/Paris location_elsewhere:Online`
 
-[SCREENSHOT]
+![](../_media/screenshots/Pasted%20image%2020260314175635.png)
 
 *For more information, see [create](../commands/schedule.md#create).*
 
