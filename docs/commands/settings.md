@@ -5,33 +5,33 @@ Requires: **Manage Events** permission.
 
 ## Subcommands
 ### Server language
-> [!usage] `/settings [language]`
+> [!usage] `/settings language [language]`
 > - **`language`** — English ; Français
 
 ### Default timezone
 > [!usage]
-> `/settings [timezone]`
+> `/settings timezone [timezone]`
 > - **`timezone`** — IANA time zone names (e.g., `America/New_York`, `Asia/Tokyo`).
 
-### Future events buffer
+### Upcoming events count
+Number of future events we always want visible.
+It controls the buffer size : Higher values mean more events created in advance.
 > [!usage]
-> `/settings [future_min_blocks]`
-> - **`[future_min_blocks]`** : Frequency of the future events the boot keeps created ahead of time.
+> `/settings upcoming_events_count [value]`
+> - **`[value]`** — Frequency of the future events the boot keeps created ahead of time.
 
 Increase this for high-frequency schedules.
 
-### Autorename channels
-> [!usage]
-> `/settings [autorename_channel]`
-> - **`autorename_channel`** : Boolean to enable/disable
-
+### Auto-rename channels
 Enables automatic renaming of channels configured via `/variables channel rename`.
+> [!usage]
+> `/settings autorename_channel [?switch]`
+> - **`switch`** : Boolean to enable/disable
 
 ---
 
 > [!TIP]
 > - Language affects bot responses and command descriptions where Discord supports it.
-> - `future_min_blocks` controls the buffer size. Higher values mean more events created in advance.
 > - `autorename_channel` must be enabled for `/variables channel rename` to take effect.
 
 > [!example]

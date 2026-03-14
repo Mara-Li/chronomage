@@ -42,8 +42,8 @@ After the wizard, the bot saves the cycle and immediately starts maintaining the
 
 ## List
 > [!usage]
-> **`/schedule list (id)`**
-> - `id` (*optional*, autocomplete): filter by a specific schedule ID
+> **`/schedule list (*id)`**
+> - **`id`** — filter by a specific schedule ID
 
 The bot replies with a list of all active cycles. For each cycle you'll see:
 
@@ -60,15 +60,15 @@ The bot replies with a list of all active cycles. For each cycle you'll see:
 
 ## Pause
 > [!usage]
-> **`/schedule pause [id]`**
-> - `id` (**required**, autocomplete): ID of the cycle to pause. Use `all` to pause everything.
+> **`/schedule pause [*id]`**
+> - **`id`** — ID of the cycle to pause. Use `all` to pause everything.
 
 Stops new events from being created. Existing events remain in Discord. There is no resume command; to restart a paused cycle, cancel and recreate it.
 
 ## Cancel
 > [!usage]
-> **`/schedule cancel [id]`**
-> - `id` (**required**, autocomplete): ID of the cycle to cancel; use `all` to cancel every cycle
+> **`/schedule cancel [*id]`**
+> - **`id`** — ID of the cycle to cancel; use `all` to cancel every cycle
 
 This permanently removes the cycle and purges future events. Past events remain in Discord history.
 
@@ -77,14 +77,14 @@ This permanently removes the cycle and purges future events. Past events remain 
 Edit a cycle's timing and location. Future events are recreated automatically if the block interval, start time, or time zone changes.
 
 > [!usage]
-> **`/schedule edit config [id] (bloc) (len) (start_time) (timezone) (location_elsewhere) (location_channel)`**
-> - **`id`** (**required**, autocomplete) — ID of the cycle to edit
-> - **`bloc`** (*optional*) — new block interval
-> - **`len`** (*optional*) — new event duration
-> - **`start_time`** (*optional*) — new daily start time (HH:MM)
-> - **`timezone`** (*optional*) — new IANA time zone
-> - **`location_elsewhere`** (*optional*) — new plain text location
-> - **`location_channel`** (*optional*) — new Voice or Stage channel
+> **`/schedule edit config [*id] (bloc) (len) (start_time) (timezone) (location_elsewhere) (location_channel)`**
+> - **`id`** — ID of the cycle to edit
+> - **`bloc`** — new block interval
+> - **`len`** — new event duration
+> - **`start_time`** — new daily start time (HH:MM)
+> - **`timezone`** — new IANA time zone
+> - **`location_elsewhere`** — new plain text location
+> - **`location_channel`** — new Voice or Stage channel
 
 When `start_time`, `timezone`, or `bloc` changes, all future events are automatically deleted and recreated.
 
@@ -92,9 +92,9 @@ When `start_time`, `timezone`, or `bloc` changes, all future events are automati
 Re-enter labels, descriptions, and banners for a cycle via the wizard.
 
 > [!usage]
-> **`/schedule edit blocs [id] (count)`**
-> - `id` (**required**, autocomplete) — ID of the cycle to edit
-> - `count` (*optional*, 1–20) — number of labels to re-enter (defaults to the current cycle length)
+> **`/schedule edit blocs [*id] (%count)`**
+> - **`id`** — ID of the cycle to edit
+> - **`count`** — number of labels to re-enter (defaults to the current cycle length)
 
 > [!example]
 >
@@ -108,4 +108,4 @@ Re-enter labels, descriptions, and banners for a cycle via the wizard.
 > /schedule edit blocs id:my-cycle-123 count:3
 > ```
 
-[1]: Locales supported are french, english, spanish, deutch, 
+[1]: Locales supported are french (fr), english (en), deutsch (de), spanish (es), japanese (ja), portuguese (pt), russian (ru) and chinese (zh). See [parse-duration locales](https://github.com/jkroso/parse-duration/tree/master/locale)
