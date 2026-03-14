@@ -1,13 +1,16 @@
 # /weather
-Get the weather for a given city (or the default city from your template).
+Fetch current weather for a city.
 
-## Options
-- `location` (string, *optional*): city name. If omitted, uses /variables weather location
-- `timezone` (string, *optional*): IANA time zone used for the output
+> [!usage]
+> `/weather (location) (timezone)`
+> - **`location`** — city name. If omitted, uses the location from `/variables config weather`
+> - **`timezone`** — IANA time zone for the output display
 
-## Behavior
-Replies with a short description of current weather. If the location cannot be found, the reply is ephemeral with an error.
+It will reply with a short weather description. If the location cannot be found, the bot replies with an ephemeral error.
 
-> [!TIP]
-> - `/weather location: London`
-> - `/weather location: Paris timezone: Europe/Paris`
+> [!example]
+>
+> ```
+> /weather location:London
+> /weather location:Paris timezone:Europe/Paris
+> ```

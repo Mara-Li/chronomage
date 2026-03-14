@@ -68,6 +68,7 @@
 	"devDependencies": {
 		"@esbuild-plugins/tsconfig-paths": "^0.1.2",
 		"esbuild": "^0.25.11",
-		"glob": "^11.0.3"
+		"glob": "^11.0.3",
+		"vitest": "^4.1.0"
 	}
 }

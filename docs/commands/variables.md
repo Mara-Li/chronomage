@@ -1,89 +1,101 @@
-# /variables
+
 Manage placeholder templates used in event names and descriptions.
 
-## Config
-### Date
-- `format` (*optional*): e.g., f, FF, yyyy-LL-dd HH:mm. See [Luxon format](https://moment.github.io/luxon/#/formatting?id=table-of-tokens)
-- `timezone` (*optional*): IANA zone, e.g., Europe/Paris
-- `cron` (*optional*): when to advance current value
-- `start_time` (*optional*): first value text, matching your format
-- `step` (*optional*): localized duration (e.g., 1d, 2h30m)
-- `compute_at_start` (*optional*): compute on activation if true
+# Config
+Configure a template. Run a subcommand with no options to display current settings; pass one or more options to update the template.
 
-Then you can use the `{{date}}` placeholder in your event labels/descriptions.
+## Date
+Configure the `{{date}}` placeholder.
 
-### Count
-- `start` (*optional*): initial number
-- `step` (*optional*): delta per cron tick (positive or negative)
-- `decimal` (*optional*): digits after the decimal point
-- `cron` (*optional*): cron driving increments
-- `compute_at_start` (*optional*): Compute when the event start when true
+> [!usage]
+> `/variables config date (format) (timezone) (cron) (start_date) (step) (compute_at_start)`
+> - **`format`** — Luxon format token (e.g., `f`, `FF`, `yyyy-LL-dd HH:mm`). See [Luxon format tokens](https://moment.github.io/luxon/#/formatting?id=table-of-tokens)
+> - **`timezone`** — IANA time zone (e.g., `Europe/Paris`)
+> - **`cron`** — cron expression controlling when the date value advances
+> - **`start_date`** — initial date value (must match the configured `format`)
+> - **`step`** — duration to add on each cron tick (e.g., `1d`, `2h30m`)
+> - **`compute_at_start`** — if `true`, the placeholder is evaluated when the event starts rather than when it is created
 
-Then you can use the `{{count}}` placeholder in your event labels/descriptions.
+## Count
+Configure the `{{count}}` placeholder.
 
-### Weather
-- `location` (*optional*): City where to fetch the weather
-- `compute_at_start` (*optional*)
-- `cron` (*optional*) : cron driving increments
+> [!usage]
+> `/variables config count (%start_number) (%step) (%decimal) (cron) (?compute_at_start)`
+> - **`start_number`** — initial numeric value
+> - **`step`** : delta per cron tick (positive or negative)
+> - **`decimal`** — number of digits after the decimal point
+> - **`cron`** — cron expression controlling when the counter advances
+> - **`compute_at_start`** — if `true`, the placeholder is evaluated when the event starts
 
-The weather placeholder supports:
-- `{{weather:emoji}}`: weather emoji only (`☀️`, `🌧️`, etc.)
-- `{{weather:short}}`: short description (`Sunny, 25°C`)
-- `{{weather:long}}`: long description (`Sunny with a high of 25°C....`)
+## Weather
+Configure the `{{weather:*}}` placeholders.
 
-### Compute at start
-If set on `true`, the template will be updated only when the event start.
-Until then, the template will remains (as `{{weather:long}}` for example) in the label or the description.
+> [!usage]
+> `/variables config weather (location) (?compute_at_start) (cron)`
+> - **`location`** — city name (e.g., `London`, `Paris, France`)
+> - **`compute_at_start`** — if `true`, weather is fetched when the event starts (recommended)
+> - **`cron`** — cron expression for automatic weather refresh
 
-This **also** allow to create event manually (ie without using the wizard and the `/schedule create` commands) with theses template, as they will be updated accordingly when the event start.
+Weather variants:
+- `{{weather:emoji}}` — weather icon only (e.g., `☀️`, `🌧️`)
+- `{{weather:short}}` — short description (e.g., `Sunny, 25°C`)
+- `{{weather:long}}` — full description
 
-> [!IMPORTANT]
-> - Run `/variables date` (or `count`, `weather`) with no options to **display current settings**.
-> - Pass one or more options to update the template. On success, the bot replies with a confirmation.
+# Switch
+Pause or resume one or all template cron jobs.
 
-> [!TIP]
-> - `/variables date format: yyyy-LL-dd HH:mm timezone: Europe/Paris step: 1d`
-> - `/variables count start: 1 step: 1 decimal: 0 cron: 0 0 * * *`
-> - `/variables weather location: London compute_at_start: true`
+> [!usage]
+> `/variables switch (variable)`
+> - **`variables`** — which template to toggle ; choose between `date`, `count`, `weather`, or `all`
 
-> [!NOTE]
-> [See also template](https://github.com/Mara-Li/chronomage/wiki/Templates) for details on placeholders and compute timing.
-
-### Switch
-- `variables` : Choices with `date`, `count`, `weather` and `all`
-
-Allow to pause or start a variables template.
-
-## Channels
-### Rename
+# Channel
+Automatically rename channels or send messages whenever a template value changes.
 
 > [!IMPORTANT]
-> Only 5 channels can be renamed at time.
+> Channel templates use `§` delimiters (not `{{}}`).
+> Supported channel placeholders: `§date§`, `§count§`, `§weather-emoji§`, `§weather-short§`, `§weather-long§`
 
-Rename automatically a channel based on a template.
+## Rename
+Rename a channel according to a template when the template value changes.
 
-- `channel` (*required*): Tag to the channel to rename
-- `text` : Template to use
+> [!usage]
+> `/variables channel rename [channel] (text)`
+> - **`channel`** — the channel to rename (any channel type)
+> - **`text`** — template string to use (leave empty to remove the setting)
 
-If text is empty, it will delete the settings for the requested channel.
+> [!warning]
+> Maximum 5 channels can be configured for auto-renaming.
 
-### Send
+## Send
+Send a message to a text channel when a template value changes.
+
+> [!usage]
+> `/variables channel send [channel] (text)`
+> - **`channel`** — text channel to send to
+> - **`text`** — template message to send (leave empty to remove the setting)
 
 > [!IMPORTANT]
-> Only 5 channels can receive the message/template.
+> Maximum 5 channels can be configured for auto-messages.
 
-Send automatically a message when the variable update in the channel.
+## channel display
+Show the current channel template configuration.
 
-- `channel` (*required*) : Tag to the channel to send the message
-- `text` (*optional*) : Template to use
+> [!usage]
+> `/variables channel display (type)`
+> - **`type`** — `rename` or `send` ; if omitted, both are shown
 
-If text is empty, it will delete the settings for the requested channel.
+> [!tip]
+> For auto-renaming to work, also enable it with `/settings autorename_channel:true` (see [settings](settings.md)).
 
+# compute_at_start
+When `compute_at_start` is `true` on a template, the placeholder stays literal (e.g., `{{weather:long}}`) until the event becomes Active. At that point the bot resolves it and updates the event.
 
-### Display
+This also means you can create Discord events manually and include placeholders — they will be resolved when the event starts.
 
-Allow to display the settings for the auto-rename / send message.
-
-- `type` (*optional*) : Choose between rename/send settings.
-
-If not set, send the two settings.
+> [!example]
+>
+> ```
+> /variables config date format:yyyy-LL-dd timezone:Europe/Paris step:1d
+> /variables config count start_number:1 step:1 decimal:0 cron:0 0 * * *
+> /variables config weather location:London compute_at_start:true
+> ```

@@ -41,7 +41,7 @@ export const globalSettings = {
 				.setDescriptions("globalSettings.minFuturBlock.description")
 				.addIntegerOption((opt) =>
 					opt
-						.setNames("globalSettings.minFuturBlock.name")
+						.setNames("common.value")
 						.setDescriptions("globalSettings.minFuturBlock.description")
 						.setRequired(true)
 						.setMinValue(1)
@@ -83,7 +83,7 @@ export const globalSettings = {
 		}
 		if (subcommand === t("globalSettings.minFuturBlock.name")) {
 			const minFuturBlock = interaction.options.getInteger(
-				t("globalSettings.minFuturBlock.name"),
+				t("common.value"),
 				true
 			);
 			client.settings.set(interaction.guild.id, minFuturBlock, "settings.futurMinBlock");

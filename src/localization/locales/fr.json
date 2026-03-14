@@ -1,277 +1,278 @@
 {
-  "anchor": {
-    "description": "Date du premier évènement",
-    "name": "jour_départ"
-  },
-  "bloc": {
-    "description": "Intervalle entre le début des évènements successifs (ex : 2j, 48h)",
-    "name": "bloc"
-  },
-  "cancel": {
-    "allSuccess": "Tous les évènements ont été supprimés.",
-    "success": "🧹 Cycle **{{scheduleId}}** supprimée.\nLes events futurs liés sont purgés côté stockage local."
-  },
-  "common": {
-    "all": "Tout",
-    "cancel": "Annuler",
-    "channel": "channel",
-    "cron": "cron",
-    "date": "date",
-    "description": "Description",
-    "disabled": "désactivé",
-    "enabled": "activé",
-    "example": "__Exemple__ : `{{ex}}`",
-    "format": "format",
-    "id": "id",
-    "label": "Nom",
-    "len": "durée",
-    "message": "texte",
-    "next": "Suivant",
-    "not_set": "/",
-    "start": "heure_début",
-    "step": "pas",
-    "success": "Les paramètres ont bien été sauvegardés.",
-    "type": "type"
-  },
-  "count": {
-    "description": "Nombre d'évènements différents (labels et descriptions)",
-    "display": {
-      "title": "Configuration - Compte"
-    },
-    "name": "compte",
-    "start": "nombre_départ"
-  },
-  "date": {
-    "display": {
-      "title": "Configuration - Date"
-    },
-    "set": {
-      "success": "La date a été correctement enregistrée.\n__Exemple__ : {{ex}}"
-    }
-  },
-  "description": {
-    "cron": "Définissez le calendrier (cron) pour la mise à jour de la variable",
-    "location": "Mettre la localization dont vous voulez la météo",
-    "start": {
-      "date": "Date de début qui sera utilisée",
-      "number": "Définir le numéro de départ"
-    },
-    "step": "How much to add to the variable"
-  },
-  "edit": {
-    "success": "✅ Planning **{{id}}** mis à jour.\n- __Bloc__ : {{bloc}}\n- __Durée__ : {{lenStr}}\n- __Heure__ : {{start}}\n- __Zone__ : {{zone}}\n- __Localisation__ : {{location}}"
-  },
-  "error": {
-    "cron": "Le cron est invalide.",
-    "duplicateLabel": "Le label `{{label}}` est déjà utilisé pour le bloc {{index}}. Chaque label doit être unique.",
-    "invalidAnchorDate": "Date d'ancrage \"{{anchorISO}}\" invalide. Format attendu `{{format}}.`",
-    "invalidBlock": "Bloc \"{{blocStr}}\" invalide",
-    "invalidLength": "Durée \"{{lenStr}}\" invalide",
-    "invalidScheduleId": "Aucun cyle avec l'id `{{scheduleId}}` trouvé.",
-    "invalidStartTime": "Heure \"{{startHHMM}}\" invalide.\nFormat attendu `HH:MM`.",
-    "invalid_cron": "Le Cron utilisé n'est pas valide.",
-    "limitReached": "Vous ne pouvez pas avoir plus de 5 channels pour l'auto-renommage.",
-    "locationConflict": "Un seul emplacement peut être utilisé à la fois.",
-    "noLocation": "Un lieu est obligatoire pour l'événement.",
-    "noSchedules": "Aucun cycle configuré",
-    "pastAnchorDate": "La date de début `{{anchor}}` est dans le passé.",
-    "unauthorized": "Ce modal n'est pas pour vous !",
-    "unknown": "Erreur inconnue : {{error}}",
-    "unknownSubcommand": "Sous commande inconnue",
-    "wizardNotFound": "Wizard non trouvé ou expiré."
-  },
-  "globalSettings": {
-    "autorename": {
-      "description": "Renommer automatiquement les channels qui contiennent des templates",
-      "name": "autorename_channel",
-      "set": "L'auto renommage a été {{status}}.",
-      "switch": "Activer/désactiver l'auto-renommage"
-    },
-    "description": "Changer les paramètres généraux du bot.",
-    "language": {
-      "description": "Changer la langue du bot",
-      "name": "langue",
-      "set": "Le bot est maintenance configuré en {{lang}}."
-    },
-    "minFuturBlock": {
-      "description": "Ajustez le nombre d'événements qui seront créés à chaque cycle.",
-      "name": "future_min_blocks",
-      "set": "Chaque cycle créera {{futurMinBlock}} évènements."
-    },
-    "settings": "paramètre",
-    "timezone": {
-      "set": "Le fuseau horaire par défaut a été défini sur {{tz}}."
-    }
-  },
-  "list": {
-    "anchor": "Date de début :",
-    "banners": "Image(s) :",
-    "block": "Durée d'un bloc :",
-    "createdBy": "Créé par :",
-    "description": "Description(s) :",
-    "labels": "Label(s) :",
-    "len": "Durée d'un évent :",
-    "location": "Localisation :",
-    "start": "Heure de début des blocs :",
-    "upcomingEvents": "Prochains évènements :"
-  },
-  "location": {
-    "string": {
-      "description": "Définir n'importe quel emplacement (texte brut)",
-      "name": "localisation_ailleurs"
-    },
-    "vocal": {
-      "description": "Définir l'emplacement d'un salon (stage ou vocal)",
-      "name": "localisation_salon"
-    }
-  },
-  "modals": {
-    "canceled": "Annuler",
-    "description": "Supporte la syntaxe Markdown, les retours à la ligne et les liens.",
-    "placeholder": "Supporte des variables \"placeholder\". Référez-vous à la documentation pour plus d'informations.",
-    "scheduleEvent": {
-      "completedError": "Erreur : {{e}}",
-      "completedQuick": "L'évènement `{{scheduleId}}` a correctement été planifié ! Veuillez attendre quelque minutes avant l'affichage.",
-      "edited": "L'évènement `{{scheduleId}}` a correctement été modifié ! Veuillez attendre quelque minutes avant actualisation.",
-      "image": {
-        "description": "Bannière optionnel pour l'évènement. Format recommandé : au moins 800px de large et 320 px de haut.",
-        "label": "Bannière"
-      },
-      "nextPrompt": "Évènements {{current}}/{{total}} sauvegardé sous `{{label}}`. Préparation de l'évènement suivant..."
-    },
-    "title": "Création d'un cycle"
-  },
-  "pause": {
-    "success": "⏸️ Cycle **{{scheduleId}}** mise en pause.\nElle ne générera plus de nouveaux events, mais les events déjà créés restent."
-  },
-  "schedule": {
-    "cancel": {
-      "description": "Supprimer un cycle et ses évènements futurs.",
-      "id": "ID du cycle à supprimer",
-      "name": "annulation"
-    },
-    "config": {
-      "description": "Modifier les paramètres d'un cycle (blocage, longueur, durée, etc.)",
-      "name": "config"
-    },
-    "create": {
-      "description": "Créer un nouvel événement récurrent",
-      "len": {
-        "description": "Durée de chaque évènements (ex : 2h)"
-      },
-      "name": "créer",
-      "start": "Heure locale à laquelle chaque évènement démarre",
-      "zone": {
-        "name": "Fuseau horaire (ex : Europe/Paris)"
-      }
-    },
-    "description": "Gérer des cycles d'évènements à partir de durée",
-    "edit": {
-      "bloc": {
-        "description": "Modifier les champs d'un événement (bloc, description, label...)",
-        "name": "blocs"
-      },
-      "description": "Modifier un évènement programmé",
-      "id": "ID du cycle à modifier",
-      "name": "edit"
-    },
-    "list": {
-      "description": "Lister les cycles actifs et les prochains évènements",
-      "id": "ID du cycle à afficher",
-      "name": "lister"
-    },
-    "name": "schedule",
-    "pause": {
-      "description": "Mettre un cycle en pause",
-      "id": "ID du cycle à mettre en pause",
-      "name": "pause"
-    }
-  },
-  "template": {
-    "channels": {
-      "channelId": "ID du channel à changer",
-      "description": "Renommer ou envoyer des messages liés aux templates aux moments des changements.",
-      "display": {
-        "description": "Affiche la configuration pour les channels (message/renommage)",
-        "name": "afficher",
-        "noTemplates": "Aucun channel configuré.",
-        "rename": "__Channel(s) renommé(s)__ :",
-        "send": "__Message(s) envoyé(s)__ :",
-        "type": "Type que l'on veut afficher"
-      },
-      "rename": {
-        "deleteSuccess": "Le channel <#{{channel}}> ne sera plus auto-renommé.",
-        "description": "Renommer un channel selon une template",
-        "name": "renommer",
-        "success": "Le channel <#{{channel}}> sera bien renommé selon `{{template}}`."
-      },
-      "send": {
-        "deleteSuccess": "Le channel <#{{channel}}> ne recevra plus de message automatiquement.",
-        "description": "Envoyer un message avec des template dans un channel aux changements de valeurs.",
-        "name": "envoyé",
-        "success": "Le channel <#{{channel}}> recevra le message `{{template}}` lorsqu'il y aura un changement de variables."
-      },
-      "text": {
-        "description": "Texte avec les valeurs template à utiliser"
-      }
-    },
-    "compute": {
-      "description": "Permet de calculer (ou non) la valeur au moment du lancement de l'évènement",
-      "name": "calculer_au_début"
-    },
-    "count": {
-      "description": "Number to increase or decrease",
-      "pause": "le compteur a été mis en pause.",
-      "resume": "Le compteur a été correctement relancé."
-    },
-    "currentValue": "Valeur actuelle : {{ex}}",
-    "date": {
-      "description": "Gérer la date : zone, cron, format, début...",
-      "format": "Définir le mode d'affichage de la date",
-      "pause": "La template des date a bien été mise en pause.",
-      "resume": "La template des date a été relancée.",
-      "step": "Durée à utiliser comme pas"
-    },
-    "decimal": {
-      "description": "Nombre de chiffres après la virgule",
-      "name": "decimal"
-    },
-    "description": "Gérer les modèles de variables (date, nombre et méteo)",
-    "manage": {
-      "description": "Gérer les paramètres des templates (date, météo, et compteur)",
-      "name": "config"
-    },
-    "name": "variables",
-    "pause": {
-      "description": "Mettre une des variables (ou toute) en pause ou les relancer",
-      "disabled": "Désactivé",
-      "enabled": "Actif",
-      "name": "switch",
-      "status": {
-        "overall": "Statuts des variables :\n- __Date__ : {{date.value}} (`{{date.cron}}`)\n- __Compte__ : {{count.value}} (`{{count.cron}}`)\n- __Météo__ : {{weather.value}}{{weather.cron}}"
-      },
-      "variable": "Variable à mettre en pause ou relancer"
-    },
-    "weather": {
-      "cron": "Définissez le calendrier (cron) pour la mise à jour de la météo. Utilisez \"/\" pour supprimer.",
-      "description": "Définir la localisation de la météo",
-      "not_set": "Le cron de la météo n'est pas configuré.",
-      "pause": "La cron de la météo a été mise en pause.",
-      "resume": "Le timer de la météo a été relancé."
-    }
-  },
-  "timezone": {
-    "description": "Définir le fuseau horaire (ex : Europe/Paris)",
-    "name": "timezone"
-  },
-  "weather": {
-    "description": "Obtenir la météo pour une ville donnée / ville par défaut du modèle",
-    "display": {
-      "location": "Lieu",
-      "title": "Configuration - Météo"
-    },
-    "location": "location",
-    "locationNotFound": "La ville {{location}} est introuvable.",
-    "name": "météo"
-  }
+	"anchor": {
+		"description": "Date du premier évènement",
+		"name": "jour_départ"
+	},
+	"bloc": {
+		"description": "Intervalle entre le début des évènements successifs (ex : 2j, 48h)",
+		"name": "bloc"
+	},
+	"cancel": {
+		"allSuccess": "Tous les évènements ont été supprimés.",
+		"success": "🧹 Cycle **{{scheduleId}}** supprimée.\nLes events futurs liés sont purgés côté stockage local."
+	},
+	"common": {
+		"all": "Tout",
+		"cancel": "Annuler",
+		"channel": "channel",
+		"cron": "cron",
+		"date": "date",
+		"description": "Description",
+		"disabled": "désactivé",
+		"enabled": "activé",
+		"example": "__Exemple__ : `{{ex}}`",
+		"format": "format",
+		"id": "id",
+		"label": "Nom",
+		"len": "durée",
+		"message": "texte",
+		"next": "Suivant",
+		"not_set": "/",
+		"start": "heure_début",
+		"step": "pas",
+		"success": "Les paramètres ont bien été sauvegardés.",
+		"type": "type",
+		"value": "valeur"
+	},
+	"count": {
+		"description": "Nombre d'évènements différents (labels et descriptions)",
+		"display": {
+			"title": "Configuration - Compte"
+		},
+		"name": "compte",
+		"start": "nombre_départ"
+	},
+	"date": {
+		"display": {
+			"title": "Configuration - Date"
+		},
+		"set": {
+			"success": "La date a été correctement enregistrée.\n__Exemple__ : {{ex}}"
+		}
+	},
+	"description": {
+		"cron": "Définissez le calendrier (cron) pour la mise à jour de la variable",
+		"location": "Mettre le lieu dont vous voulez la météo",
+		"start": {
+			"date": "Date de début qui sera utilisée",
+			"number": "Définir le numéro de départ"
+		},
+		"step": "Nombre à ajouter à la variable"
+	},
+	"edit": {
+		"success": "✅ Planning **{{id}}** mis à jour.\n- __Bloc__ : {{bloc}}\n- __Durée__ : {{lenStr}}\n- __Heure__ : {{start}}\n- __Zone__ : {{zone}}\n- __Localisation__ : {{location}}"
+	},
+	"error": {
+		"cron": "Le cron est invalide.",
+		"duplicateLabel": "Le label `{{label}}` est déjà utilisé pour le bloc {{index}}. Chaque label doit être unique.",
+		"invalidAnchorDate": "Date d'ancrage \"{{anchorISO}}\" invalide. Format attendu `{{format}}.`",
+		"invalidBlock": "Bloc \"{{blocStr}}\" invalide",
+		"invalidLength": "Durée \"{{lenStr}}\" invalide",
+		"invalidScheduleId": "Aucun cyle avec l'id `{{scheduleId}}` trouvé.",
+		"invalidStartTime": "Heure \"{{startHHMM}}\" invalide.\nFormat attendu `HH:MM`.",
+		"invalid_cron": "Le Cron utilisé n'est pas valide.",
+		"limitReached": "Vous ne pouvez pas avoir plus de 5 channels pour l'auto-renommage.",
+		"locationConflict": "Un seul emplacement peut être utilisé à la fois.",
+		"noLocation": "Un lieu est obligatoire pour l'événement.",
+		"noSchedules": "Aucun cycle configuré",
+		"pastAnchorDate": "La date de début `{{anchor}}` est dans le passé.",
+		"unauthorized": "Ce modal n'est pas pour vous !",
+		"unknown": "Erreur inconnue : {{error}}",
+		"unknownSubcommand": "Sous commande inconnue",
+		"wizardNotFound": "Wizard non trouvé ou expiré."
+	},
+	"globalSettings": {
+		"autorename": {
+			"description": "Renommer automatiquement les channels qui contiennent des templates",
+			"name": "autorename_channel",
+			"set": "L'auto renommage a été {{status}}.",
+			"switch": "Activer/désactiver l'auto-renommage"
+		},
+		"description": "Changer les paramètres généraux du bot.",
+		"language": {
+			"description": "Changer la langue du bot",
+			"name": "langue",
+			"set": "Le bot est maintenance configuré en {{lang}}."
+		},
+		"minFuturBlock": {
+			"description": "Ajustez le nombre d'événements qui seront créés à chaque cycle.",
+			"name": "taille_buffer",
+			"set": "Chaque cycle créera {{futurMinBlock}} évènements."
+		},
+		"settings": "paramètre",
+		"timezone": {
+			"set": "Le fuseau horaire par défaut a été défini sur {{tz}}."
+		}
+	},
+	"list": {
+		"anchor": "Date de début :",
+		"banners": "Image(s) :",
+		"block": "Durée d'un bloc :",
+		"createdBy": "Créé par :",
+		"description": "Description(s) :",
+		"labels": "Label(s) :",
+		"len": "Durée d'un évent :",
+		"location": "Localisation :",
+		"start": "Heure de début des blocs :",
+		"upcomingEvents": "Prochains évènements :"
+	},
+	"location": {
+		"string": {
+			"description": "Définir n'importe quel emplacement (texte brut)",
+			"name": "localisation_ailleurs"
+		},
+		"vocal": {
+			"description": "Définir l'emplacement d'un salon (stage ou vocal)",
+			"name": "localisation_salon"
+		}
+	},
+	"modals": {
+		"canceled": "Annuler",
+		"description": "Supporte la syntaxe Markdown, les retours à la ligne et les liens.",
+		"placeholder": "Supporte des variables \"placeholder\". Référez-vous à la documentation pour plus d'informations.",
+		"scheduleEvent": {
+			"completedError": "Erreur : {{e}}",
+			"completedQuick": "L'évènement `{{scheduleId}}` a correctement été planifié ! Veuillez attendre quelque minutes avant l'affichage.",
+			"edited": "L'évènement `{{scheduleId}}` a correctement été modifié ! Veuillez attendre quelque minutes avant actualisation.",
+			"image": {
+				"description": "Bannière optionnel pour l'évènement. Format recommandé : au moins 800px de large et 320 px de haut.",
+				"label": "Bannière"
+			},
+			"nextPrompt": "Évènements {{current}}/{{total}} sauvegardé sous `{{label}}`. Préparation de l'évènement suivant..."
+		},
+		"title": "Création d'un cycle"
+	},
+	"pause": {
+		"success": "⏸️ Cycle **{{scheduleId}}** mise en pause.\nElle ne générera plus de nouveaux events, mais les events déjà créés restent."
+	},
+	"schedule": {
+		"cancel": {
+			"description": "Supprimer un cycle et ses évènements futurs.",
+			"id": "ID du cycle à supprimer",
+			"name": "annulation"
+		},
+		"config": {
+			"description": "Modifier les paramètres d'un cycle (blocage, longueur, durée, etc.)",
+			"name": "config"
+		},
+		"create": {
+			"description": "Créer un nouvel événement récurrent",
+			"len": {
+				"description": "Durée de chaque évènements (ex : 2h)"
+			},
+			"name": "créer",
+			"start": "Heure locale à laquelle chaque évènement démarre",
+			"zone": {
+				"name": "Fuseau horaire (ex : Europe/Paris)"
+			}
+		},
+		"description": "Gérer des cycles d'évènements à partir de durée",
+		"edit": {
+			"bloc": {
+				"description": "Modifier les champs d'un événement (bloc, description, label...)",
+				"name": "blocs"
+			},
+			"description": "Modifier un évènement programmé",
+			"id": "ID du cycle à modifier",
+			"name": "edit"
+		},
+		"list": {
+			"description": "Lister les cycles actifs et les prochains évènements",
+			"id": "ID du cycle à afficher",
+			"name": "lister"
+		},
+		"name": "schedule",
+		"pause": {
+			"description": "Mettre un cycle en pause",
+			"id": "ID du cycle à mettre en pause",
+			"name": "pause"
+		}
+	},
+	"template": {
+		"channels": {
+			"channelId": "ID du channel à changer",
+			"description": "Renommer ou envoyer des messages liés aux templates aux moments des changements.",
+			"display": {
+				"description": "Affiche la configuration pour les channels (message/renommage)",
+				"name": "afficher",
+				"noTemplates": "Aucun channel configuré.",
+				"rename": "__Channel(s) renommé(s)__ :",
+				"send": "__Message(s) envoyé(s)__ :",
+				"type": "Type que l'on veut afficher"
+			},
+			"rename": {
+				"deleteSuccess": "Le channel <#{{channel}}> ne sera plus auto-renommé.",
+				"description": "Renommer un channel selon une template",
+				"name": "renommer",
+				"success": "Le channel <#{{channel}}> sera bien renommé selon `{{template}}`."
+			},
+			"send": {
+				"deleteSuccess": "Le channel <#{{channel}}> ne recevra plus de message automatiquement.",
+				"description": "Envoyer un message avec des template dans un channel aux changements de valeurs.",
+				"name": "envoyé",
+				"success": "Le channel <#{{channel}}> recevra le message `{{template}}` lorsqu'il y aura un changement de variables."
+			},
+			"text": {
+				"description": "Texte avec les valeurs template à utiliser"
+			}
+		},
+		"compute": {
+			"description": "Permet de calculer (ou non) la valeur au moment du lancement de l'évènement",
+			"name": "calculer_au_début"
+		},
+		"count": {
+			"description": "Number to increase or decrease",
+			"pause": "le compteur a été mis en pause.",
+			"resume": "Le compteur a été correctement relancé."
+		},
+		"currentValue": "Valeur actuelle : {{ex}}",
+		"date": {
+			"description": "Gérer la date : zone, cron, format, début...",
+			"format": "Définir le mode d'affichage de la date",
+			"pause": "La template des date a bien été mise en pause.",
+			"resume": "La template des date a été relancée.",
+			"step": "Durée à utiliser comme pas"
+		},
+		"decimal": {
+			"description": "Nombre de chiffres après la virgule",
+			"name": "decimal"
+		},
+		"description": "Gérer les modèles de variables (date, nombre et méteo)",
+		"manage": {
+			"description": "Gérer les paramètres des templates (date, météo, et compteur)",
+			"name": "config"
+		},
+		"name": "variables",
+		"pause": {
+			"description": "Mettre une des variables (ou toute) en pause ou les relancer",
+			"disabled": "Désactivé",
+			"enabled": "Actif",
+			"name": "switch",
+			"status": {
+				"overall": "Statuts des variables :\n- __Date__ : {{date.value}} (`{{date.cron}}`)\n- __Compte__ : {{count.value}} (`{{count.cron}}`)\n- __Météo__ : {{weather.value}}{{weather.cron}}"
+			},
+			"variable": "Variable à mettre en pause ou relancer"
+		},
+		"weather": {
+			"cron": "Définissez le calendrier (cron) pour la mise à jour de la météo. Utilisez \"/\" pour supprimer.",
+			"description": "Définir la localisation de la météo",
+			"not_set": "Le cron de la météo n'est pas configuré.",
+			"pause": "La cron de la météo a été mise en pause.",
+			"resume": "Le timer de la météo a été relancé."
+		}
+	},
+	"timezone": {
+		"description": "Définir le fuseau horaire (ex : Europe/Paris)",
+		"name": "timezone"
+	},
+	"weather": {
+		"description": "Obtenir la météo pour une ville donnée / ville par défaut du modèle",
+		"display": {
+			"location": "Lieu",
+			"title": "Configuration - Météo"
+		},
+		"location": "location",
+		"locationNotFound": "La ville {{location}} est introuvable.",
+		"name": "météo"
+	}
 }

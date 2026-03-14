@@ -129,4 +129,8 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 
+# Database
 data
+
+# Obsidian
+.obsidian

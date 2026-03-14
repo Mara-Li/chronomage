@@ -1,15 +1,11 @@
 # Privacy Policy for Chronomage
-
 **Last Updated: October 25, 2025**
 
 ## Introduction
-
 This Privacy Policy describes how Chronomage ("the Bot", "we", "our") collects, uses, and protects information when you use our Discord bot service. By using Chronomage, you agree to the collection and use of information in accordance with this policy.
 
 ## Information We Collect
-
 ### Automatically Collected Information
-
 When you use Chronomage, we automatically collect and store:
 
 1. **Guild (Server) Information:**
@@ -34,7 +30,6 @@ When you use Chronomage, we automatically collect and store:
    - Future event buffer size preference
 
 ### Information You Provide
-
 When using Chronomage, you voluntarily provide:
 
 1. **Event Content:**
@@ -50,7 +45,6 @@ When using Chronomage, you voluntarily provide:
    - Counter starting values
 
 ## How We Use Your Information
-
 We use the collected information solely for the following purposes:
 
 1. **Service Functionality:**
@@ -70,9 +64,7 @@ We use the collected information solely for the following purposes:
    - Providing error messages and help information
 
 ## Data Storage
-
 ### Storage Method
-
 All data is stored locally in a SQLite database file (`enmap.sqlite`) on the server where the bot is hosted. This includes:
 - Guild settings and configurations
 - Schedule definitions
@@ -80,14 +72,12 @@ All data is stored locally in a SQLite database file (`enmap.sqlite`) on the ser
 - Template configurations
 
 ### Storage Duration
-
 - **Active Schedules:** Data is retained as long as the schedule is active
 - **Past Events:** Historical event data is retained for reference purposes
 - **Deleted Schedules:** When you cancel a schedule, associated data is permanently deleted from our database
 - **Server Removal:** If the bot is removed from your server, your server's data may be retained for up to 30 days before permanent deletion
 
 ### Data Security
-
 We implement appropriate security measures to protect your data:
 - Data is stored in a secure database with restricted access
 - Only authorized bot processes can access the database
@@ -95,13 +85,10 @@ We implement appropriate security measures to protect your data:
 - Access logs are maintained for security monitoring
 
 ## Data Sharing and Disclosure
-
 ### We Do Not Sell Your Data
-
 We will never sell, rent, or trade your information to third parties for marketing purposes.
 
 ### Limited Sharing
-
 We may share information only in the following limited circumstances:
 
 1. **Discord Platform:**
@@ -117,9 +104,7 @@ We may share information only in the following limited circumstances:
    - To protect the rights, property, or safety of the bot, its users, or others
 
 ## Your Rights and Choices
-
 ### Data Access and Deletion
-
 You have the right to:
 
 1. **View Your Data:**
@@ -138,14 +123,12 @@ You have the right to:
    - Cancel and recreate schedules to change their configuration
 
 ### Opt-Out Options
-
 You can stop using the bot's features at any time:
 - Pause schedules using `/schedule pause`
 - Cancel schedules using `/schedule cancel`
 - Remove the bot from your server entirely
 
 ## Third-Party Services
-
 Chronomage integrates with the following third-party services:
 
 1. **Discord API:**
@@ -159,15 +142,12 @@ Chronomage integrates with the following third-party services:
 We are not responsible for the privacy practices of these third-party services. We encourage you to review their privacy policies.
 
 ## Children's Privacy
-
 Chronomage is not directed to individuals under the age of 13 (or the minimum age required in your country). We do not knowingly collect personal information from children. If you believe a child has provided us with personal information, please contact us immediately, and we will take steps to delete such information.
 
 ## International Data Transfers
-
 The bot's data may be stored on servers located in different countries. By using Chronomage, you consent to the transfer of your information to countries that may have different data protection laws than your country of residence.
 
 ## Data Retention
-
 We retain your information for as long as necessary to provide the service and fulfill the purposes outlined in this Privacy Policy. Specifically:
 
 - **Active Data:** Retained while schedules are active and you use the bot
@@ -175,7 +155,6 @@ We retain your information for as long as necessary to provide the service and f
 - **Deleted Data:** Permanently removed within 30 days of deletion request or bot removal
 
 ## Changes to This Privacy Policy
-
 We may update this Privacy Policy from time to time to reflect changes in our practices or for legal, operational, or regulatory reasons. We will notify users of significant changes by:
 
 - Updating the "Last Updated" date at the top of this policy
@@ -184,21 +163,18 @@ We may update this Privacy Policy from time to time to reflect changes in our pr
 Your continued use of Chronomage after changes constitutes acceptance of the updated policy.
 
 ## Contact Information
-
 If you have questions, concerns, or requests regarding this Privacy Policy or your data, please contact:
 
 - **Bot Administrator:** Contact the person who invited the bot to your server
 - **Developer:** Check the bot's profile or repository for contact information
 
 ## Compliance
-
 We are committed to complying with applicable data protection laws, including:
 - General Data Protection Regulation (GDPR) for EU users
 - California Consumer Privacy Act (CCPA) for California residents
 - Other applicable regional data protection regulations
 
 ## Your GDPR Rights (For EU Users)
-
 If you are located in the European Union, you have the following rights:
 
 1. **Right to Access:** Request a copy of your personal data
@@ -212,7 +188,6 @@ If you are located in the European Union, you have the following rights:
 To exercise these rights, please contact the bot administrator or developer.
 
 ## Your CCPA Rights (For California Residents)
-
 If you are a California resident, you have the following rights:
 
 1. **Right to Know:** What personal information is collected and how it's used
@@ -221,11 +196,9 @@ If you are a California resident, you have the following rights:
 4. **Right to Non-Discrimination:** Equal service regardless of exercising privacy rights
 
 ## Data Breach Notification
-
 In the event of a data breach that affects your personal information, we will notify affected users within 72 hours of becoming aware of the breach, in compliance with applicable laws.
 
 ## Cookies and Tracking
-
 Chronomage does not use cookies or tracking technologies. All interaction occurs through Discord's interface, which is governed by Discord's own privacy policy and cookie usage.
 
 ---
