@@ -31,9 +31,9 @@ export const getWeather = {
 			getSettings(client, interaction.guild!, interaction.locale)
 		);
 		let localeSettings = normalizeLocale(locale);
-		if (localeSettings !== "en" && localeSettings !== "fr") {
+		if (localeSettings !== "en" && localeSettings !== "fr")
 			localeSettings = "en";
-		}
+
 		const wyd = new WeatherDescribe({
 			lang: localeSettings as "fr" | "en",
 			timezone,

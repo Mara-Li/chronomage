@@ -12,20 +12,20 @@ Requires: **Manage Events** permission (and channel permissions for Stage/Voice 
 
 ## create
 > [!usage]
-> **`/schedule create [count] [bloc] [start_time] [len] (location_elsewhere) (location_channel) (start_date) (timezone)`**
-> - `count` (**required**): number of different labels/descriptions you will provide (1–20)
-> - `bloc` (**required**): interval between starts (e.g., `2d`, `48h`)
-> - `start_time` (**required**): daily time in HH:MM format at which each event starts (e.g., `21:00`)
-> - `len` (**required**): event duration (e.g., `2h`)
-> - `location_elsewhere` (*optional*): plain text location for External events
-> - `location_channel` (*optional*): a Voice or Stage channel
-> - `start_date` (*optional*): first day for the cycle (defaults to today in the chosen time zone)
-> - `timezone` (*optional*): IANA time zone name (e.g., `Europe/Paris`)
+> **`/schedule create [%count] [bloc] [start_time] [len] (location_elsewhere) (location_channel) (start_date) (timezone)`**
+> - **`count`** — number of different labels/descriptions you will provide (1–20)
+> - **`bloc`** — interval between starts (e.g., `2d`, `48h`)
+> - **`start_time`** — daily time in HH:MM format at which each event starts (e.g., `21:00`)
+> - **`len`** — event duration (e.g., `2h`)
+> - **`location_elsewhere`** — plain text location for External events
+> - **`location_channel`** — a Voice or Stage channel
+> - **`start_date`** — first day for the cycle (defaults to today in the chosen time zone)
+> - **`timezone`** — IANA time zone name (e.g., `Europe/Paris`)
 
 > [!TIP]
 > - Provide either `location_elsewhere` or `location_channel` — not both.
 > - `timezone` defaults to the date template's zone or guild settings if omitted.
-> - Durations support localized input (e.g., `2h`, `2 hours`, `2 heures`).
+> - Durations are parsed based on the bot localization set or (if not) the discord locale (aka if your discord is in english, it will use english)
 
 ### Wizard
 For each label (1 → count), a modal will prompt for:

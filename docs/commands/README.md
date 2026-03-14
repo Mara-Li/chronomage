@@ -8,11 +8,11 @@ Practical reference for all slash commands. Each command requires the **Manage E
 
 See individual pages for detailed options and examples.
 
-### Syntax references
-Each command parameters will use the following syntax:
-- `[options]` : Mandatory value.
-- `(option)` : Optional
-- `?option` : Boolean (`true` or `false`)
-- `*option` : Autocompleted (a list appear above the chat and a search can be done while taping the start of the text)
-- `%option` : Number 
-- ``
+## Syntax references
+Command parameters use the following syntax:
+- `[option]` — required
+- `(option)` — optional
+- `?option` — boolean (`true` or `false`)
+- `*option` — autocompleted (a list appears above the chat and suggestions update as you type)
+- `%option` — number
+- `option` — text value
