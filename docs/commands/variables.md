@@ -11,12 +11,12 @@ Configure the `{{date}}` placeholder.
 
 > [!usage]
 > `/variables config date (format) (timezone) (cron) (start_date) (step) (compute_at_start)`
-> - `format` (*optional*): Luxon format token (e.g., `f`, `FF`, `yyyy-LL-dd HH:mm`). See [Luxon format tokens](https://moment.github.io/luxon/#/formatting?id=table-of-tokens)
-> - `timezone` (*optional*): IANA time zone (e.g., `Europe/Paris`)
-> - `cron` (*optional*): cron expression controlling when the date value advances
-> - `start_date` (*optional*): initial date value (must match the configured `format`)
-> - `step` (*optional*): duration to add on each cron tick (e.g., `1d`, `2h30m`)
-> - `compute_at_start` (*optional*): if `true`, the placeholder is evaluated when the event starts rather than when it is created
+> - **`format`** (*optional*): Luxon format token (e.g., `f`, `FF`, `yyyy-LL-dd HH:mm`). See [Luxon format tokens](https://moment.github.io/luxon/#/formatting?id=table-of-tokens)
+> - **`timezone`** (*optional*): IANA time zone (e.g., `Europe/Paris`)
+> - **`cron`** (*optional*): cron expression controlling when the date value advances
+> - **`start_date`** (*optional*): initial date value (must match the configured `format`)
+> - **`step`** (*optional*): duration to add on each cron tick (e.g., `1d`, `2h30m`)
+> - **`compute_at_start`** (*optional*): if `true`, the placeholder is evaluated when the event starts rather than when it is created
 
 ## Count
 Configure the `{{count}}` placeholder.

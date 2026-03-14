@@ -7,3 +7,9 @@ Practical reference for all slash commands. Each command requires the **Manage E
 - [/weather](weather.md) — get current weather
 
 See individual pages for detailed options and examples.
+
+### Syntax references
+Each options will use the following syntax:
+- `[options]` : Mandatory value.
+- `(option)` : Optional
+- 

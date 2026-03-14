@@ -11,14 +11,12 @@ Decide:
 > [!example]
 > `/schedule create count:3 bloc:2d start_time:21:00 len:2h timezone:Europe/Paris location_elsewhere:Online`
 
-![](../_media/screenshots/Pasted%20image%2020260314175635.png)
-
 *For more information, see [create](../commands/schedule.md#create).*
 
 ## Complete the wizard
-After submitting the command, a wizard message appears. Click **Next** to begin.
+After submitting the command, a modal appears. Click **Next** to begin.
 
-[SCREENSHOT]
+![](../_media/screenshots/Wizard_creation.png)
 
 For each label (1 through count), a modal appears with:
 - **Label** (required) — the event title; supports placeholders like `{{date}}` and `{{count}}`
@@ -33,12 +31,7 @@ Description: Join us for an exciting Mario Kart competition!
 Banner: https://example.com/mario-kart-banner.png
 ```
 
-[SCREENSHOT]
-
 For each modal: fill it in and click **Submit**. The next modal appears automatically. After the last one, the bot confirms the cycle was created and begins generating future events.
-
-> [!TIP]
-> If you use the `«Skip»` button on a label, that slot will use an empty label. Prepare your labels in advance.
 
 ## Verify
 > [!usage]
@@ -46,4 +39,4 @@ For each modal: fill it in and click **Submit**. The next modal appears automati
 
 Within a minute, events appear in Discord's Events section (Server name → Events).
 
-[SCREENSHOT]
+![example_display](../_media/screenshots/example_display.png)
