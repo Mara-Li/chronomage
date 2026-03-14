@@ -20,11 +20,19 @@ export function normalizeLocale(discordLocale?: string): keyof typeof LOCALES {
 export function parseDurationLocalized(input: string, discordLocale?: string): number {
 	const prevUnit = parse.unit;
 	const localeKey = normalizeLocale(discordLocale);
-	parse.unit = LOCALES[localeKey]; // active la locale
-
+	let ms: number | null = null;
+	let unit: Units = LOCALES[localeKey];
+	let index = 0;
 	try {
-		// Optional: you can pass an output unit, e.g. 'm' for minutes
-		const ms = parse(input); // → number in milliseconds
+		while (ms == null) {
+			parse.unit = unit;
+			ms = parse(input);
+			//je dois faire passer l'unit dans l'ordre ?
+			index++;
+			if (index >= Object.keys(LOCALES).length) break; // éviter boucle infinie
+			const nextLocaleKey = Object.keys(LOCALES)[index % Object.keys(LOCALES).length];
+			unit = LOCALES[nextLocaleKey];
+		}
 		if (ms == null) throw new Error(`Invalid duration: "${input}"`);
 		return ms;
 	} finally {

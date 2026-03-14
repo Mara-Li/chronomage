@@ -25,7 +25,7 @@ Requires: **Manage Events** permission (and channel permissions for Stage/Voice 
 > [!TIP]
 > - Provide either `location_elsewhere` or `location_channel` — not both.
 > - `timezone` defaults to the date template's zone or guild settings if omitted.
-> - Durations are parsed based on the bot localization set or (if not) the discord locale (aka if your discord is in english, it will use english)
+> - Durations support localized input (e.g., `2h`, `2 hours`, `2 heures`).[^1]
 
 ### Wizard
 For each label (1 → count), a modal will prompt for:
@@ -107,3 +107,5 @@ Re-enter labels, descriptions, and banners for a cycle via the wizard.
 > /schedule edit config id:my-cycle-123 start_time:20:00
 > /schedule edit blocs id:my-cycle-123 count:3
 > ```
+
+[1]: Locales supported are french, english, spanish, deutch, 
