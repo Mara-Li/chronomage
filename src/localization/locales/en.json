@@ -31,7 +31,8 @@
     "start": "start_time",
     "step": "step",
     "success": "The settings was successfully saved.",
-    "type": "type"
+    "type": "type",
+    "value": "value"
   },
   "count": {
     "description": "Number of different events (labels and descriptions)",
@@ -95,7 +96,7 @@
     },
     "minFuturBlock": {
       "description": "Adjust the number of event that will be created at each cycle.",
-      "name": "future_min_blocks",
+      "name": "upcoming_events_count",
       "set": "Each cycle will create {{futurMinBlock}} events."
     },
     "settings": "settings",
