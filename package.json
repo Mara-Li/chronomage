@@ -14,13 +14,14 @@
 		"prestart": "pnpm run build",
 		"prerelease": "pnpm run build",
 		"release": "commit-and-tag-version",
-		"start": "pm2 start ecosystem.config.js",
+		"start": "pm2 start ecosystem.config.cjs",
 		"stop": "pm2 stop chronomage",
 		"prerestart": "pnpm run build",
 		"restart": "pm2 restart chronomage",
 		"delete": "pm2 delete chronomage",
 		"dev": "tsx watch --clear-screen=false src/index.ts",
-		"dev:prod": "cross-env ENV=production tsx watch --clear-screen=false src/index.ts"
+		"dev:prod": "cross-env ENV=production tsx watch --clear-screen=false src/index.ts",
+		"test": "vitest run test"
 	},
 	"commit-and-tag-version": {
 		"t": ""
