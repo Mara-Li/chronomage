@@ -1,7 +1,7 @@
 
 <!-- Docsify sidebar -->
 
-- **[User Guide](./user-guide/README.md)**
+- **User Guide**
 	- [Core Concepts](user-guide/core-concepts.md)
 	- [Creating Your First Schedule](user-guide/creating-your-first-schedule.md)
 	- [Templates and Placeholders](user-guide/Templates.md)
