@@ -36,7 +36,7 @@ After the wizard, the bot saves the cycle and immediately starts maintaining the
 
 > [!IMPORTANT]
 > You can use placeholders (`{{date}}`, `{{count}}`, `{{weather:short}}`, etc.) in labels and descriptions.
-> See [Templates](../user-guide/Templates.md) for the full list.
+> See [Templates](user-guide/Templates.md) for the full list.
 
 ## List
 > [!usage]

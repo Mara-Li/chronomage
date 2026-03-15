@@ -23,7 +23,7 @@ Use placeholders in event labels and descriptions:
 | `{{weather:short}}` | Short weather description |
 | `{{weather:long}}` | Full weather description |
 
-Templates are configured with `/variables config date|count|weather`, see [templates](Templates.md) for more informations.
+Templates are configured with `/variables config date|count|weather`, see [templates](user-guide/Templates.md) for more informations.
 
 Each template has a cron schedule that advances its value. Template values can be computed either at event creation time or when the event starts (`compute_at_start`).
 
@@ -32,7 +32,7 @@ In addition to event placeholders, you can configure channels to be auto-renamed
 
 `Session §count§ — §date§`
 
-Configure with `/variables channel rename` and `/variables channel send` (see [variables](../commands/variables.md))
+Configure with `/variables channel rename` and `/variables channel send` (see [variables](commands/variables.md))
 
 ## Expected behavior
 **After creating a schedule**, within a minute events start appearing in Discord's Events section (Server name → Events). The bot creates events until the buffer is full and may do so gradually to avoid rate limits.

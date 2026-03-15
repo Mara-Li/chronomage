@@ -12,6 +12,7 @@ body {
 	--code-callout-bg: color-mix(in oklch, var(--color-slate-700) 55%, var(--color-slate-900));
 	--code-callout-border: var(--color-slate-600);
 	--code-callout-color: var(--color-slate-300);
+	--hr-color: var(--color-slate-600);
 }
 
 .theme-light {
@@ -21,6 +22,7 @@ body {
 	--code-callout-bg: var(--color-slate-200);
 	--code-callout-border: var(--color-slate-400);
 	--code-callout-color: var(--color-slate-900);
+	--hr-color: var(--color-slate-300);
 }
 
 .markdown-section code {
@@ -73,4 +75,8 @@ body {
 	max-width: 100%;
 	display: table;
 	table-layout: auto;
+}
+
+.markdown-section hr {
+	border-bottom: 1px solid var(--hr-color);
 }

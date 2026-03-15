@@ -1,7 +1,7 @@
 # Quick Reference
 Essential Chronomage commands and syntax at a glance.
 
-## [Schedule](../commands/schedule.md)
+## [Schedule](commands/schedule.md)
 > [!example]
 > - `/schedule create count:3 bloc:2d start_time:21:00 len:2h location_elsewhere:Online`
 > - `/schedule list`
@@ -13,7 +13,7 @@ Essential Chronomage commands and syntax at a glance.
 
 ---
 
-## [Settings](../commands/settings.md)
+## [Settings](commands/settings.md)
 > [!example]
 > - `/settings language:English`
 > - `/settings timezone:America/New_York`
@@ -23,7 +23,7 @@ Essential Chronomage commands and syntax at a glance.
 
 ---
 
-## [Templates](Templates.md)
+## [Templates](user-guide/Templates.md)
 ### Date
 > [!example]
 > `/variables config date format:yyyy-LL-dd timezone:America/New_York step:1d`

@@ -11,7 +11,7 @@ Decide:
 > [!example]
 > `/schedule create count:3 bloc:2d start_time:21:00 len:2h timezone:Europe/Paris location_elsewhere:Online`
 
-*For more information, see [create](../commands/schedule.md#create).*
+*For more information, see [create](commands/schedule.md#create)).*
 
 ## Complete the wizard
 After submitting the command, a modal appears. Click **Next** to begin.
