@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.2.0](https://github.com/Mara-Li/narrakit/compare/1.1.2...1.2.0) (2026-03-15)
+
+
+### Features
+
+* add .npmrc configuration and update command integration types ([6909e5a](https://github.com/Mara-Li/narrakit/commit/6909e5a02d1a1602d80d0df75ca5b8abf4a92f6e))
+
+
+### Bug Fixes
+
+* switch << and >> to § because it is easier to use ([1b1fe5d](https://github.com/Mara-Li/narrakit/commit/1b1fe5d0f76a721d92c6c3a00d01195f856d1a50))
+* version set to 0.0.0 ([14da48a](https://github.com/Mara-Li/narrakit/commit/14da48aeb13f9344d8fdbe4f78b7bd47455801cb))
+
 ## [1.1.2](https://github.com/Mara-Li/narrakit/compare/1.1.1...1.1.2) (2025-10-27)
 
 ## [1.1.1](https://github.com/Mara-Li/narrakit/compare/1.1.0...1.1.1) (2025-10-27)
