@@ -42,29 +42,6 @@ body {
 	border: 1px solid var(--code-border);
 }
 
-.markdown-section .alert {
-	--callout-code-color: var(--callout-fg, var(--code-callout-color));
-	--callout-code-bg: var(--code-callout-bg);
-	--callout-code-border: var(--code-callout-border);
-}
-
-.theme-dark .markdown-section .alert {
-	--callout-code-bg: color-mix(in oklch, var(--callout-bg, var(--code-bg)) 82%, var(--color-black));
-	--callout-code-border: color-mix(in oklch, var(--callout-border, var(--code-border)) 74%, var(--color-black));
-}
-
-.theme-light .markdown-section .alert {
-	--callout-code-bg: color-mix(in oklch, var(--callout-bg, var(--code-bg)) 86%, var(--callout-border, var(--code-border)));
-	--callout-code-border: color-mix(in oklch, var(--callout-border, var(--code-border)) 70%, var(--callout-fg, var(--code-color)));
-}
-
-.markdown-section .alert code {
-	background-color: var(--callout-code-bg);
-	color: var(--callout-code-color);
-	border: 1px solid var(--callout-code-border);
-	margin-left: 0.5em;
-}
-
 .markdown-section td, .markdown-section th {
 	border: 1px solid var(--code-border);
 }
