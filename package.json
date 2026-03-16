@@ -5,7 +5,7 @@
 	"description": "",
 	"type": "module",
 	"engines": {
-		"node": "22.14.0"
+		"node": "24.14.0"
 	},
 	"repository": "",
 	"scripts": {
@@ -43,7 +43,7 @@
 		"cross-env": "^10.1.0",
 		"dedent": "^1.7.0",
 		"discord.js": "^14.24.0",
-		"enmap": "^6.0.5",
+		"enmap": "npm:@dicelette/enmap",
 		"esbuild-fix-imports-plugin": "^1.0.23",
 		"esbuild-plugin-tsconfig-paths": "^1.0.1",
 		"human-id": "^4.1.2",
