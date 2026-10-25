@@ -1,7 +1,7 @@
 import type * as Djs from "discord.js";
 import type { LimitedMap } from "./limitedMap";
 
-export interface Templates {
+export type Templates = {
 	date: {
 		format: string;
 		cron: string;

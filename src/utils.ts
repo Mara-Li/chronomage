@@ -1,6 +1,6 @@
 import type * as Djs from "discord.js";
 import type { EClient } from "@/client";
-import type { BannerSpec, Templates } from "@/interface";
+import type { BannerSpec, EventGuildData, Templates } from "@/interface";
 import { DEFAULT_ZONE } from "./interfaces/constant";
 
 export function defaultTemplate(): Templates {
@@ -31,7 +31,7 @@ export function getSettings(
 	guild: Djs.Guild,
 	interactionLocale: Djs.Locale
 ) {
-	return client.settings.ensure(guild!.id, {
+	const defaultData: EventGuildData = {
 		templates: defaultTemplate(),
 		events: {},
 		schedules: {},
@@ -40,7 +40,8 @@ export function getSettings(
 			futurMinBlock: 2,
 			zone: DEFAULT_ZONE,
 		},
-	});
+	}
+	return client.settings.ensure(guild!.id, defaultData) ?? defaultData;
 }
 
 export function getBannerHash(
